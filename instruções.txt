@@ -1,0 +1,7 @@
+fazer o cadastro do cliente, com lista de veículos
+
+cadastrar os tipos de serviços prestados, com seu valor
+
+cadastrar a ordem de serviço, com cliente, veiculo, valor e tipo serviço
+
+cadastro de funcionário e cadastro de usuários

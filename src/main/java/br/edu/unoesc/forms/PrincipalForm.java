@@ -1,20 +1,18 @@
 package br.edu.unoesc.forms;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.JDesktopPane;
 import java.awt.Color;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 
 public class PrincipalForm extends JFrame {
 
@@ -26,6 +24,7 @@ public class PrincipalForm extends JFrame {
 	protected JButton jbOrdemServico;
 	protected JButton jbTipoServico;
 	protected JButton jbSair;
+	private ClienteForm clienteForm = new ClienteForm();
 
 	public static void main(String[] args) {
 		PrincipalForm principal = new PrincipalForm();
@@ -37,7 +36,7 @@ public class PrincipalForm extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 948, 634);
+		this.setBounds(100, 100, 948, 628);
 		
 		jpPrincipal = new JPanel();
 		jpPrincipal.setLayout(null);
@@ -54,21 +53,21 @@ public class PrincipalForm extends JFrame {
 		jbFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbFuncionario.setToolTipText("Cadastro de Funcionários");
 		jbFuncionario.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/funcionario.png")));
-		jbFuncionario.setBounds(10, 92, 70, 70);
+		jbFuncionario.setBounds(10, 173, 70, 70);
 		jpPrincipal.add(jbFuncionario);
 		
 		jbCliente = new JButton("");
 		jbCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCliente.setToolTipText("Cadastro de Clientes");
 		jbCliente.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/cliente.png")));
-		jbCliente.setBounds(10, 11, 70, 70);
+		jbCliente.setBounds(10, 92, 70, 70);
 		jpPrincipal.add(jbCliente);
 		
 		jbOrdemServico = new JButton("");
 		jbOrdemServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbOrdemServico.setToolTipText("Agendamento de Serviços");
 		jbOrdemServico.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/ordem_servico.png")));
-		jbOrdemServico.setBounds(10, 173, 70, 70);
+		jbOrdemServico.setBounds(10, 11, 70, 70);
 		jpPrincipal.add(jbOrdemServico);
 		
 		jbTipoServico = new JButton("");
@@ -86,15 +85,21 @@ public class PrincipalForm extends JFrame {
 		jpPrincipal.add(jbSair);
 	}
 	
-	public void botaoCadastraCliente() {
+	public void botaoCadastrarCliente() {
 		jbCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(clienteForm.isVisible()) {
+					clienteForm.requestFocus();
+					clienteForm.setLocation(MAXIMIZED_HORIZ, MAXIMIZED_VERT);
+				} else {
+					jdpPrincipal.add(clienteForm);
+					clienteForm.setVisible(true);
+				}
 			}
 		});
 	}
 	
-	public void botaoCadastraFuncionario() {
+	public void botaoCadastrarFuncionario() {
 		jbFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -102,7 +107,7 @@ public class PrincipalForm extends JFrame {
 		});
 	}
 	
-	public void botaoAgendaServico() {
+	public void botaoAgendarServico() {
 		jbOrdemServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -110,7 +115,7 @@ public class PrincipalForm extends JFrame {
 		});
 	}
 	
-	public void botaoCadastraServicos() {
+	public void botaoCadastrarServico() {
 		jbTipoServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -130,6 +135,10 @@ public class PrincipalForm extends JFrame {
 
 	public PrincipalForm() {
 		componentesForm();
+		botaoAgendarServico();
+		botaoCadastrarCliente();
+		botaoCadastrarFuncionario();
+		botaoCadastrarServico();
 		botaoSair();
 	}
 }

@@ -7,12 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
+@NoArgsConstructor
+public class Carro {
 
 	private String nome;
-	private String cpf;
-	private String cnpj;
-	
+	private String placa;
 }

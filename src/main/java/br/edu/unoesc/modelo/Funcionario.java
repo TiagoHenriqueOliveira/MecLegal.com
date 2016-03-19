@@ -7,12 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
-
-	private String nome;
-	private String cpf;
-	private String cnpj;
+@NoArgsConstructor
+public class Funcionario {
 	
+	private String nome;
+	private Integer cracha;
+
 }

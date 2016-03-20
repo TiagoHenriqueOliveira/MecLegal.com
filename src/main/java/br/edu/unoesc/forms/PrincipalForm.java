@@ -17,13 +17,13 @@ import javax.swing.border.SoftBevelBorder;
 public class PrincipalForm extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	protected JPanel jpPrincipal;
-	protected JDesktopPane jdpPrincipal;
-	protected JButton jbFuncionario;
-	protected JButton jbCliente;
-	protected JButton jbOrdemServico;
-	protected JButton jbTipoServico;
-	protected JButton jbSair;
+	private JPanel jpPrincipal;
+	private JDesktopPane jdpPrincipal;
+	private JButton jbFuncionario;
+	private JButton jbCliente;
+	private JButton jbOrdemServico;
+	private JButton jbTipoServico;
+	private JButton jbSair;
 	private ClienteForm clienteForm = new ClienteForm();
 
 	public static void main(String[] args) {

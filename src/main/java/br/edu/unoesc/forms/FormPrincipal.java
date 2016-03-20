@@ -24,7 +24,9 @@ public class FormPrincipal extends JFrame {
 	private JButton jbOrdemServico;
 	private JButton jbTipoServico;
 	private JButton jbSair;
-	private FormCliente clienteForm = new FormCliente();
+	private FormCliente formcliente = new FormCliente();
+	private FormFuncionario formFuncionario = new FormFuncionario();
+	private FormTipoServico formTipoServico = new FormTipoServico();
 
 	public static void main(String[] args) {
 		FormPrincipal principal = new FormPrincipal();
@@ -34,66 +36,67 @@ public class FormPrincipal extends JFrame {
 	public void componentesForm() {
 		this.setTitle("MecLegal.com");
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/logo.png")));
-		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 948, 628);
+		this.setBounds(100, 100, 1260, 694);
 		
 		jpPrincipal = new JPanel();
-		jpPrincipal.setLayout(null);
 		this.setContentPane(jpPrincipal);
 		this.setLocationRelativeTo(null);
+		jpPrincipal.setLayout(null);
 		
 		jdpPrincipal = new JDesktopPane();
+		jdpPrincipal.setBounds(101, 11, 1138, 638);
 		jdpPrincipal.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, new Color(102, 153, 255), new Color(102, 153, 255), new Color(102, 153, 255), new Color(102, 153, 255)));
 		jdpPrincipal.setBackground(new Color(240, 240, 240));
-		jdpPrincipal.setBounds(90, 11, 842, 578);
 		jpPrincipal.add(jdpPrincipal);
 		
 		jbFuncionario = new JButton("");
+		jbFuncionario.setBounds(10, 173, 70, 70);
 		jbFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbFuncionario.setToolTipText("Cadastro de Funcionários");
 		jbFuncionario.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/funcionario.png")));
-		jbFuncionario.setBounds(10, 173, 70, 70);
 		jpPrincipal.add(jbFuncionario);
 		
 		jbCliente = new JButton("");
+		jbCliente.setBounds(10, 92, 70, 70);
 		jbCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCliente.setToolTipText("Cadastro de Clientes");
 		jbCliente.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/cliente.png")));
-		jbCliente.setBounds(10, 92, 70, 70);
 		jpPrincipal.add(jbCliente);
 		
 		jbOrdemServico = new JButton("");
+		jbOrdemServico.setBounds(10, 11, 70, 70);
 		jbOrdemServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbOrdemServico.setToolTipText("Agendamento de Serviços");
 		jbOrdemServico.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/ordem_servico.png")));
-		jbOrdemServico.setBounds(10, 11, 70, 70);
 		jpPrincipal.add(jbOrdemServico);
 		
 		jbTipoServico = new JButton("");
+		jbTipoServico.setBounds(10, 254, 70, 70);
 		jbTipoServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbTipoServico.setToolTipText("Cadastro de Serviços");
 		jbTipoServico.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/tipo_servico.png")));
-		jbTipoServico.setBounds(10, 254, 70, 70);
 		jpPrincipal.add(jbTipoServico);
 		
 		jbSair = new JButton("");
+		jbSair.setBounds(10, 580, 70, 70);
 		jbSair.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSair.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/sair.png")));
 		jbSair.setToolTipText("Sair do Sistema");
-		jbSair.setBounds(10, 519, 70, 70);
 		jpPrincipal.add(jbSair);
 	}
 	
 	public void botaoCadastrarCliente() {
 		jbCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(clienteForm.isVisible()) {
-					clienteForm.requestFocus();
-					clienteForm.setLocation(MAXIMIZED_HORIZ, MAXIMIZED_VERT);
-				} else {
-					jdpPrincipal.add(clienteForm);
-					clienteForm.setVisible(true);
+				if(e.getSource() == jbCliente) {
+					if(formcliente.isVisible()) {
+						formcliente.requestFocus();
+						formcliente.setLocation(MAXIMIZED_HORIZ, MAXIMIZED_VERT);
+					} else {
+						jdpPrincipal.add(formcliente);
+						formcliente.setVisible(true);
+					}
 				}
 			}
 		});
@@ -102,7 +105,15 @@ public class FormPrincipal extends JFrame {
 	public void botaoCadastrarFuncionario() {
 		jbFuncionario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(e.getSource() == jbFuncionario) {
+					if(formFuncionario.isVisible()) {
+						formFuncionario.requestFocus();
+						formFuncionario.setLocation(MAXIMIZED_HORIZ, MAXIMIZED_VERT);
+					} else {
+						jdpPrincipal.add(formFuncionario);
+						formFuncionario.setVisible(true);
+					}
+				}
 			}
 		});
 	}
@@ -118,7 +129,15 @@ public class FormPrincipal extends JFrame {
 	public void botaoCadastrarServico() {
 		jbTipoServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(e.getSource() == jbTipoServico) {
+					if(formTipoServico.isVisible()) {
+						formTipoServico.requestFocus();
+						formTipoServico.setLocation(MAXIMIZED_HORIZ, MAXIMIZED_VERT);
+					} else {
+						jdpPrincipal.add(formTipoServico);
+						formTipoServico.setVisible(true);
+					}
+				}
 			}
 		});
 	}
@@ -134,6 +153,7 @@ public class FormPrincipal extends JFrame {
 	}
 
 	public FormPrincipal() {
+		setResizable(false);
 		componentesForm();
 		botaoAgendarServico();
 		botaoCadastrarCliente();

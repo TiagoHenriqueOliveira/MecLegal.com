@@ -15,4 +15,6 @@ public class OSV {
 	private Cliente cliente;
 	private TipoServico tipoServico;
 	private LocalDate dataServico;
+	
+	
 }

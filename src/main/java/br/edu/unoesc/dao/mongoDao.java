@@ -8,7 +8,10 @@ import org.jongo.MongoCursor;
 
 import com.mongodb.MongoClient;
 
+import br.edu.unoesc.modelo.Cliente;
 import br.edu.unoesc.modelo.Funcionario;
+import br.edu.unoesc.modelo.OSV;
+import br.edu.unoesc.modelo.TipoServico;
 
 public class mongoDao {
 	private static mongoDao mg;
@@ -27,42 +30,77 @@ public class mongoDao {
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
 	}
 
-//Funcao pra retornar uma ListadeFuncionarios em especifico
+//Funcao pra retornar lista de Todos;
 	public ArrayList<Funcionario> listaFuncionarios() {
-		MongoCursor<Funcionario> cursor = jongo.getCollection("br.edu.unoesc.modelo.Funcionario").find()
+		MongoCursor<Funcionario> cursorFuncionarios = jongo.getCollection("br.edu.unoesc.modelo.Funcionario").find()
 				.as(Funcionario.class);
 
-		ArrayList<Funcionario> func = new ArrayList<Funcionario>();
-		//esse forEach eh pra adicionar os itens do cursor em um array e retornar o mesmo
-		//Nao achei um jeito mais facil de converter um MongoCursor em um array.
-		cursor.forEach(f -> {
-			func.add(f);
+		ArrayList<Funcionario> arrayFuncionarios = new ArrayList<Funcionario>();
+		cursorFuncionarios.forEach(funcionario -> {
+			arrayFuncionarios.add(funcionario);
 		});
 
-		return func;
+		return arrayFuncionarios;
 	}
+	
+	public ArrayList<Cliente> listaClientes(){
+		MongoCursor<Cliente> cursorClientes = jongo.getCollection("br.edu.unoesc.modelo.Cliente").find()
+				.as(Cliente.class);
 
-//Essa funcao listaTodos é bem generica, ela funciona pra qualquer classe, 
-//e recebe como parametro a classe que vamos listar.
-	public ArrayList<?> listaTodos(Class<?> classe) {
+		ArrayList<Cliente> arrayClientes = new ArrayList<Cliente>();
+		cursorClientes.forEach(cliente -> {
+			arrayClientes.add(cliente);
+		});
+
+		return arrayClientes;
+	}
+	
+	public ArrayList<OSV> listaOSVs(){
+		MongoCursor<OSV> cursorOSV = jongo.getCollection("br.edu.unoesc.modelo.OSV").find()
+				.as(OSV.class);
+		ArrayList<OSV> arrayOSV = new ArrayList<OSV>();
+		cursorOSV.forEach(osv->{
+			arrayOSV.add(osv);
+		});
+		return arrayOSV;
+	}
+	
+	public ArrayList<TipoServico> listaTipoServicos(){
+		MongoCursor<TipoServico> cursorTipoServicos = jongo.getCollection("br.edu.unoesc.modelo.TipoServico").find()
+				.as(TipoServico.class);
+		ArrayList<TipoServico> arrayTipoServicos = new ArrayList<TipoServico>();
+		cursorTipoServicos.forEach(tipo->{
+			arrayTipoServicos.add(tipo);
+		});
+		return arrayTipoServicos;
+	}
+	
+	
+	
+	public Funcionario buscaFuncionario(String campo, String valor){
+MongoCollection collectionFuncionario = jongo.getCollection("br.edu.unoesc.modelo.Funcionario");
+//Vai retornar um Funcionario se o campo e o valor estiverem exatamentes iguais ao que esta salvo no banco,
+	Funcionario funcionario = collectionFuncionario.findOne("{"+campo+":'"+valor+"'}").as(Funcionario.class);
+	return funcionario;
+	}
+	
+	
+/*
+ * Busca generica, voce passa a classe, o campo e o valor e ele retorna, precisa fazer cast dai la onde ta usando	
+ */
+	public Object busca(Class classe, String campo, String valor){
 		MongoCollection collection = jongo.getCollection(classe.getName());
-		MongoCursor<?> cursor = collection.find().as(classe);
-		ArrayList array = new ArrayList();
-		
-		//esse forEach eh pra adicionar os itens do cursor em um array e retornar o mesmo
-		//Nao achei um jeito mais facil de converter um MongoCursor em um array.
-		cursor.forEach(eta -> {
-			array.add(eta);
-		});
-		return array;
+		Object objeto = collection.findOne("{"+campo+":'"+valor+"'}").as(classe);
+		return objeto;
 	}
 	
-	
-//Funcao Generica para inserir no banco de dados.
-//Ele salva com o nome completo: exemplo: br.edu.unoesc.modelo.Funcionario
+
+/* 
+Funcao Generica para inserir no banco de dados.
+Ele salva com o nome completo, exemplo: br.edu.unoesc.modelo.Funcionario seria a collection de Funcionario
+*/
 	public void inserir(Object objeto) {
 		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
-		System.out.println(objeto.getClass().getName());
 		collection.insert(objeto);
 	}
 

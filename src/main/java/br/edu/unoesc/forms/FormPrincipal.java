@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-public class PrincipalForm extends JFrame {
+public class FormPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpPrincipal;
@@ -24,16 +24,16 @@ public class PrincipalForm extends JFrame {
 	private JButton jbOrdemServico;
 	private JButton jbTipoServico;
 	private JButton jbSair;
-	private ClienteForm clienteForm = new ClienteForm();
+	private FormCliente clienteForm = new FormCliente();
 
 	public static void main(String[] args) {
-		PrincipalForm principal = new PrincipalForm();
+		FormPrincipal principal = new FormPrincipal();
 		principal.setVisible(true);
 	}
 	
 	public void componentesForm() {
 		this.setTitle("MecLegal.com");
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/logo.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 948, 628);
@@ -52,34 +52,34 @@ public class PrincipalForm extends JFrame {
 		jbFuncionario = new JButton("");
 		jbFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbFuncionario.setToolTipText("Cadastro de Funcionários");
-		jbFuncionario.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/funcionario.png")));
+		jbFuncionario.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/funcionario.png")));
 		jbFuncionario.setBounds(10, 173, 70, 70);
 		jpPrincipal.add(jbFuncionario);
 		
 		jbCliente = new JButton("");
 		jbCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCliente.setToolTipText("Cadastro de Clientes");
-		jbCliente.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/cliente.png")));
+		jbCliente.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/cliente.png")));
 		jbCliente.setBounds(10, 92, 70, 70);
 		jpPrincipal.add(jbCliente);
 		
 		jbOrdemServico = new JButton("");
 		jbOrdemServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbOrdemServico.setToolTipText("Agendamento de Serviços");
-		jbOrdemServico.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/ordem_servico.png")));
+		jbOrdemServico.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/ordem_servico.png")));
 		jbOrdemServico.setBounds(10, 11, 70, 70);
 		jpPrincipal.add(jbOrdemServico);
 		
 		jbTipoServico = new JButton("");
 		jbTipoServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbTipoServico.setToolTipText("Cadastro de Serviços");
-		jbTipoServico.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/tipo_servico.png")));
+		jbTipoServico.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/tipo_servico.png")));
 		jbTipoServico.setBounds(10, 254, 70, 70);
 		jpPrincipal.add(jbTipoServico);
 		
 		jbSair = new JButton("");
 		jbSair.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbSair.setIcon(new ImageIcon(PrincipalForm.class.getResource("/br/edu/unoesc/imagens/sair.png")));
+		jbSair.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/sair.png")));
 		jbSair.setToolTipText("Sair do Sistema");
 		jbSair.setBounds(10, 519, 70, 70);
 		jpPrincipal.add(jbSair);
@@ -133,7 +133,7 @@ public class PrincipalForm extends JFrame {
 		});
 	}
 
-	public PrincipalForm() {
+	public FormPrincipal() {
 		componentesForm();
 		botaoAgendarServico();
 		botaoCadastrarCliente();

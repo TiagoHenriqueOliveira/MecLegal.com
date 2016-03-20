@@ -17,7 +17,7 @@ import br.edu.unoesc.validaConteudo.ConteudoString;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ClienteForm extends JInternalFrame {
+public class FormCliente extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpInformacoesCliente;
@@ -47,7 +47,7 @@ public class ClienteForm extends JInternalFrame {
 	
 	public void componentesClienteForm() {
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setFrameIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/logo.png")));
+		this.setFrameIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setTitle("Cadastro de Clientes");
 		this.setBounds(100, 100, 703, 240);
 		this.getContentPane().setLayout(null);
@@ -98,7 +98,7 @@ public class ClienteForm extends JInternalFrame {
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setToolTipText("Buscar informa\u00E7\u00F5es do cliente");
-		jbBuscar.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
+		jbBuscar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(588, 21, 89, 25);
 		getContentPane().add(jbBuscar);
@@ -189,14 +189,14 @@ public class ClienteForm extends JInternalFrame {
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setToolTipText("Novo cadastro do Cliente");
-		jbNovo.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/novo.png")));
+		jbNovo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/novo.png")));
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 105, 100, 25);
 		jpInformacoesCliente.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
 		jbSalvar.setEnabled(false);
-		jbSalvar.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
+		jbSalvar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
 		jbSalvar.setToolTipText("Salvar cadastro do Cliente");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setBounds(120, 105, 100, 25);
@@ -204,7 +204,7 @@ public class ClienteForm extends JInternalFrame {
 		
 		jbEditar = new JButton("Editar");
 		jbEditar.setEnabled(false);
-		jbEditar.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/editar.png")));
+		jbEditar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/editar.png")));
 		jbEditar.setToolTipText("Editar cadastro do Cliente");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setBounds(230, 105, 100, 25);
@@ -212,14 +212,14 @@ public class ClienteForm extends JInternalFrame {
 		
 		jbCancelar = new JButton("Cancelar");
 		jbCancelar.setEnabled(false);
-		jbCancelar.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
+		jbCancelar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
 		jbCancelar.setToolTipText("Cancelar cadastro do Cliente");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setBounds(450, 105, 100, 25);
 		jpInformacoesCliente.add(jbCancelar);
 		
 		jbFechar = new JButton("Fechar");
-		jbFechar.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/fechar.png")));
+		jbFechar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/fechar.png")));
 		jbFechar.setToolTipText("Fechar tela de cadastro");
 		jbFechar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbFechar.setBounds(560, 105, 100, 25);
@@ -227,7 +227,7 @@ public class ClienteForm extends JInternalFrame {
 		
 		jbExcluir = new JButton("Excluir");
 		jbExcluir.setEnabled(false);
-		jbExcluir.setIcon(new ImageIcon(ClienteForm.class.getResource("/br/edu/unoesc/imagens/deletar.png")));
+		jbExcluir.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/deletar.png")));
 		jbExcluir.setToolTipText("Excluir cadastro do Cliente");
 		jbExcluir.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbExcluir.setBounds(340, 105, 100, 25);
@@ -399,7 +399,7 @@ public class ClienteForm extends JInternalFrame {
 		});
 	}
 
-	public ClienteForm() {
+	public FormCliente() {
 		componentesClienteForm();
 		botaoBuscar();
 		botaoNovo();

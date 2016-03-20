@@ -76,25 +76,25 @@ public class FormCliente extends JInternalFrame {
 		
 		try {
 			jtfBuscarCPFCliente = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+			jtfBuscarCPFCliente.setToolTipText("Informar CPF completo");
+			jtfBuscarCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			jtfBuscarCPFCliente.setColumns(10);
+			jtfBuscarCPFCliente.setBounds(288, 25, 110, 20);
+			getContentPane().add(jtfBuscarCPFCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfBuscarCPFCliente.setToolTipText("Informar CPF completo");
-		jtfBuscarCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarCPFCliente.setColumns(10);
-		jtfBuscarCPFCliente.setBounds(288, 25, 110, 20);
-		getContentPane().add(jtfBuscarCPFCliente);
 		
 		try {
 			jtfBuscarCNPJCliente = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
+			jtfBuscarCNPJCliente.setToolTipText("Informar CNPJ completo");
+			jtfBuscarCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			jtfBuscarCNPJCliente.setColumns(10);
+			jtfBuscarCNPJCliente.setBounds(438, 25, 125, 20);
+			getContentPane().add(jtfBuscarCNPJCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfBuscarCNPJCliente.setToolTipText("Informar CNPJ completo");
-		jtfBuscarCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarCNPJCliente.setColumns(10);
-		jtfBuscarCNPJCliente.setBounds(438, 25, 125, 20);
-		getContentPane().add(jtfBuscarCNPJCliente);
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setToolTipText("Buscar informa\u00E7\u00F5es do cliente");
@@ -146,26 +146,26 @@ public class FormCliente extends JInternalFrame {
 		try {
 			jtfCPFCliente = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 			jtfCPFCliente.setEditable(false);
+			jtfCPFCliente.setToolTipText("Informar CPF completo");
+			jtfCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			jtfCPFCliente.setColumns(10);
+			jtfCPFCliente.setBounds(277, 28, 110, 20);
+			jpInformacoesCliente.add(jtfCPFCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfCPFCliente.setToolTipText("Informar CPF completo");
-		jtfCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfCPFCliente.setColumns(10);
-		jtfCPFCliente.setBounds(277, 28, 110, 20);
-		jpInformacoesCliente.add(jtfCPFCliente);
 		
 		try {
 			jtfCNPJCliente = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
 			jtfCNPJCliente.setEditable(false);
+			jtfCNPJCliente.setToolTipText("Informar CNPJ completo");
+			jtfCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			jtfCNPJCliente.setColumns(10);
+			jtfCNPJCliente.setBounds(428, 28, 125, 20);
+			jpInformacoesCliente.add(jtfCNPJCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfCNPJCliente.setToolTipText("Informar CNPJ completo");
-		jtfCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfCNPJCliente.setColumns(10);
-		jtfCNPJCliente.setBounds(428, 28, 125, 20);
-		jpInformacoesCliente.add(jtfCNPJCliente);
 		
 		jtfNomeVeiculo = new JTextField();
 		jtfNomeVeiculo.setEditable(false);

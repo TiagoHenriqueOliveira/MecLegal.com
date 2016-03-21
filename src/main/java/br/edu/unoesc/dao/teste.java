@@ -6,22 +6,19 @@ public class teste {
 
 	public static void main(String[] args) {
 	//cria um funcionario
-		Funcionario eta = new Funcionario("Eta123", 123);
+		Funcionario eta = new Funcionario("VAMO_LA", 342437);
 		
+	
+	mongoDao.getDAO().listaFuncionariosLike("nome", "O_L").forEach(funcionario->{
+		System.out.println(funcionario.getNome());	
+		System.out.println(funcionario.getCracha());
+	});
 		
-		
-		mongoDao.getDAO().inserir(eta);
+				mongoDao.getDAO().inserir(eta);
 
 	
 		
-		//esse eh usando o listaFuncionarios, soh retorna funcionarios . mas parece bem mais simples.
-		mongoDao.getDAO().listaFuncionarios().forEach(f->{
-			System.out.println(f.getNome());
-		});
-		
-		Funcionario func = (Funcionario) mongoDao.getDAO().busca(Funcionario.class, "nome", "Eta123");
-		System.out.println("Generic"+func.getNome());
-		 
+ 
 	}
 
 }

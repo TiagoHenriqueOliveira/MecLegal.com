@@ -54,7 +54,7 @@ public class FormPrincipal extends JFrame {
 		jbFuncionario = new JButton("");
 		jbFuncionario.setBounds(10, 173, 70, 70);
 		jbFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbFuncionario.setToolTipText("Cadastro de Funcionários");
+		jbFuncionario.setToolTipText("Cadastro de Funcionï¿½rios");
 		jbFuncionario.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/funcionario.png")));
 		jpPrincipal.add(jbFuncionario);
 		
@@ -68,14 +68,14 @@ public class FormPrincipal extends JFrame {
 		jbOrdemServico = new JButton("");
 		jbOrdemServico.setBounds(10, 11, 70, 70);
 		jbOrdemServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbOrdemServico.setToolTipText("Agendamento de Serviços");
+		jbOrdemServico.setToolTipText("Agendamento de Serviï¿½os");
 		jbOrdemServico.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/ordem_servico.png")));
 		jpPrincipal.add(jbOrdemServico);
 		
 		jbTipoServico = new JButton("");
 		jbTipoServico.setBounds(10, 254, 70, 70);
 		jbTipoServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbTipoServico.setToolTipText("Cadastro de Serviços");
+		jbTipoServico.setToolTipText("Cadastro de Serviï¿½os");
 		jbTipoServico.setIcon(new ImageIcon(FormPrincipal.class.getResource("/br/edu/unoesc/imagens/tipo_servico.png")));
 		jpPrincipal.add(jbTipoServico);
 		

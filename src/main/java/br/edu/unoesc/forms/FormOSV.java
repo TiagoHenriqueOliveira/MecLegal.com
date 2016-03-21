@@ -5,19 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 
 public class FormOSV extends JInternalFrame {
 
@@ -46,7 +45,7 @@ public class FormOSV extends JInternalFrame {
 	private JLabel jlServicoAgendado;
 	private JLabel jlValorServico;
 	private JLabel jlNomeFuncionario;
-	private JLabel jlCracháFuncionario;
+	private JLabel jlCrachaFuncionario;
 	private JButton jbBuscar;
 	private JButton jbNovo;
 	private JButton jbSalvar;
@@ -57,7 +56,7 @@ public class FormOSV extends JInternalFrame {
 	public void componentesFormOSV() {
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		this.setFrameIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
-		this.setTitle("Agendamento de Serviços");
+		this.setTitle("Agendamento de Serviï¿½os");
 		this.setBounds(100, 100, 660, 328);
 		this.getContentPane().setLayout(null);
 		
@@ -123,10 +122,10 @@ public class FormOSV extends JInternalFrame {
 		jlNomeFuncionario.setBounds(10, 149, 140, 14);
 		jpAgendaServico.add(jlNomeFuncionario);
 		
-		jlCracháFuncionario = new JLabel("Crach\u00E1");
-		jlCracháFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlCracháFuncionario.setBounds(320, 150, 100, 14);
-		jpAgendaServico.add(jlCracháFuncionario);
+		jlCrachaFuncionario = new JLabel("Cracha");
+		jlCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jlCrachaFuncionario.setBounds(320, 150, 100, 14);
+		jpAgendaServico.add(jlCrachaFuncionario);
 		
 		jtfNomeCliente = new JTextField();
 		jtfNomeCliente.setDocument(new ConteudoString());
@@ -340,7 +339,7 @@ public class FormOSV extends JInternalFrame {
 		jtfNomeVeiculo.setEditable(true);
 		jtfServicoAgendado.setEditable(true);
 		jtfNomeFuncionario.setEditable(true);
-		//faz procedimentos para edição do registro
+		//faz procedimentos para ediï¿½ï¿½o do registro
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);

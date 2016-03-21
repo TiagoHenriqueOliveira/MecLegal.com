@@ -12,7 +12,8 @@ import br.edu.unoesc.modelo.Cliente;
 import br.edu.unoesc.modelo.Funcionario;
 import br.edu.unoesc.modelo.OSV;
 import br.edu.unoesc.modelo.TipoServico;
-
+import lombok.Getter;
+@Getter
 public class mongoDao {
 	private static mongoDao mg;
 	private Jongo jongo;
@@ -42,6 +43,27 @@ public class mongoDao {
 
 		return arrayFuncionarios;
 	}
+	
+	public ArrayList<Funcionario> listaFuncionariosLike(String campo, String texto){
+		MongoCursor<Funcionario> cursorFuncionarios = jongo.getCollection("br.edu.unoesc.modelo.Funcionario")
+				.find("{"+campo+": {$regex: #}}", texto+"*").as(Funcionario.class);
+				
+	ArrayList<Funcionario> arrayFuncionarios = new ArrayList<Funcionario>();
+	cursorFuncionarios.forEach(funcionario->{
+		arrayFuncionarios.add(funcionario);
+	});
+
+//	MongoCursor<Funcionario> cursorFuncionarios = jongo.getCollection("br.edu.unoesc.modelo.Funcionario")
+//			.find("{"+campo+":#}", Pattern.compile("*"+texto+"*")).as(Funcionario.class);
+//ArrayList<Funcionario> arrayFuncionarios = new ArrayList<Funcionario>();
+//cursorFuncionarios.forEach(funcionario->{
+//	arrayFuncionarios.add(funcionario);
+//});
+
+	return arrayFuncionarios;
+				
+	}
+	
 	
 	public ArrayList<Cliente> listaClientes(){
 		MongoCursor<Cliente> cursorClientes = jongo.getCollection("br.edu.unoesc.modelo.Cliente").find()

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TipoServico {
+public class TipoServico extends MinhaEntidade{
 	
 	private String nome;
 	private Double valor;

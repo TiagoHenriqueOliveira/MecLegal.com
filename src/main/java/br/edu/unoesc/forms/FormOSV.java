@@ -299,6 +299,7 @@ public class FormOSV extends JInternalFrame {
 	}
 	
 	public void acionarBotaoNovo() {
+		jtfNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(true);
 		jtfNomeVeiculo.setEditable(true);
 		jtfServicoAgendado.setEditable(true);
@@ -320,6 +321,7 @@ public class FormOSV extends JInternalFrame {
 	}
 	
 	public void acionarBotaoSalvar() {
+		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfNomeVeiculo.setEditable(false);
 		jtfServicoAgendado.setEditable(false);
@@ -333,6 +335,7 @@ public class FormOSV extends JInternalFrame {
 	}
 	
 	public void acionarBotaoEditar() {
+		jtfNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(true);
 		jtfNomeVeiculo.setEditable(true);
 		jtfServicoAgendado.setEditable(true);
@@ -346,6 +349,7 @@ public class FormOSV extends JInternalFrame {
 	}
 	
 	public void acionarBotaoCancelar() {
+		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfNomeVeiculo.setEditable(false);
 		jtfServicoAgendado.setEditable(false);

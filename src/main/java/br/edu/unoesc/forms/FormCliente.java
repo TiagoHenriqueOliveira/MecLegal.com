@@ -241,6 +241,7 @@ public class FormCliente extends JInternalFrame {
 	}
 	
 	public void acionarBotaoNovo() {
+		jtfNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
@@ -260,6 +261,7 @@ public class FormCliente extends JInternalFrame {
 	}
 	
 	public void acionarBotaoSalvar() {
+		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
@@ -275,6 +277,7 @@ public class FormCliente extends JInternalFrame {
 	}
 	
 	public void acionarBotaoEditar() {
+		jtfNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
@@ -292,6 +295,7 @@ public class FormCliente extends JInternalFrame {
 	public void acionarBotaoExcluir() {
 		//faz procedimento para exclusão do registro
 		//da mensagem ao usuário que exclui
+		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
@@ -311,6 +315,7 @@ public class FormCliente extends JInternalFrame {
 	}
 	
 	public void acionarBotaoCancelar() {
+		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);

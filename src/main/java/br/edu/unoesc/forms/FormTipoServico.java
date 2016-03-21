@@ -138,6 +138,7 @@ public class FormTipoServico extends JInternalFrame {
 	}
 	
 	public void acionarBotaoNovo() {
+		jtfNomeServico.requestFocus();
 		jtfNomeServico.setEditable(true);
 		jtfValorServico.setEditable(true);
 		jtfNomeServico.setText("");
@@ -150,6 +151,7 @@ public class FormTipoServico extends JInternalFrame {
 	}
 	
 	public void acionarBotaoSalvar() {
+		jtfBuscarServicoNome.requestFocus();
 		jtfNomeServico.setEditable(false);
 		jtfValorServico.setEditable(false);
 		//faz procedimentos para salvar
@@ -161,6 +163,7 @@ public class FormTipoServico extends JInternalFrame {
 	}
 	
 	public void acionarBotaoEditar() {
+		jtfNomeServico.requestFocus();
 		jtfNomeServico.setEditable(true);
 		jtfValorServico.setEditable(true);
 		//faz procedimentos para edição do registro
@@ -172,6 +175,7 @@ public class FormTipoServico extends JInternalFrame {
 	}
 	
 	public void acionarBotaoCancelar() {
+		jtfBuscarServicoNome.requestFocus();
 		jtfNomeServico.setEditable(false);
 		jtfValorServico.setEditable(false);
 		jtfNomeServico.setText("");

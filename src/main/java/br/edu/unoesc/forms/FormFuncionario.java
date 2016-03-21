@@ -185,6 +185,7 @@ public class FormFuncionario extends JInternalFrame {
 	}
 	
 	public void acionarBotaoNovo() {
+		jtfNomeFuncionario.requestFocus();
 		jtfNomeFuncionario.setEditable(true);
 		jtfCPFFuncionario.setEditable(true);
 		jtfCrachaFuncionario.setEditable(true);
@@ -200,6 +201,7 @@ public class FormFuncionario extends JInternalFrame {
 	}
 	
 	public void acionarBotaoSalvar() {
+		jtfBuscarNomeFuncionario.requestFocus();
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);
@@ -213,6 +215,7 @@ public class FormFuncionario extends JInternalFrame {
 	}
 	
 	public void acionarBotaoEditar() {
+		jtfNomeFuncionario.requestFocus();
 		jtfNomeFuncionario.setEditable(true);
 		jtfCPFFuncionario.setEditable(true);
 		jtfCrachaFuncionario.setEditable(true);
@@ -228,6 +231,7 @@ public class FormFuncionario extends JInternalFrame {
 	public void acionarBotaoExcluir() {
 		//faz procedimento para exclusão do registro
 		//da mensagem ao usuário que exclui
+		jtfBuscarNomeFuncionario.requestFocus();
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);
@@ -243,6 +247,7 @@ public class FormFuncionario extends JInternalFrame {
 	}
 	
 	public void acionarBotaoCancelar() {
+		jtfBuscarNomeFuncionario.requestFocus();
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);

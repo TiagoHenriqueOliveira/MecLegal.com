@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
+import br.edu.unoesc.validaConteudo.ConteudoNumerico;
+
 public class FormTipoServico extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +45,7 @@ public class FormTipoServico extends JInternalFrame {
 		getContentPane().add(jlbBuscarServicoNome);
 		
 		jtfBuscarServicoNome = new JTextField();
+		jtfBuscarServicoNome.setDocument(new ConteudoAlfaNumerico());
 		jtfBuscarServicoNome.setToolTipText("Informar o nome do Servi\u00E7o");
 		jtfBuscarServicoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfBuscarServicoNome.setColumns(10);
@@ -49,6 +53,7 @@ public class FormTipoServico extends JInternalFrame {
 		getContentPane().add(jtfBuscarServicoNome);
 		
 		jbBuscar = new JButton("Buscar");
+		jbBuscar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
 		jbBuscar.setToolTipText("Buscar informa\u00E7\u00F5es do Fruncion\u00E1rio");
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(348, 21, 89, 25);
@@ -72,6 +77,7 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jlValorServico);
 		
 		jtfNomeServico = new JTextField();
+		jtfNomeServico.setDocument(new ConteudoAlfaNumerico());
 		jtfNomeServico.setToolTipText("Informar nome do Fruncion\u00E1rio");
 		jtfNomeServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeServico.setEditable(false);
@@ -80,6 +86,7 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jtfNomeServico);
 		
 		jtfValorServico = new JTextField();
+		jtfValorServico.setDocument(new ConteudoNumerico());
 		jtfValorServico.setToolTipText("Formato do valor: 20.0");
 		jtfValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfValorServico.setEditable(false);
@@ -88,12 +95,14 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jtfValorServico);
 		
 		jbNovo = new JButton("Novo");
+		jbNovo.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/novo.png")));
 		jbNovo.setToolTipText("Novo cadastro de Servi\u00E7o");
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 59, 100, 25);
 		jpServicos.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
+		jbSalvar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
 		jbSalvar.setToolTipText("Salvar cadastro do Servi\u00E7o");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setEnabled(false);
@@ -101,6 +110,7 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jbSalvar);
 		
 		jbEditar = new JButton("Editar");
+		jbEditar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/editar.png")));
 		jbEditar.setToolTipText("Editar cadastro do Servi\u00E7o");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setEnabled(false);
@@ -108,6 +118,7 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jbEditar);
 		
 		jbCancelar = new JButton("Cancelar");
+		jbCancelar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
 		jbCancelar.setToolTipText("Cancelar cadastro do Servi\u00E7o");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setEnabled(false);
@@ -115,6 +126,7 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jbCancelar);
 		
 		jbFechar = new JButton("Fechar");
+		jbFechar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/fechar.png")));
 		jbFechar.setToolTipText("Fechar tela de cadastro");
 		jbFechar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbFechar.setBounds(450, 59, 100, 25);
@@ -122,8 +134,7 @@ public class FormTipoServico extends JInternalFrame {
 	}
 	
 	public void acionarBotaoBuscar() {
-		jtfNomeServico.setText("");
-		jtfValorServico.setText("");
+		jtfBuscarServicoNome.setText("");
 	}
 	
 	public void acionarBotaoNovo() {
@@ -158,20 +169,6 @@ public class FormTipoServico extends JInternalFrame {
 		jbEditar.setEnabled(true);
 		jbSalvar.setEnabled(true);
 		jbCancelar.setEnabled(true);
-	}
-	
-	public void acionarBotaoExcluir() {
-		//faz procedimento para exclusão do registro
-		//da mensagem ao usuário que exclui
-		jtfNomeServico.setEditable(false);
-		jtfValorServico.setEditable(false);
-		jtfNomeServico.setText("");
-		jtfValorServico.setText("");
-		jbBuscar.setEnabled(true);
-		jbNovo.setEnabled(true);
-		jbEditar.setEnabled(false);
-		jbSalvar.setEnabled(false);
-		jbCancelar.setEnabled(false);
 	}
 	
 	public void acionarBotaoCancelar() {

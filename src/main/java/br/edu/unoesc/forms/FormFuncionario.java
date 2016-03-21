@@ -5,21 +5,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
+
+import br.edu.unoesc.validaConteudo.ConteudoNumerico;
+import br.edu.unoesc.validaConteudo.ConteudoString;
 
 public class FormFuncionario extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpFuncionario;
-	private JTextField jtfBuscarFuncionarioNome;
-	private JTextField jtfBuscarCracha;
+	private JTextField jtfBuscarNomeFuncionario;
+	private JTextField jtfBuscarCrachaFuncionario;
 	private JTextField jtfNomeFuncionario;
 	private JTextField jtfCrachaFuncionario;
 	private JTextField jtfCPFFuncionario;
@@ -53,19 +56,21 @@ public class FormFuncionario extends JInternalFrame {
 		jlBuscarCracha.setBounds(288, 11, 80, 14);
 		getContentPane().add(jlBuscarCracha);
 		
-		jtfBuscarFuncionarioNome = new JTextField();
-		jtfBuscarFuncionarioNome.setToolTipText("Informar o nome do Fruncionário");
-		jtfBuscarFuncionarioNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarFuncionarioNome.setColumns(10);
-		jtfBuscarFuncionarioNome.setBounds(10, 25, 268, 20);
-		getContentPane().add(jtfBuscarFuncionarioNome);
+		jtfBuscarNomeFuncionario = new JTextField();
+		jtfBuscarNomeFuncionario.setDocument(new ConteudoString());
+		jtfBuscarNomeFuncionario.setToolTipText("Informar o nome do Fruncionário");
+		jtfBuscarNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jtfBuscarNomeFuncionario.setColumns(10);
+		jtfBuscarNomeFuncionario.setBounds(10, 25, 268, 20);
+		getContentPane().add(jtfBuscarNomeFuncionario);
 		
-		jtfBuscarCracha = new JTextField();
-		jtfBuscarCracha.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarCracha.setToolTipText("Informar o número do crach\u00E1");
-		jtfBuscarCracha.setBounds(288, 25, 50, 20);
-		getContentPane().add(jtfBuscarCracha);
-		jtfBuscarCracha.setColumns(10);
+		jtfBuscarCrachaFuncionario = new JTextField();
+		jtfBuscarCrachaFuncionario.setDocument(new ConteudoNumerico());
+		jtfBuscarCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jtfBuscarCrachaFuncionario.setToolTipText("Informar o número do crach\u00E1");
+		jtfBuscarCrachaFuncionario.setBounds(288, 25, 50, 20);
+		getContentPane().add(jtfBuscarCrachaFuncionario);
+		jtfBuscarCrachaFuncionario.setColumns(10);
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
@@ -97,6 +102,7 @@ public class FormFuncionario extends JInternalFrame {
 		jpFuncionario.add(jlCrachaFuncionario);
 		
 		jtfNomeFuncionario = new JTextField();
+		jtfNomeFuncionario.setDocument(new ConteudoString());
 		jtfNomeFuncionario.setToolTipText("Informar nome do Fruncionário");
 		jtfNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeFuncionario.setEditable(false);
@@ -118,6 +124,7 @@ public class FormFuncionario extends JInternalFrame {
 		}
 		
 		jtfCrachaFuncionario = new JTextField();
+		jtfCrachaFuncionario.setDocument(new ConteudoNumerico());
 		jtfCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfCrachaFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setToolTipText("Informar o número do crachá");
@@ -173,8 +180,8 @@ public class FormFuncionario extends JInternalFrame {
 	}
 
 	public void acionarBotaoBuscar() {
-		jtfBuscarFuncionarioNome.setText("");
-		jtfBuscarCracha.setText("");
+		jtfBuscarNomeFuncionario.setText("");
+		jtfBuscarCrachaFuncionario.setText("");
 	}
 	
 	public void acionarBotaoNovo() {

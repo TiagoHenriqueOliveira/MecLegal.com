@@ -27,6 +27,7 @@ public class FormPrincipal extends JFrame {
 	private FormCliente formcliente = new FormCliente();
 	private FormFuncionario formFuncionario = new FormFuncionario();
 	private FormTipoServico formTipoServico = new FormTipoServico();
+	private FormOSV formOSV = new FormOSV();
 
 	public static void main(String[] args) {
 		FormPrincipal principal = new FormPrincipal();
@@ -121,7 +122,15 @@ public class FormPrincipal extends JFrame {
 	public void botaoAgendarServico() {
 		jbOrdemServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(e.getSource() == jbOrdemServico) {
+					if(formOSV.isVisible()) {
+						formOSV.requestFocus();
+						formOSV.setLocation(MAXIMIZED_HORIZ, MAXIMIZED_VERT);
+					} else {
+						jdpPrincipal.add(formOSV);
+						formOSV.setVisible(true);
+					}
+				}
 			}
 		});
 	}

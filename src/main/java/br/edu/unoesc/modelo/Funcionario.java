@@ -13,9 +13,5 @@ public class Funcionario extends MinhaEntidade {
 	
 	private String nome;
 	private Integer cracha;
-
-	public String getName(){
-		return "Funcionario";
-	}
 	
 }

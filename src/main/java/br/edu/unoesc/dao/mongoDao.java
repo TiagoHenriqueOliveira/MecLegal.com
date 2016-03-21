@@ -64,7 +64,10 @@ Funcao Generica para inserir no banco de dados.
 Ele salva com o nome completo, exemplo: br.edu.unoesc.modelo.Funcionario seria a collection de Funcionario
 */
 	@Override
-	public void inserir(MinhaEntidade objeto) {
+	public void salvar(MinhaEntidade objeto) {
+		
+		
+		
 		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
 		collection.insert(objeto);
 		

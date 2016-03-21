@@ -16,7 +16,7 @@ ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) mongoDao.getDAO()
 
 Funcionario func1 = (Funcionario) mongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", "123");
 
-System.out.println(func1.getNome());
+
 
 
 	

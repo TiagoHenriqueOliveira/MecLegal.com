@@ -1,5 +1,7 @@
 package br.edu.unoesc.dao;
 
+import java.util.ArrayList;
+
 import br.edu.unoesc.modelo.Funcionario;
 
 public class teste {
@@ -9,12 +11,13 @@ public class teste {
 		Funcionario eta = new Funcionario("VAMO_LA", 342437);
 		
 	
-	mongoDao.getDAO().listaFuncionariosLike("nome", "O_L").forEach(funcionario->{
-		System.out.println(funcionario.getNome());	
-		System.out.println(funcionario.getCracha());
-	});
+ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) mongoDao.getDAO().listaGenerica(Funcionario.class, "cracha", "123");
 		
-				mongoDao.getDAO().inserir(eta);
+
+Funcionario func1 = (Funcionario) mongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", "123");
+
+System.out.println(func1.getNome());
+
 
 	
 		

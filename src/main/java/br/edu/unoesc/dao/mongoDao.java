@@ -8,13 +8,10 @@ import org.jongo.MongoCursor;
 
 import com.mongodb.MongoClient;
 
-import br.edu.unoesc.modelo.Cliente;
-import br.edu.unoesc.modelo.Funcionario;
-import br.edu.unoesc.modelo.OSV;
-import br.edu.unoesc.modelo.TipoServico;
+import br.edu.unoesc.modelo.MinhaEntidade;
 import lombok.Getter;
 @Getter
-public class mongoDao {
+public class mongoDao implements GenericDao{
 	private static mongoDao mg;
 	private Jongo jongo;
 
@@ -30,89 +27,34 @@ public class mongoDao {
 		MongoClient mongoClient = new MongoClient("localhost", 27017);
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
 	}
-
-//Funcao pra retornar lista de Todos;
-	public ArrayList<Funcionario> listaFuncionarios() {
-		MongoCursor<Funcionario> cursorFuncionarios = jongo.getCollection("br.edu.unoesc.modelo.Funcionario").find()
-				.as(Funcionario.class);
-
-		ArrayList<Funcionario> arrayFuncionarios = new ArrayList<Funcionario>();
-		cursorFuncionarios.forEach(funcionario -> {
-			arrayFuncionarios.add(funcionario);
-		});
-
-		return arrayFuncionarios;
-	}
 	
-	public ArrayList<Funcionario> listaFuncionariosLike(String campo, String texto){
-		MongoCursor<Funcionario> cursorFuncionarios = jongo.getCollection("br.edu.unoesc.modelo.Funcionario")
-				.find("{"+campo+": {$regex: #}}", texto+"*").as(Funcionario.class);
+	public ArrayList<?> listaGenerica(Class classe, String campo, String texto){
+		System.out.println(classe.getName());
+		System.out.println(campo);
+		System.out.println(texto);
+
+		MongoCursor<?> cursor = jongo.getCollection(classe.getName())
+				.find("{"+campo+":{$regex: #}}", texto+"*").as(classe);
 				
-	ArrayList<Funcionario> arrayFuncionarios = new ArrayList<Funcionario>();
-	cursorFuncionarios.forEach(funcionario->{
-		arrayFuncionarios.add(funcionario);
+	ArrayList array = new ArrayList<>();
+	
+	cursor.forEach(retornado->{
+		array.add(retornado);
 	});
-
-//	MongoCursor<Funcionario> cursorFuncionarios = jongo.getCollection("br.edu.unoesc.modelo.Funcionario")
-//			.find("{"+campo+":#}", Pattern.compile("*"+texto+"*")).as(Funcionario.class);
-//ArrayList<Funcionario> arrayFuncionarios = new ArrayList<Funcionario>();
-//cursorFuncionarios.forEach(funcionario->{
-//	arrayFuncionarios.add(funcionario);
-//});
-
-	return arrayFuncionarios;
-				
+	return array;
 	}
-	
-	
-	public ArrayList<Cliente> listaClientes(){
-		MongoCursor<Cliente> cursorClientes = jongo.getCollection("br.edu.unoesc.modelo.Cliente").find()
-				.as(Cliente.class);
-
-		ArrayList<Cliente> arrayClientes = new ArrayList<Cliente>();
-		cursorClientes.forEach(cliente -> {
-			arrayClientes.add(cliente);
-		});
-
-		return arrayClientes;
-	}
-	
-	public ArrayList<OSV> listaOSVs(){
-		MongoCursor<OSV> cursorOSV = jongo.getCollection("br.edu.unoesc.modelo.OSV").find()
-				.as(OSV.class);
-		ArrayList<OSV> arrayOSV = new ArrayList<OSV>();
-		cursorOSV.forEach(osv->{
-			arrayOSV.add(osv);
-		});
-		return arrayOSV;
-	}
-	
-	public ArrayList<TipoServico> listaTipoServicos(){
-		MongoCursor<TipoServico> cursorTipoServicos = jongo.getCollection("br.edu.unoesc.modelo.TipoServico").find()
-				.as(TipoServico.class);
-		ArrayList<TipoServico> arrayTipoServicos = new ArrayList<TipoServico>();
-		cursorTipoServicos.forEach(tipo->{
-			arrayTipoServicos.add(tipo);
-		});
-		return arrayTipoServicos;
-	}
-	
-	
-	
-	public Funcionario buscaFuncionario(String campo, String valor){
-MongoCollection collectionFuncionario = jongo.getCollection("br.edu.unoesc.modelo.Funcionario");
-//Vai retornar um Funcionario se o campo e o valor estiverem exatamentes iguais ao que esta salvo no banco,
-	Funcionario funcionario = collectionFuncionario.findOne("{"+campo+":'"+valor+"'}").as(Funcionario.class);
-	return funcionario;
-	}
-	
 	
 /*
  * Busca generica, voce passa a classe, o campo e o valor e ele retorna, precisa fazer cast dai la onde ta usando	
  */
-	public Object busca(Class classe, String campo, String valor){
+	public Object buscaGenerica(Class classe, String campo, String valor){
 		MongoCollection collection = jongo.getCollection(classe.getName());
 		Object objeto = collection.findOne("{"+campo+":'"+valor+"'}").as(classe);
+		return objeto;
+	}
+	public Object buscaGenerica(Class classe, String campo, Integer valor){
+		MongoCollection collection = jongo.getCollection(classe.getName());
+		Object objeto = collection.findOne("{"+campo+":"+valor+"}").as(classe);
 		return objeto;
 	}
 	
@@ -121,9 +63,11 @@ MongoCollection collectionFuncionario = jongo.getCollection("br.edu.unoesc.model
 Funcao Generica para inserir no banco de dados.
 Ele salva com o nome completo, exemplo: br.edu.unoesc.modelo.Funcionario seria a collection de Funcionario
 */
-	public void inserir(Object objeto) {
+	@Override
+	public void inserir(MinhaEntidade objeto) {
 		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
 		collection.insert(objeto);
+		
 	}
 
 }

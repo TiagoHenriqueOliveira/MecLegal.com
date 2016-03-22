@@ -71,6 +71,7 @@ public class mongoDao implements GenericDao {
 		collection.insert(objeto);
 	}
 
+	@Override
 	public void update(MinhaEntidade objeto, String campo, String valor) {
 		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
 		collection.update("{" + campo + ":'" + valor + "'}").with(objeto);

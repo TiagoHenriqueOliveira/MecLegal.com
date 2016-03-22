@@ -41,8 +41,12 @@ public class mongoDao implements GenericDao{
 	cursor.forEach(retornado->{
 		array.add(retornado);
 	});
+
 	return array;
+	
 	}
+	
+	
 	
 /*
  * Busca generica, voce passa a classe, o campo e o valor e ele retorna, precisa fazer cast dai la onde ta usando	
@@ -65,12 +69,12 @@ Ele salva com o nome completo, exemplo: br.edu.unoesc.modelo.Funcionario seria a
 */
 	@Override
 	public void salvar(MinhaEntidade objeto) {
-		
-		
-		
 		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
 		collection.insert(objeto);
-		
+	}
+	public void update(MinhaEntidade objeto, String campo, String valor){
+		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
+		collection.update("{"+campo+":"+valor+"}").with(objeto);
 	}
 
 }

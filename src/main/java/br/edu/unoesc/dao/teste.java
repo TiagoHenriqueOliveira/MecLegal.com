@@ -14,7 +14,7 @@ public class teste {
 ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) mongoDao.getDAO().listaGenerica(Funcionario.class, "cracha", "123");
 		
 
-Funcionario func1 = (Funcionario) mongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", "123");
+Funcionario func1 = (Funcionario) mongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", 12345);
 
 
 

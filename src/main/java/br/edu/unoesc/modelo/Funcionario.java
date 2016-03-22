@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Funcionario extends MinhaEntidade {
+public class Funcionario implements MinhaEntidade {
 	
 	private String nome;
 	private Integer cracha;

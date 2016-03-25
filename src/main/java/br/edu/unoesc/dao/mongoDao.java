@@ -11,6 +11,7 @@ import com.mongodb.MongoClient;
 import br.edu.unoesc.modelo.MinhaEntidade;
 import lombok.Getter;
 
+@SuppressWarnings("rawtypes")
 @Getter
 public class mongoDao implements GenericDao {
 	private static mongoDao mg;
@@ -23,6 +24,7 @@ public class mongoDao implements GenericDao {
 		return mg;
 	}
 
+	@SuppressWarnings({ "resource", "deprecation" })
 	public mongoDao() {
 		MongoClient mongoClient = new MongoClient("localhost", 27017);
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
@@ -32,9 +34,9 @@ public class mongoDao implements GenericDao {
 	// conteudo texto passado.
 	// listaGenerica exemplo em SQL: listaGenerica(select classe where campo
 	// like %texto%)
+	@SuppressWarnings({ "unchecked" })
 	public ArrayList<?> listaGenerica(Class classe, String campo, String texto) {
-		MongoCursor<?> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*")
-				.as(classe);
+		MongoCursor<?> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
 
 		ArrayList array = new ArrayList<>();
 
@@ -48,12 +50,14 @@ public class mongoDao implements GenericDao {
 
 	// Busca Generica, busca o valor EXATO e retorna somente 1 Objeto, se
 	// existir no Banco, caso nao, retorna null.
+	@SuppressWarnings({ "unchecked" })
 	public Object buscaGenerica(Class classe, String campo, String valor) {
 		MongoCollection collection = jongo.getCollection(classe.getName());
 		Object objeto = collection.findOne("{" + campo + ":'" + valor + "'}").as(classe);
 		return objeto;
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	public Object buscaGenerica(Class classe, String campo, Integer valor) {
 		MongoCollection collection = jongo.getCollection(classe.getName());
 		Object objeto = collection.findOne("{" + campo + ":" + valor + "}").as(classe);

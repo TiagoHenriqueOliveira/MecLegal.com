@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.edu.unoesc.dao.mongoDao;
+import br.edu.unoesc.dao.MongoDao;
 import br.edu.unoesc.modelo.TipoServico;
 import br.edu.unoesc.preencheDados.PreencheDados;
 
@@ -70,7 +70,7 @@ public class FormMostraTipoServico extends JFrame {
 	
 	@SuppressWarnings("unchecked")
 	public void preencheDadosTabela() {
-		listaTiposServicos = (List<TipoServico>) mongoDao.getDAO().listaGenerica(TipoServico.class, "nome", descricao);
+		listaTiposServicos = (List<TipoServico>) MongoDao.getDAO().listaGenerica(TipoServico.class, "nome", descricao);
 		for(TipoServico servicos : listaTiposServicos) {
 			dtmListaTipoServico.addRow(new String[] {servicos.getNome(), String.valueOf(new DecimalFormat("R$ #,##0.00").format(servicos.getValor()))});
 		}

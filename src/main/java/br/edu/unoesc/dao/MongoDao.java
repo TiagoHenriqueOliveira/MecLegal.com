@@ -13,19 +13,19 @@ import lombok.Getter;
 
 @SuppressWarnings("rawtypes")
 @Getter
-public class mongoDao implements GenericDao {
-	private static mongoDao mg;
+public class MongoDao implements GenericDao {
+	private static MongoDao mg;
 	private Jongo jongo;
 
-	public static mongoDao getDAO() {
+	public static MongoDao getDAO() {
 		if (mg == null) {
-			mg = new mongoDao();
+			mg = new MongoDao();
 		}
 		return mg;
 	}
 
 	@SuppressWarnings({ "resource", "deprecation" })
-	public mongoDao() {
+	public MongoDao() {
 		MongoClient mongoClient = new MongoClient("localhost", 27017);
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
 	}

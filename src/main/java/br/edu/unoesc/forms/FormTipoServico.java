@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.edu.unoesc.dao.mongoDao;
+import br.edu.unoesc.dao.MongoDao;
 import br.edu.unoesc.modelo.MinhaEntidade;
 import br.edu.unoesc.modelo.TipoServico;
 import br.edu.unoesc.preencheDados.PreencheDados;
@@ -198,15 +198,15 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 			jtfValorServico.requestFocus();
 		} else {
 			tipoServico = new TipoServico();
-			if(mongoDao.getDAO().buscaGenerica(TipoServico.class, "nome", jtfNomeServico.getText()) == null) {
+			if(MongoDao.getDAO().buscaGenerica(TipoServico.class, "nome", jtfNomeServico.getText()) == null) {
 				tipoServico.setNome(jtfNomeServico.getText());
 				tipoServico.setValor(Double.valueOf(jtfValorServico.getText()));
-				mongoDao.getDAO().salvar(tipoServico);
+				MongoDao.getDAO().salvar(tipoServico);
 				jtfValorServico.setText(String.valueOf(new DecimalFormat("R$ #,##0.00").format(tipoServico.getValor())));
 			} else {
 				tipoServico.setNome(jtfNomeServico.getText());
 				tipoServico.setValor(Double.valueOf(jtfValorServico.getText()));
-				mongoDao.getDAO().update(tipoServico, "nome", tipoServico.getNome());
+				MongoDao.getDAO().update(tipoServico, "nome", tipoServico.getNome());
 				jtfValorServico.setText(String.valueOf(new DecimalFormat("R$ #,##0.00").format(tipoServico.getValor())));
 			}
 		}

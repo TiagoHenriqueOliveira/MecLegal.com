@@ -1,13 +1,14 @@
 package br.edu.unoesc.forms;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JInternalFrame;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,7 +18,7 @@ import javax.swing.text.MaskFormatter;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 
-public class FormFuncionario extends JInternalFrame {
+public class FormFuncionario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpFuncionario;
@@ -40,10 +41,12 @@ public class FormFuncionario extends JInternalFrame {
 	private JButton jbExcluir;
 
 	public void componentesFormCliente() {
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/logo.png")));
+		this.setResizable(false);
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setFrameIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setTitle("Cadastro de Funcionários");
 		this.setBounds(100, 100, 703, 189);
+		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
 		jlBuscarFuncionario = new JLabel("Buscar Fruncionário por nome");

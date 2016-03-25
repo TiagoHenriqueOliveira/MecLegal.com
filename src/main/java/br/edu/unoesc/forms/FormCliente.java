@@ -1,23 +1,24 @@
 package br.edu.unoesc.forms;
 
-import javax.swing.JInternalFrame;
-import javax.swing.ImageIcon;
 import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
+import java.awt.Toolkit;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class FormCliente extends JInternalFrame {
+public class FormCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpInformacoesCliente;
@@ -46,10 +47,11 @@ public class FormCliente extends JInternalFrame {
 	private JButton jbBuscar;
 	
 	public void componentesClienteForm() {
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setFrameIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setTitle("Cadastro de Clientes");
 		this.setBounds(100, 100, 703, 240);
+		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
 		jlBuscarClienteNome = new JLabel("Buscar cliente por nome");

@@ -3,19 +3,27 @@ package br.edu.unoesc.forms;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import br.edu.unoesc.dao.mongoDao;
+import br.edu.unoesc.modelo.MinhaEntidade;
+import br.edu.unoesc.modelo.TipoServico;
+import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
+import java.awt.Toolkit;
+import javax.swing.SwingConstants;
 
-public class FormTipoServico extends JInternalFrame {
+public class FormTipoServico extends JFrame implements PreencheDados {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpServicos;
@@ -31,12 +39,19 @@ public class FormTipoServico extends JInternalFrame {
 	private JButton jbEditar;
 	private JButton jbCancelar;
 	private JButton jbFechar;
+	private TipoServico tipoServico;
+	private static FormTipoServico formTipoServico;
+	private FormMostraTipoServico formMostraTipoServico = new FormMostraTipoServico(null, null);
 	
 	public void componentesFormTipoServico() {
+		formTipoServico = this;
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/logo.png")));
+		setResizable(false);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setFrameIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setTitle("Cadastro de Serviços");
 		this.setBounds(100, 100, 600, 190);
+		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
 		jlbBuscarServicoNome = new JLabel("Buscar Servi\u00E7o por nome");
@@ -86,6 +101,7 @@ public class FormTipoServico extends JInternalFrame {
 		jpServicos.add(jtfNomeServico);
 		
 		jtfValorServico = new JTextField();
+		jtfValorServico.setHorizontalAlignment(SwingConstants.RIGHT);
 		jtfValorServico.setDocument(new ConteudoNumerico());
 		jtfValorServico.setToolTipText("Formato do valor: 20.0");
 		jtfValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -134,7 +150,26 @@ public class FormTipoServico extends JInternalFrame {
 	}
 	
 	public void acionarBotaoBuscar() {
-		jtfBuscarServicoNome.setText("");
+		jtfNomeServico.setText("");
+		jtfValorServico.setText("");
+		jbNovo.setEnabled(false);
+		jbEditar.setEnabled(true);
+		if(jtfBuscarServicoNome.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfBuscarServicoNome.requestFocus();
+			jbNovo.setEnabled(true);
+			jbEditar.setEnabled(false);
+		} else {
+			if(formMostraTipoServico.isVisible()) {
+				formMostraTipoServico.requestFocus();
+				formMostraTipoServico.setLocationRelativeTo(null);
+			} else {
+				formMostraTipoServico = new FormMostraTipoServico(formTipoServico, jtfBuscarServicoNome.getText());
+				formMostraTipoServico.setVisible(true);
+				formMostraTipoServico.setLocationRelativeTo(null);
+				jtfBuscarServicoNome.setText("");
+			}
+		}
 	}
 	
 	public void acionarBotaoNovo() {
@@ -154,7 +189,28 @@ public class FormTipoServico extends JInternalFrame {
 		jtfBuscarServicoNome.requestFocus();
 		jtfNomeServico.setEditable(false);
 		jtfValorServico.setEditable(false);
-		//faz procedimentos para salvar
+		
+		if(jtfNomeServico.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar a descrição do serviço!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfNomeServico.requestFocus();
+		} else if(jtfValorServico.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar o valor do serviço!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfValorServico.requestFocus();
+		} else {
+			tipoServico = new TipoServico();
+			if(mongoDao.getDAO().buscaGenerica(TipoServico.class, "nome", jtfNomeServico.getText()) == null) {
+				tipoServico.setNome(jtfNomeServico.getText());
+				tipoServico.setValor(Double.valueOf(jtfValorServico.getText()));
+				mongoDao.getDAO().salvar(tipoServico);
+				jtfValorServico.setText(String.valueOf(new DecimalFormat("R$ #,##0.00").format(tipoServico.getValor())));
+			} else {
+				tipoServico.setNome(jtfNomeServico.getText());
+				tipoServico.setValor(Double.valueOf(jtfValorServico.getText()));
+				mongoDao.getDAO().update(tipoServico, "nome", tipoServico.getNome());
+				jtfValorServico.setText(String.valueOf(new DecimalFormat("R$ #,##0.00").format(tipoServico.getValor())));
+			}
+		}
+			
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(true);
@@ -166,7 +222,6 @@ public class FormTipoServico extends JInternalFrame {
 		jtfNomeServico.requestFocus();
 		jtfNomeServico.setEditable(true);
 		jtfValorServico.setEditable(true);
-		//faz procedimentos para edição do registro
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
@@ -185,6 +240,12 @@ public class FormTipoServico extends JInternalFrame {
 		jbEditar.setEnabled(false);
 		jbSalvar.setEnabled(false);
 		jbCancelar.setEnabled(false);
+	}
+	
+	public void preencheCamposTipoServico(TipoServico tipoServico) {
+		jtfNomeServico.setText(tipoServico.getNome());
+		jtfValorServico.setText(String.valueOf(new DecimalFormat("R$ #,##0.00").format(tipoServico.getValor())));
+		jtfBuscarServicoNome.requestFocus();
 	}
 	
 	public void botaoBuscar() {
@@ -255,5 +316,10 @@ public class FormTipoServico extends JInternalFrame {
 		botaoEditar();
 		botaoCancelar();
 		botaoFechar();
+	}
+
+	@Override
+	public void preencherCampos(MinhaEntidade entidade) {
+		this.preencheCamposTipoServico((TipoServico)entidade);
 	}
 }

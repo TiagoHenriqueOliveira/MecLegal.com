@@ -1,13 +1,14 @@
 package br.edu.unoesc.forms;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JInternalFrame;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -18,7 +19,7 @@ import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 
-public class FormOSV extends JInternalFrame {
+public class FormOSV extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpAgendaServico;
@@ -54,15 +55,16 @@ public class FormOSV extends JInternalFrame {
 	private JButton jbFechar;
 	
 	public void componentesFormOSV() {
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormOSV.class.getResource("/br/edu/unoesc/imagens/logo.png")));
+		this.setResizable(false);
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setFrameIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
-		this.setTitle("Agendamento de Serviï¿½os");
+		this.setTitle("Agendamento de Serviços");
 		this.setBounds(100, 100, 660, 328);
+		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
 		jpAgendaServico = new JPanel();
 		jpAgendaServico.setLayout(null);
-		jpAgendaServico.setToolTipText("");
 		jpAgendaServico.setBorder(UIManager.getBorder("PopupMenu.border"));
 		jpAgendaServico.setBounds(10, 57, 626, 232);
 		getContentPane().add(jpAgendaServico);
@@ -97,32 +99,32 @@ public class FormOSV extends JInternalFrame {
 		jlCNPJCliente.setBounds(430, 11, 120, 14);
 		jpAgendaServico.add(jlCNPJCliente);
 		
-		jlNomeVeiculo = new JLabel("Nome do Ve\u00EDculo");
+		jlNomeVeiculo = new JLabel("Nome do Veículo");
 		jlNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlNomeVeiculo.setBounds(10, 57, 120, 14);
 		jpAgendaServico.add(jlNomeVeiculo);
 		
-		jlPlacaVeiculo = new JLabel("Placa do Ve\u00EDculo");
+		jlPlacaVeiculo = new JLabel("Placa do Veículo");
 		jlPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlPlacaVeiculo.setBounds(320, 57, 120, 14);
 		jpAgendaServico.add(jlPlacaVeiculo);
 		
-		jlServicoAgendado = new JLabel("Servi\u00E7o Agendado");
+		jlServicoAgendado = new JLabel("Serviço Agendado");
 		jlServicoAgendado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlServicoAgendado.setBounds(10, 103, 120, 14);
 		jpAgendaServico.add(jlServicoAgendado);
 		
-		jlValorServico = new JLabel("Valor do Servi\u00E7o");
+		jlValorServico = new JLabel("Valor do Serviço");
 		jlValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlValorServico.setBounds(320, 104, 120, 14);
 		jpAgendaServico.add(jlValorServico);
 		
-		jlNomeFuncionario = new JLabel("Nome do Funcionario");
+		jlNomeFuncionario = new JLabel("Nome do Funcionário");
 		jlNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlNomeFuncionario.setBounds(10, 149, 140, 14);
 		jpAgendaServico.add(jlNomeFuncionario);
 		
-		jlCrachaFuncionario = new JLabel("Cracha");
+		jlCrachaFuncionario = new JLabel("Crachá");
 		jlCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlCrachaFuncionario.setBounds(320, 150, 100, 14);
 		jpAgendaServico.add(jlCrachaFuncionario);
@@ -163,7 +165,7 @@ public class FormOSV extends JInternalFrame {
 		jtfNomeVeiculo.setDocument(new ConteudoAlfaNumerico());
 		jtfNomeVeiculo.setEditable(false);
 		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfNomeVeiculo.setToolTipText("Informar nome do ve\u00EDculo");
+		jtfNomeVeiculo.setToolTipText("Informar nome do veículo");
 		jtfNomeVeiculo.setColumns(10);
 		jtfNomeVeiculo.setBounds(10, 72, 300, 20);
 		jpAgendaServico.add(jtfNomeVeiculo);
@@ -184,7 +186,7 @@ public class FormOSV extends JInternalFrame {
 		jtfServicoAgendado.setDocument(new ConteudoAlfaNumerico());
 		jtfServicoAgendado.setEditable(false);
 		jtfServicoAgendado.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfServicoAgendado.setToolTipText("Informar servi\u00E7o a ser executado");
+		jtfServicoAgendado.setToolTipText("Informar serviço a ser executado");
 		jtfServicoAgendado.setColumns(10);
 		jtfServicoAgendado.setBounds(10, 118, 300, 20);
 		jpAgendaServico.add(jtfServicoAgendado);
@@ -202,7 +204,7 @@ public class FormOSV extends JInternalFrame {
 		jtfNomeFuncionario.setDocument(new ConteudoString());
 		jtfNomeFuncionario.setEditable(false);
 		jtfNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfNomeFuncionario.setToolTipText("Informar nome do funcion\u00E1rio");
+		jtfNomeFuncionario.setToolTipText("Informar nome do funcionário");
 		jtfNomeFuncionario.setColumns(10);
 		jtfNomeFuncionario.setBounds(10, 164, 300, 20);
 		jpAgendaServico.add(jtfNomeFuncionario);
@@ -247,14 +249,14 @@ public class FormOSV extends JInternalFrame {
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/novo.png")));
-		jbNovo.setToolTipText("Novo cadastro da Ordem de Servi\u00E7o");
+		jbNovo.setToolTipText("Novo cadastro da Ordem de Serviço");
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 195, 100, 25);
 		jpAgendaServico.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
 		jbSalvar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
-		jbSalvar.setToolTipText("Salvar cadastro da Ordem de Servi\u00E7o");
+		jbSalvar.setToolTipText("Salvar cadastro da Ordem de Serviço");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setEnabled(false);
 		jbSalvar.setBounds(120, 195, 100, 25);
@@ -262,7 +264,7 @@ public class FormOSV extends JInternalFrame {
 		
 		jbEditar = new JButton("Editar");
 		jbEditar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/editar.png")));
-		jbEditar.setToolTipText("Editar cadastro da Ordem de Servi\u00E7o");
+		jbEditar.setToolTipText("Editar cadastro da Ordem de Serviço");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setEnabled(false);
 		jbEditar.setBounds(230, 195, 100, 25);
@@ -270,7 +272,7 @@ public class FormOSV extends JInternalFrame {
 		
 		jbCancelar = new JButton("Cancelar");
 		jbCancelar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
-		jbCancelar.setToolTipText("Cancelar cadastro da Ordem de Servi\u00E7o");
+		jbCancelar.setToolTipText("Cancelar cadastro da Ordem de Serviço");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setEnabled(false);
 		jbCancelar.setBounds(340, 195, 100, 25);
@@ -285,7 +287,7 @@ public class FormOSV extends JInternalFrame {
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
-		jbBuscar.setToolTipText("Buscar informa\u00E7\u00F5es da Ordem de Servi\u00E7o");
+		jbBuscar.setToolTipText("Buscar informações da Ordem de Serviço");
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(547, 22, 89, 25);
 		getContentPane().add(jbBuscar);

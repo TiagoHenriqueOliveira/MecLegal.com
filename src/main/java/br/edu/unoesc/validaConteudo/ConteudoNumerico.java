@@ -21,6 +21,6 @@ public class ConteudoNumerico extends PlainDocument {
 	public void replace(int offset, String string,
 			javax.swing.text.AttributeSet setAtributo)
 			throws BadLocationException {
-			super.insertString(offset, string.toUpperCase().replaceAll("[^0-9]", ""), setAtributo);
+			super.insertString(offset, string.toUpperCase().replaceAll("[^0-9|^.]", ""), setAtributo);
 	}
 }

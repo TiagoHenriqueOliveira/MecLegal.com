@@ -1,6 +1,7 @@
 package br.edu.unoesc.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,12 @@ public class Cliente {
 	private String nome;
 	private String cpf;
 	private String cnpj;
-	private ArrayList<Carro> carros = new ArrayList<Carro>();
+	private List<Carro> carros;
 	
+	public void adicionarCarro(Carro carro) {
+		if(carros == null) {
+			carros = new ArrayList<>();
+		}
+		carros.add(carro);
+	}
 }

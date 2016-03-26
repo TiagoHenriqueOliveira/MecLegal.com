@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OSV {
+public class OSV implements MinhaEntidade {
 	
 	private Cliente cliente;
 	private TipoServico tipoServico;

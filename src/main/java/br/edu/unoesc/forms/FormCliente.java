@@ -54,7 +54,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private Cliente cliente;
 	private Carro carro;
 	private static FormCliente formCliente;
-	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
+	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null, null, null);
 	
 	public void componentesClienteForm() {
 		formCliente = this;
@@ -248,29 +248,31 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoBuscar() {
-		jtfBuscarNomeCliente.setText("");
-		jtfBuscarCPFCliente.setText("");
-		jtfBuscarCNPJCliente.setText("");
+		jtfNomeCliente.setText("");
+		jtfCPFCliente.setText("");
+		jtfCNPJCliente.setText("");
+		jtfNomeVeiculo.setText("");
+		jtfPlacaVeiculo.setText("");
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
-//		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
-//			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-//			jtfBuscarNomeCliente.requestFocus();
-//			jbNovo.setEnabled(true);
-//			jbEditar.setEnabled(false);
-//		} else {
+		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfBuscarNomeCliente.requestFocus();
+			jbNovo.setEnabled(true);
+			jbEditar.setEnabled(false);
+		} else {
 			if(formMostraCliente.isVisible()) {
 				formMostraCliente.requestFocus();
 				formMostraCliente.setLocationRelativeTo(null);
 			} else {
-				formMostraCliente = new FormMostraCliente(formCliente, jtfBuscarNomeCliente.getText());
+				formMostraCliente = new FormMostraCliente(formCliente, jtfBuscarNomeCliente.getText(), jtfBuscarCPFCliente.getText(), jtfBuscarCNPJCliente.getText());
 				formMostraCliente.setVisible(true);
 				formMostraCliente.setLocationRelativeTo(null);
 				jtfBuscarNomeCliente.setText("");
 				jtfBuscarCPFCliente.setText("");
 				jtfBuscarCNPJCliente.setText("");
 			}
-	//	}
+		}
 	}
 	
 	public void acionarBotaoNovo() {
@@ -401,7 +403,10 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void preencheCamposCliente(Cliente cliente) {
-		
+		jtfNomeCliente.setText(cliente.getNome());
+		jtfCPFCliente.setText(cliente.getCpf());
+		jtfCNPJCliente.setText(cliente.getCnpj());
+	//	jtfNomeVeiculo.setText(cliente.getCarros());
 	}
 	
 	public void botaoBuscar() {

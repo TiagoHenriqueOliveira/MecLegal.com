@@ -13,4 +13,8 @@ public class Carro {
 
 	private String nome;
 	private String placa;
+	
+	public String[] vetorDados(){
+		return new String[]{nome,placa};
+	}
 }

@@ -9,16 +9,22 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
+import br.edu.unoesc.dao.MongoDao;
+import br.edu.unoesc.modelo.Carro;
+import br.edu.unoesc.modelo.Cliente;
+import br.edu.unoesc.modelo.MinhaEntidade;
+import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 import java.awt.Toolkit;
 
-public class FormCliente extends JFrame {
+public class FormCliente extends JFrame implements PreencheDados {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpInformacoesCliente;
@@ -45,8 +51,13 @@ public class FormCliente extends JFrame {
 	private JButton jbFechar;
 	private JButton jbExcluir;
 	private JButton jbBuscar;
+	private Cliente cliente;
+	private Carro carro;
+	private static FormCliente formCliente;
+	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
 	
 	public void componentesClienteForm() {
+		formCliente = this;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		this.setTitle("Cadastro de Clientes");
@@ -240,6 +251,26 @@ public class FormCliente extends JFrame {
 		jtfBuscarNomeCliente.setText("");
 		jtfBuscarCPFCliente.setText("");
 		jtfBuscarCNPJCliente.setText("");
+		jbNovo.setEnabled(false);
+		jbEditar.setEnabled(true);
+//		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
+//			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+//			jtfBuscarNomeCliente.requestFocus();
+//			jbNovo.setEnabled(true);
+//			jbEditar.setEnabled(false);
+//		} else {
+			if(formMostraCliente.isVisible()) {
+				formMostraCliente.requestFocus();
+				formMostraCliente.setLocationRelativeTo(null);
+			} else {
+				formMostraCliente = new FormMostraCliente(formCliente, jtfBuscarNomeCliente.getText());
+				formMostraCliente.setVisible(true);
+				formMostraCliente.setLocationRelativeTo(null);
+				jtfBuscarNomeCliente.setText("");
+				jtfBuscarCPFCliente.setText("");
+				jtfBuscarCNPJCliente.setText("");
+			}
+	//	}
 	}
 	
 	public void acionarBotaoNovo() {
@@ -269,7 +300,41 @@ public class FormCliente extends JFrame {
 		jtfCNPJCliente.setEditable(false);
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
-		//faz procedimentos para salvar
+		
+		if(jtfNomeCliente.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um nome para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfNomeCliente.requestFocus();
+		} else if(jtfCPFCliente.getText().equals("   .   .   -  ") && jtfCNPJCliente.getText().equals("  .   .   /    -  ")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfCPFCliente.requestFocus();
+		} else if(jtfNomeVeiculo.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar o nome do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfNomeVeiculo.requestFocus();
+		} else if(jtfPlacaVeiculo.getText().equals("   -    ")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar a placa do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfPlacaVeiculo.requestFocus();
+		} else {
+			cliente = new Cliente();
+			carro = new Carro();
+			if(MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", jtfNomeCliente.getText()) == null) {
+				cliente.setNome(jtfNomeCliente.getText());
+				cliente.setCpf(jtfCPFCliente.getText());
+				cliente.setCnpj(jtfCNPJCliente.getText());
+				carro.setNome(jtfNomeVeiculo.getText());
+				carro.setPlaca(jtfPlacaVeiculo.getText());
+				cliente.adicionarCarro(carro);
+				MongoDao.getDAO().salvar(cliente);
+			} else {
+				cliente.setNome(jtfNomeCliente.getText());
+				cliente.setCpf(jtfCPFCliente.getText());
+				cliente.setCnpj(jtfCNPJCliente.getText());
+				carro.setNome(jtfNomeVeiculo.getText());
+				carro.setPlaca(jtfPlacaVeiculo.getText());
+				cliente.adicionarCarro(carro);
+				MongoDao.getDAO().update(cliente, "nome", cliente.getNome());
+			}
+		}
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(true);
@@ -285,7 +350,6 @@ public class FormCliente extends JFrame {
 		jtfCNPJCliente.setEditable(true);
 		jtfNomeVeiculo.setEditable(true);
 		jtfPlacaVeiculo.setEditable(true);
-		//faz procedimentos para edição do registro
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
@@ -334,6 +398,10 @@ public class FormCliente extends JFrame {
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(false);
 		jbCancelar.setEnabled(false);
+	}
+	
+	public void preencheCamposCliente(Cliente cliente) {
+		
 	}
 	
 	public void botaoBuscar() {
@@ -415,5 +483,10 @@ public class FormCliente extends JFrame {
 		botaoExcluir();
 		botaoCancelar();
 		botaoFechar();
+	}
+
+	@Override
+	public void preencherCampos(MinhaEntidade entidade) {
+		this.preencheCamposCliente((Cliente)entidade);
 	}
 }

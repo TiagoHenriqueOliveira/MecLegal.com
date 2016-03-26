@@ -53,8 +53,8 @@ public class FormMostraCliente extends JFrame {
 		jttListaCliente.getColumnModel().getColumn(0).setPreferredWidth(320);
 		jttListaCliente.getColumnModel().getColumn(1).setResizable(false);
 		jttListaCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
-		jttListaCliente.getColumnModel().getColumn(1).setResizable(false);
-		jttListaCliente.getColumnModel().getColumn(1).setPreferredWidth(110);
+		jttListaCliente.getColumnModel().getColumn(2).setResizable(false);
+		jttListaCliente.getColumnModel().getColumn(2).setPreferredWidth(110);
 		jpListaCliente.setLayout(null);
 		
 		jspListaCliente = new JScrollPane(jttListaCliente);
@@ -75,43 +75,27 @@ public class FormMostraCliente extends JFrame {
 	@SuppressWarnings("unchecked")
 	public void preencheDadosTabelaBuscaPorNome() {
 		listaClientes = (List<Cliente>) MongoDao.getDAO().listaGenerica(Cliente.class, "nome", descricao);
-		for(Cliente clientes : listaClientes) {
-			if(clientes.getCpf() != "   .   .   -  ") {
-				dtmListaCliente.addRow(new String[] {clientes.getNome(), clientes.getCpf(), null});
-			} else {
-				dtmListaCliente.addRow(new String[] {clientes.getNome(), null, clientes.getCnpj()});
-			}
-		}
+		listaClientes.forEach(cliente->{
+			dtmListaCliente.addRow(cliente.vetorDados());
+		});
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void preencheDadosTabelaBuscaPorCPF() {
-		listaClientes = (List<Cliente>) MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", cpf);
-		for(Cliente clientes : listaClientes) {
-			if(clientes.getCpf() == "   .   .   -  ") {
-				dtmListaCliente.addRow(new String[] {clientes.getNome(), clientes.getCpf(), null});
-			} else {
-				dtmListaCliente.addRow(new String[] {clientes.getNome(), null, clientes.getCnpj()});
-			}
-		}
+		cliente = new Cliente();
+		cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", cpf);
+		dtmListaCliente.addRow(new String[]{cliente.getNome(), cliente.getCpf(), null});
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void preencheDadosTabelaBuscaPorCNPJ() {
-		listaClientes = (List<Cliente>) MongoDao.getDAO().buscaGenerica(Cliente.class, "cnpj", cnpj);
-		for(Cliente clientes : listaClientes) {
-			if(clientes.getCpf().equals("   .   .   -  ")) {
-				dtmListaCliente.addRow(new String[] {clientes.getNome(), clientes.getCpf(), null});
-			} else {
-				dtmListaCliente.addRow(new String[] {clientes.getNome(), null, clientes.getCnpj()});
-			}
-		}
+		cliente = new Cliente();
+		cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cnpj", cnpj);
+		dtmListaCliente.addRow(new String[]{cliente.getNome(), null, cliente.getCnpj()});
 	}
 	
 	public void validaPesquisa() {
 		if(descricao != null && !descricao.equals("")) {
 			this.preencheDadosTabelaBuscaPorNome();
-		} else if(cnpj != null && !cnpj.equals("   .   .   -  ")) {
+		} else if(cpf != null && !cpf.equals("   .   .   -  ")) {
 			this.preencheDadosTabelaBuscaPorCPF();
 		} else if(cnpj != null && !cnpj.equals("  .   .   /    -  ")) {
 			this.preencheDadosTabelaBuscaPorCNPJ();
@@ -156,17 +140,16 @@ public class FormMostraCliente extends JFrame {
 		setContentPane(jpListaCliente);
 		
 		componentesMostraCliente();
-		//validaPesquisa();
-		preencheDadosTabelaBuscaPorNome();
+		validaPesquisa();
 		acionarBotaoSelecionar();
 		acionarBotaoCancelar();
 	}
 
-	public FormMostraCliente(PreencheDados dados, String descricao) {
+	public FormMostraCliente(PreencheDados dados, String descricao, String cpf, String cnpj) {
 		this.preencheDados = dados;
 		this.descricao = descricao;
-//		this.cpf = cpf;
-//		this.cnpj = cnpj;
+		this.cpf = cpf;
+		this.cnpj = cnpj;
 		inicializarForm();
 	}
 }

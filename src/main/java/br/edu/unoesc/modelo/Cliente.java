@@ -25,4 +25,11 @@ public class Cliente implements MinhaEntidade {
 		}
 		carros.add(carro);
 	}
+	
+	public String[] vetorDados(){
+		if (this.cpf.equals("   .   .   -  ")){
+			return new String[]{nome,cpf,null};	
+		}
+		return new String[]{nome,null,cnpj};
+	}
 }

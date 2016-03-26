@@ -83,13 +83,13 @@ public class FormMostraCliente extends JFrame {
 	public void preencheDadosTabelaBuscaPorCPF() {
 		cliente = new Cliente();
 		cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", cpf);
-		dtmListaCliente.addRow(new String[]{cliente.getNome(), cliente.getCpf(), null});
+		dtmListaCliente.addRow(cliente.vetorDados());
 	}
 	
 	public void preencheDadosTabelaBuscaPorCNPJ() {
 		cliente = new Cliente();
 		cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cnpj", cnpj);
-		dtmListaCliente.addRow(new String[]{cliente.getNome(), null, cliente.getCnpj()});
+		dtmListaCliente.addRow(cliente.vetorDados());
 	}
 	
 	public void validaPesquisa() {

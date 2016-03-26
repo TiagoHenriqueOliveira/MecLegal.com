@@ -54,14 +54,14 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
-		jlbBuscarServicoNome = new JLabel("Buscar Servi\u00E7o por nome");
+		jlbBuscarServicoNome = new JLabel("Buscar Serviço por nome");
 		jlbBuscarServicoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlbBuscarServicoNome.setBounds(10, 11, 190, 14);
 		getContentPane().add(jlbBuscarServicoNome);
 		
 		jtfBuscarServicoNome = new JTextField();
 		jtfBuscarServicoNome.setDocument(new ConteudoAlfaNumerico());
-		jtfBuscarServicoNome.setToolTipText("Informar o nome do Servi\u00E7o");
+		jtfBuscarServicoNome.setToolTipText("Informar o nome do Serviço");
 		jtfBuscarServicoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfBuscarServicoNome.setColumns(10);
 		jtfBuscarServicoNome.setBounds(10, 25, 328, 20);
@@ -69,7 +69,7 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
-		jbBuscar.setToolTipText("Buscar informa\u00E7\u00F5es do Fruncion\u00E1rio");
+		jbBuscar.setToolTipText("Buscar informações do Serviço");
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(348, 21, 89, 25);
 		getContentPane().add(jbBuscar);
@@ -93,7 +93,7 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		
 		jtfNomeServico = new JTextField();
 		jtfNomeServico.setDocument(new ConteudoAlfaNumerico());
-		jtfNomeServico.setToolTipText("Informar nome do Fruncion\u00E1rio");
+		jtfNomeServico.setToolTipText("Informar nome do Serviço");
 		jtfNomeServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeServico.setEditable(false);
 		jtfNomeServico.setColumns(10);
@@ -112,14 +112,14 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/novo.png")));
-		jbNovo.setToolTipText("Novo cadastro de Servi\u00E7o");
+		jbNovo.setToolTipText("Novo cadastro de Serviço");
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 59, 100, 25);
 		jpServicos.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
 		jbSalvar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
-		jbSalvar.setToolTipText("Salvar cadastro do Servi\u00E7o");
+		jbSalvar.setToolTipText("Salvar cadastro do Serviço");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setEnabled(false);
 		jbSalvar.setBounds(120, 59, 100, 25);
@@ -127,7 +127,7 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		
 		jbEditar = new JButton("Editar");
 		jbEditar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/editar.png")));
-		jbEditar.setToolTipText("Editar cadastro do Servi\u00E7o");
+		jbEditar.setToolTipText("Editar cadastro do Serviço");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setEnabled(false);
 		jbEditar.setBounds(230, 59, 100, 25);
@@ -135,7 +135,7 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		
 		jbCancelar = new JButton("Cancelar");
 		jbCancelar.setIcon(new ImageIcon(FormTipoServico.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
-		jbCancelar.setToolTipText("Cancelar cadastro do Servi\u00E7o");
+		jbCancelar.setToolTipText("Cancelar cadastro do Serviço");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setEnabled(false);
 		jbCancelar.setBounds(340, 59, 100, 25);

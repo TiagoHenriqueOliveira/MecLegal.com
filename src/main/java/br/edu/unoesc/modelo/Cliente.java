@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
+public class Cliente implements MinhaEntidade {
 
 	private String nome;
 	private String cpf;

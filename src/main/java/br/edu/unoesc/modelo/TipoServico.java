@@ -15,8 +15,7 @@ public class TipoServico implements MinhaEntidade{
 	private String nome;
 	private Double valor;
 	
-	
-public String[] listaDados(){
-	return new String[]{nome,new DecimalFormat("R$ #,##0.00").format(valor).toString()}; 
-}
+	public String[] listaDados() {
+		return new String[]{nome,new DecimalFormat("R$ #,##0.00").format(valor).toString()}; 
+	}
 }

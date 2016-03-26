@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -38,7 +37,7 @@ public class FormMostraTipoServico extends JFrame {
 	
 	public void componentesMostraTipoServico() {
 		dados = new Vector<String>();
-		dados.add("Descrição");
+		dados.add("Descriï¿½ï¿½o");
 		dados.add("Valor");
 		
 		dtmListaTipoServico = new DefaultTableModel();
@@ -71,9 +70,17 @@ public class FormMostraTipoServico extends JFrame {
 	@SuppressWarnings("unchecked")
 	public void preencheDadosTabela() {
 		listaTiposServicos = (List<TipoServico>) MongoDao.getDAO().listaGenerica(TipoServico.class, "nome", descricao);
-		for(TipoServico servicos : listaTiposServicos) {
-			dtmListaTipoServico.addRow(new String[] {servicos.getNome(), String.valueOf(new DecimalFormat("R$ #,##0.00").format(servicos.getValor()))});
-		}
+		
+		
+		//For java 8 com a funcao que retorna o String[] com os dados.
+listaTiposServicos.forEach(servico->{			
+dtmListaTipoServico.addRow(servico.listaDados());
+});
+// ----------------- FOR original que o Tiago Fez --		
+//		for(TipoServico servicos : listaTiposServicos) {
+//dtmListaTipoServico.addRow(new String[] {servicos.getNome(),new DecimalFormat("R$ #,##0.00").format(servicos.getValor()).toString()
+//});
+//		}
 	}
 	
 	public void acionarBotaoSelecionar() {
@@ -86,8 +93,8 @@ public class FormMostraTipoServico extends JFrame {
 					preencheDados.preencherCampos(tipoServico);
 					dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "Nenhum serviço foi selecionado!!!\n"
-								+ "Por gentileza, selecionar um serviço!!!", "Erro", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nenhum serviï¿½o foi selecionado!!!\n"
+								+ "Por gentileza, selecionar um serviï¿½o!!!", "Erro", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -104,7 +111,7 @@ public class FormMostraTipoServico extends JFrame {
 	
 	public void inicializarForm() {
 		listaTiposServicos = new ArrayList<>();
-		this.setTitle("Lista Tipos de Serviços");
+		this.setTitle("Lista Tipos de Serviï¿½os");
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormMostraTipoServico.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

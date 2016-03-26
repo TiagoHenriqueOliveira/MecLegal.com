@@ -37,7 +37,7 @@ public class FormMostraTipoServico extends JFrame {
 	
 	public void componentesMostraTipoServico() {
 		dados = new Vector<String>();
-		dados.add("Descriï¿½ï¿½o");
+		dados.add("Descrição");
 		dados.add("Valor");
 		
 		dtmListaTipoServico = new DefaultTableModel();
@@ -70,17 +70,9 @@ public class FormMostraTipoServico extends JFrame {
 	@SuppressWarnings("unchecked")
 	public void preencheDadosTabela() {
 		listaTiposServicos = (List<TipoServico>) MongoDao.getDAO().listaGenerica(TipoServico.class, "nome", descricao);
-		
-		
-		//For java 8 com a funcao que retorna o String[] com os dados.
-listaTiposServicos.forEach(servico->{			
-dtmListaTipoServico.addRow(servico.listaDados());
-});
-// ----------------- FOR original que o Tiago Fez --		
-//		for(TipoServico servicos : listaTiposServicos) {
-//dtmListaTipoServico.addRow(new String[] {servicos.getNome(),new DecimalFormat("R$ #,##0.00").format(servicos.getValor()).toString()
-//});
-//		}
+		listaTiposServicos.forEach(servico->{			
+				dtmListaTipoServico.addRow(servico.listaDados());
+		});
 	}
 	
 	public void acionarBotaoSelecionar() {
@@ -93,8 +85,8 @@ dtmListaTipoServico.addRow(servico.listaDados());
 					preencheDados.preencherCampos(tipoServico);
 					dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "Nenhum serviï¿½o foi selecionado!!!\n"
-								+ "Por gentileza, selecionar um serviï¿½o!!!", "Erro", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nenhum serviço foi selecionado!!!\n"
+								+ "Por gentileza, selecionar um serviço!!!", "Erro", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -111,7 +103,7 @@ dtmListaTipoServico.addRow(servico.listaDados());
 	
 	public void inicializarForm() {
 		listaTiposServicos = new ArrayList<>();
-		this.setTitle("Lista Tipos de Serviï¿½os");
+		this.setTitle("Lista Tipos de Serviços");
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormMostraTipoServico.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

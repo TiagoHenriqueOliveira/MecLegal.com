@@ -10,15 +10,20 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
+import br.edu.unoesc.dao.MongoDao;
+import br.edu.unoesc.modelo.Funcionario;
+import br.edu.unoesc.modelo.MinhaEntidade;
+import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 
-public class FormFuncionario extends JFrame {
+public class FormFuncionario extends JFrame implements PreencheDados {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpFuncionario;
@@ -39,8 +44,12 @@ public class FormFuncionario extends JFrame {
 	private JButton jbCancelar;
 	private JButton jbFechar;
 	private JButton jbExcluir;
+	private Funcionario funcionario;
+	private static FormFuncionario formFuncionario;
+	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario(null, null, null);
 
 	public void componentesFormCliente() {
+		formFuncionario = this;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -96,12 +105,12 @@ public class FormFuncionario extends JFrame {
 		
 		jlCPFFuncionario = new JLabel("CPF do Funcionário");
 		jlCPFFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlCPFFuncionario.setBounds(277, 11, 132, 15);
+		jlCPFFuncionario.setBounds(347, 11, 132, 15);
 		jpFuncionario.add(jlCPFFuncionario);
 		
 		jlCrachaFuncionario = new JLabel("Crachá");
 		jlCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlCrachaFuncionario.setBounds(397, 11, 80, 14);
+		jlCrachaFuncionario.setBounds(500, 11, 80, 14);
 		jpFuncionario.add(jlCrachaFuncionario);
 		
 		jtfNomeFuncionario = new JTextField();
@@ -110,7 +119,7 @@ public class FormFuncionario extends JFrame {
 		jtfNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeFuncionario.setEditable(false);
 		jtfNomeFuncionario.setColumns(10);
-		jtfNomeFuncionario.setBounds(10, 28, 257, 20);
+		jtfNomeFuncionario.setBounds(10, 28, 308, 20);
 		jpFuncionario.add(jtfNomeFuncionario);
 		
 		try {
@@ -120,7 +129,7 @@ public class FormFuncionario extends JFrame {
 			jtfCPFFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			jtfCPFFuncionario.setEditable(false);
 			jtfCPFFuncionario.setColumns(10);
-			jtfCPFFuncionario.setBounds(277, 28, 110, 20);
+			jtfCPFFuncionario.setBounds(347, 28, 110, 20);
 			jpFuncionario.add(jtfCPFFuncionario);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,7 +141,7 @@ public class FormFuncionario extends JFrame {
 		jtfCrachaFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setToolTipText("Informar o número do crachá");
 		jtfCrachaFuncionario.setColumns(10);
-		jtfCrachaFuncionario.setBounds(397, 28, 50, 20);
+		jtfCrachaFuncionario.setBounds(500, 28, 50, 20);
 		jpFuncionario.add(jtfCrachaFuncionario);
 		
 		jbNovo = new JButton("Novo");
@@ -183,8 +192,32 @@ public class FormFuncionario extends JFrame {
 	}
 
 	public void acionarBotaoBuscar() {
-		jtfBuscarNomeFuncionario.setText("");
-		jtfBuscarCrachaFuncionario.setText("");
+		jtfNomeFuncionario.setText("");
+		jtfCPFFuncionario.setText("");
+		jtfCrachaFuncionario.setText("");
+		jbNovo.setEnabled(false);
+		jbEditar.setEnabled(true);
+		if((jtfBuscarNomeFuncionario.getText().equals("")) && (jtfBuscarCrachaFuncionario.getText().equals(""))) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfBuscarNomeFuncionario.requestFocus();
+			jbNovo.setEnabled(true);
+			jbEditar.setEnabled(false);
+		} else {
+			if(formMostraFuncionario.isVisible()) {
+				formMostraFuncionario.requestFocus();
+				formMostraFuncionario.setLocationRelativeTo(null);
+			} else {
+				Integer codigo = null;
+				if(!jtfBuscarCrachaFuncionario.getText().equals("")) {
+					codigo = Integer.valueOf(jtfBuscarCrachaFuncionario.getText());
+				} else {
+					formMostraFuncionario = new FormMostraFuncionario(formFuncionario, jtfBuscarNomeFuncionario.getText(), codigo);
+					formMostraFuncionario.setVisible(true);
+					jtfBuscarNomeFuncionario.setText("");
+					jtfBuscarCrachaFuncionario.setText("");
+				}
+			}
+		}
 	}
 	
 	public void acionarBotaoNovo() {
@@ -209,6 +242,31 @@ public class FormFuncionario extends JFrame {
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);
 		//faz procedimentos para salvar
+		
+		if(jtfNomeFuncionario.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um nome para o funcionário!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfNomeFuncionario.requestFocus();
+		} else if(jtfCPFFuncionario.getText().equals("   .   .   -  ")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar o CPF do funcinário!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfCPFFuncionario.requestFocus();
+		} else if(jtfCrachaFuncionario.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Obrigatório informar o crachá do funcionário!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfCrachaFuncionario.requestFocus();
+		} else {
+			funcionario = new Funcionario();
+			if(MongoDao.getDAO().buscaGenerica(Funcionario.class, "nome", jtfNomeFuncionario.getText()) == null) {
+				funcionario.setNome(jtfNomeFuncionario.getText());
+				funcionario.setCpf(jtfCPFFuncionario.getText());
+				funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
+				MongoDao.getDAO().salvar(funcionario);
+			} else {
+				funcionario.setNome(jtfNomeFuncionario.getText());
+				funcionario.setCpf(jtfCPFFuncionario.getText());
+				funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
+				MongoDao.getDAO().update(funcionario, "nome", funcionario.getNome());
+			}
+		}
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(true);
@@ -263,6 +321,13 @@ public class FormFuncionario extends JFrame {
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(false);
 		jbCancelar.setEnabled(false);
+	}
+	
+	public void preencheCamposFuncionario(Funcionario funcionario) {
+		jtfNomeFuncionario.setText(funcionario.getNome());
+		jtfCPFFuncionario.setText(funcionario.getCpf());
+		jtfCrachaFuncionario.setText(String.valueOf(funcionario.getCracha()));
+		jtfBuscarNomeFuncionario.requestFocus();
 	}
 	
 	public void botaoBuscar() {
@@ -344,5 +409,10 @@ public class FormFuncionario extends JFrame {
 		botaoExcluir();
 		botaoCancelar();
 		botaoFechar();
+	}
+
+	@Override
+	public void preencherCampos(MinhaEntidade entidade) {
+		this.preencheCamposFuncionario((Funcionario)entidade);
 	}
 }

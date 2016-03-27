@@ -1,9 +1,12 @@
 package br.edu.unoesc.forms;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -11,8 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import br.edu.unoesc.dao.MongoDao;
@@ -20,29 +25,31 @@ import br.edu.unoesc.modelo.Carro;
 import br.edu.unoesc.modelo.Cliente;
 import br.edu.unoesc.modelo.MinhaEntidade;
 import br.edu.unoesc.preencheDados.PreencheDados;
-import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
-import java.awt.Toolkit;
 
 public class FormCliente extends JFrame implements PreencheDados {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpInformacoesCliente;
+	private JPanel jpVeiculoCliente;
+	private Vector<String> dados;
+	private JTable jttListaVeiculoCliente;
+	private DefaultTableModel dtmListaVeiculoCliente;
+	private JScrollPane jspListaVeiculoCliente;
 	private JTextField jtfBuscarNomeCliente;
 	private JTextField jtfBuscarCPFCliente;
 	private JTextField jtfBuscarCNPJCliente;
 	private JTextField jtfNomeCliente;
 	private JTextField jtfCPFCliente;
 	private JTextField jtfCNPJCliente;
-	private JTextField jtfNomeVeiculo;
-	private JTextField jtfPlacaVeiculo;
+	private JFormattedTextField jtfPlacaVeiculo;
 	private JLabel jlBuscarClienteNome;
 	private JLabel jlBuscarClienteCNPJ;
 	private JLabel jlBuscarClienteCPF;
 	private JLabel jlNomeCliente;
 	private JLabel jlCPF;
 	private JLabel jlCNPJ;
-	private JLabel jlNomeVeiculo;
+	private JLabel jlNomeVeiculo; 
 	private JLabel jlPlacaVeiculo;
 	private JButton jbNovo;
 	private JButton jbSalvar;
@@ -55,13 +62,19 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private Carro carro;
 	private static FormCliente formCliente;
 	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null, null, null);
+	private JButton jbCancelarVeiculo;
+	private JButton jbExcluirVeiculo;
+	private JButton jbEditarVeiculo;
+	private JButton jbSalvarVeiculo;
+	private JButton jbNovoVeiculo;
+	private JTextField jtfNomeVeiculo;
 	
 	public void componentesClienteForm() {
 		formCliente = this;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		this.setTitle("Cadastro de Clientes");
-		this.setBounds(100, 100, 703, 240);
+		this.setBounds(100, 100, 703, 571);
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
@@ -117,42 +130,31 @@ public class FormCliente extends JFrame implements PreencheDados {
 		getContentPane().add(jbBuscar);
 		
 		jpInformacoesCliente = new JPanel();
-		jpInformacoesCliente.setBorder(UIManager.getBorder("PopupMenu.border"));
-		jpInformacoesCliente.setToolTipText("");
-		jpInformacoesCliente.setBounds(10, 56, 670, 142);
+		jpInformacoesCliente.setBorder(BorderFactory.createTitledBorder("Informações do Cliente"));
+		jpInformacoesCliente.setBounds(10, 56, 670, 470);
 		getContentPane().add(jpInformacoesCliente);
 		jpInformacoesCliente.setLayout(null);
 		
 		jlNomeCliente = new JLabel("Nome do Cliente");
-		jlNomeCliente.setBounds(10, 11, 132, 15);
+		jlNomeCliente.setBounds(10, 21, 132, 15);
 		jlNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jpInformacoesCliente.add(jlNomeCliente);
 		
 		jlCPF = new JLabel("CPF do Cliente");
 		jlCPF.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlCPF.setBounds(277, 11, 132, 15);
+		jlCPF.setBounds(277, 21, 132, 15);
 		jpInformacoesCliente.add(jlCPF);
 		
 		jlCNPJ = new JLabel("CNPJ do Cliente");
 		jlCNPJ.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlCNPJ.setBounds(428, 11, 132, 15);
+		jlCNPJ.setBounds(428, 21, 132, 15);
 		jpInformacoesCliente.add(jlCNPJ);
-		
-		jlNomeVeiculo = new JLabel("Nome do Veículo");
-		jlNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlNomeVeiculo.setBounds(10, 59, 132, 15);
-		jpInformacoesCliente.add(jlNomeVeiculo);
-		
-		jlPlacaVeiculo = new JLabel("Placa do Veículo");
-		jlPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlPlacaVeiculo.setBounds(277, 59, 132, 15);
-		jpInformacoesCliente.add(jlPlacaVeiculo);
 		
 		jtfNomeCliente = new JTextField();
 		jtfNomeCliente.setEditable(false);
 		jtfNomeCliente.setDocument(new ConteudoString());
 		jtfNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfNomeCliente.setBounds(10, 28, 257, 20);
+		jtfNomeCliente.setBounds(10, 38, 257, 20);
 		jpInformacoesCliente.add(jtfNomeCliente);
 		jtfNomeCliente.setColumns(10);
 		
@@ -162,7 +164,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 			jtfCPFCliente.setToolTipText("Informar CPF completo");
 			jtfCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			jtfCPFCliente.setColumns(10);
-			jtfCPFCliente.setBounds(277, 28, 110, 20);
+			jtfCPFCliente.setBounds(277, 38, 110, 20);
 			jpInformacoesCliente.add(jtfCPFCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -174,37 +176,22 @@ public class FormCliente extends JFrame implements PreencheDados {
 			jtfCNPJCliente.setToolTipText("Informar CNPJ completo");
 			jtfCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			jtfCNPJCliente.setColumns(10);
-			jtfCNPJCliente.setBounds(428, 28, 125, 20);
+			jtfCNPJCliente.setBounds(428, 38, 125, 20);
 			jpInformacoesCliente.add(jtfCNPJCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		jtfNomeVeiculo = new JTextField();
-		jtfNomeVeiculo.setEditable(false);
-		jtfNomeVeiculo.setDocument(new ConteudoAlfaNumerico());
-		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfNomeVeiculo.setColumns(10);
-		jtfNomeVeiculo.setBounds(10, 74, 257, 20);
-		jpInformacoesCliente.add(jtfNomeVeiculo);
-		
 		try {
-			jtfPlacaVeiculo = new JFormattedTextField(new MaskFormatter("UUU-####"));
-			jtfPlacaVeiculo.setEditable(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfPlacaVeiculo.setToolTipText("Informar placa do veículo completa");
-		jtfPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfPlacaVeiculo.setColumns(10);
-		jtfPlacaVeiculo.setBounds(277, 74, 80, 20);
-		jpInformacoesCliente.add(jtfPlacaVeiculo);
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setToolTipText("Novo cadastro do Cliente");
 		jbNovo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/novo.png")));
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbNovo.setBounds(10, 105, 100, 25);
+		jbNovo.setBounds(10, 434, 100, 25);
 		jpInformacoesCliente.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
@@ -212,7 +199,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbSalvar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
 		jbSalvar.setToolTipText("Salvar cadastro do Cliente");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbSalvar.setBounds(120, 105, 100, 25);
+		jbSalvar.setBounds(120, 434, 100, 25);
 		jpInformacoesCliente.add(jbSalvar);
 		
 		jbEditar = new JButton("Editar");
@@ -220,7 +207,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbEditar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/editar.png")));
 		jbEditar.setToolTipText("Editar cadastro do Cliente");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbEditar.setBounds(230, 105, 100, 25);
+		jbEditar.setBounds(230, 434, 100, 25);
 		jpInformacoesCliente.add(jbEditar);
 		
 		jbCancelar = new JButton("Cancelar");
@@ -228,14 +215,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
 		jbCancelar.setToolTipText("Cancelar cadastro do Cliente");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbCancelar.setBounds(450, 105, 100, 25);
+		jbCancelar.setBounds(450, 434, 100, 25);
 		jpInformacoesCliente.add(jbCancelar);
 		
 		jbFechar = new JButton("Fechar");
 		jbFechar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/fechar.png")));
 		jbFechar.setToolTipText("Fechar tela de cadastro");
 		jbFechar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbFechar.setBounds(560, 105, 100, 25);
+		jbFechar.setBounds(560, 434, 100, 25);
 		jpInformacoesCliente.add(jbFechar);
 		
 		jbExcluir = new JButton("Excluir");
@@ -243,8 +230,102 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbExcluir.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/deletar.png")));
 		jbExcluir.setToolTipText("Excluir cadastro do Cliente");
 		jbExcluir.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbExcluir.setBounds(340, 105, 100, 25);
+		jbExcluir.setBounds(340, 434, 100, 25);
 		jpInformacoesCliente.add(jbExcluir);
+		
+		jpVeiculoCliente = new JPanel();
+		jpVeiculoCliente.setBorder(BorderFactory.createTitledBorder("Veículos do Cliente"));
+		jpVeiculoCliente.setBounds(10, 69, 650, 354);
+		jpInformacoesCliente.add(jpVeiculoCliente);
+		jpVeiculoCliente.setLayout(null);
+		
+		dados = new Vector<String>();
+		dados.add("Nome do Veículo");
+		dados.add("Placa do Veículo");
+		
+		dtmListaVeiculoCliente = new DefaultTableModel();
+		dtmListaVeiculoCliente.setColumnIdentifiers(dados);
+		
+		jttListaVeiculoCliente = new JTable();
+		jttListaVeiculoCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jttListaVeiculoCliente.setModel(dtmListaVeiculoCliente);
+		jttListaVeiculoCliente.getColumnModel().getColumn(0).setResizable(false);
+		jttListaVeiculoCliente.getColumnModel().getColumn(0).setPreferredWidth(400);
+		jttListaVeiculoCliente.getColumnModel().getColumn(1).setResizable(false);
+		jttListaVeiculoCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
+		jpVeiculoCliente.setLayout(null);
+		
+		jspListaVeiculoCliente = new JScrollPane(jttListaVeiculoCliente);
+		jspListaVeiculoCliente.setBounds(10, 26, 630, 235);
+		jpVeiculoCliente.add(jspListaVeiculoCliente);
+		
+		jbCancelarVeiculo = new JButton("Cancelar");
+		jbCancelarVeiculo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
+		jbCancelarVeiculo.setToolTipText("Cancelar cadastro do Cliente");
+		jbCancelarVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jbCancelarVeiculo.setEnabled(false);
+		jbCancelarVeiculo.setBounds(498, 318, 100, 25);
+		jpVeiculoCliente.add(jbCancelarVeiculo);
+		
+		jbExcluirVeiculo = new JButton("Excluir");
+		jbExcluirVeiculo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/deletar.png")));
+		jbExcluirVeiculo.setToolTipText("Excluir cadastro do Cliente");
+		jbExcluirVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jbExcluirVeiculo.setEnabled(false);
+		jbExcluirVeiculo.setBounds(388, 318, 100, 25);
+		jpVeiculoCliente.add(jbExcluirVeiculo);
+		
+		jbEditarVeiculo = new JButton("Editar");
+		jbEditarVeiculo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/editar.png")));
+		jbEditarVeiculo.setToolTipText("Editar cadastro do Cliente");
+		jbEditarVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jbEditarVeiculo.setEnabled(false);
+		jbEditarVeiculo.setBounds(278, 318, 100, 25);
+		jpVeiculoCliente.add(jbEditarVeiculo);
+		
+		jbSalvarVeiculo = new JButton("Salvar");
+		jbSalvarVeiculo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
+		jbSalvarVeiculo.setToolTipText("Salvar cadastro do Cliente");
+		jbSalvarVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jbSalvarVeiculo.setEnabled(false);
+		jbSalvarVeiculo.setBounds(168, 318, 100, 25);
+		jpVeiculoCliente.add(jbSalvarVeiculo);
+		
+		jbNovoVeiculo = new JButton("Novo");
+		jbNovoVeiculo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/novo.png")));
+		jbNovoVeiculo.setToolTipText("Novo cadastro do Cliente");
+		jbNovoVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jbNovoVeiculo.setBounds(58, 318, 100, 25);
+		jpVeiculoCliente.add(jbNovoVeiculo);
+		
+		jlNomeVeiculo = new JLabel("Nome do Veículo");
+		jlNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jlNomeVeiculo.setBounds(58, 272, 210, 15);
+		jpVeiculoCliente.add(jlNomeVeiculo);
+		
+		jtfNomeVeiculo = new JTextField();
+		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jtfNomeVeiculo.setEditable(false);
+		jtfNomeVeiculo.setColumns(10);
+		jtfNomeVeiculo.setBounds(58, 287, 430, 20);
+		jpVeiculoCliente.add(jtfNomeVeiculo);
+		
+		try {
+			jtfPlacaVeiculo = new JFormattedTextField(new MaskFormatter("UUU-####"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		jtfPlacaVeiculo.setToolTipText("Informar placa do ve\u00EDculo completa");
+		jtfPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jtfPlacaVeiculo.setEditable(false);
+		jtfPlacaVeiculo.setColumns(10);
+		jtfPlacaVeiculo.setBounds(518, 287, 80, 20);
+		jpVeiculoCliente.add(jtfPlacaVeiculo);
+		
+		jlPlacaVeiculo = new JLabel("Placa do Veículo");
+		jlPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jlPlacaVeiculo.setBounds(518, 272, 132, 15);
+		jpVeiculoCliente.add(jlPlacaVeiculo);
 	}
 	
 	public void acionarBotaoBuscar() {
@@ -275,18 +356,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 		}
 	}
 	
-	public void acionarBotaoNovo() {
+	public void acionarBotaoNovoCliente() {
 		jtfNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
-		jtfNomeVeiculo.setEditable(true);
-		jtfPlacaVeiculo.setEditable(true);
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
-		jtfNomeVeiculo.setText("");
-		jtfPlacaVeiculo.setText("");
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(false);
@@ -295,13 +372,23 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelar.setEnabled(true);
 	}
 	
-	public void acionarBotaoSalvar() {
+	public void acionarBotaoNovoVeiculo() {
+		jtfNomeVeiculo.setEditable(true);
+		jtfPlacaVeiculo.setEditable(true);
+		jtfNomeVeiculo.setText("");
+		jtfPlacaVeiculo.setText("");
+		jbNovoVeiculo.setEnabled(false);
+		jbEditarVeiculo.setEnabled(false);
+		jbExcluirVeiculo.setEnabled(false);
+		jbSalvarVeiculo.setEnabled(true);
+		jbCancelarVeiculo.setEnabled(true);
+	}
+	
+	public void acionarBotaoSalvarCliente() {
 		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
-		jtfNomeVeiculo.setEditable(false);
-		jtfPlacaVeiculo.setEditable(false);
 		
 		if(jtfNomeCliente.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um nome para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -309,12 +396,12 @@ public class FormCliente extends JFrame implements PreencheDados {
 		} else if(jtfCPFCliente.getText().equals("   .   .   -  ") && jtfCNPJCliente.getText().equals("  .   .   /    -  ")) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfCPFCliente.requestFocus();
-		} else if(jtfNomeVeiculo.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Obrigatório informar o nome do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-			jtfNomeVeiculo.requestFocus();
-		} else if(jtfPlacaVeiculo.getText().equals("   -    ")) {
-			JOptionPane.showMessageDialog(null, "Obrigatório informar a placa do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-			jtfPlacaVeiculo.requestFocus();
+//		} else if(jtfNomeVeiculo.getText().equals("")) {
+//			JOptionPane.showMessageDialog(null, "Obrigatório informar o nome do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+//			jtfNomeVeiculo.requestFocus();
+//		} else if(jtfPlacaVeiculo.getText().equals("   -    ")) {
+//			JOptionPane.showMessageDialog(null, "Obrigatório informar a placa do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+//			jtfPlacaVeiculo.requestFocus();
 		} else {
 			cliente = new Cliente();
 			carro = new Carro();
@@ -345,13 +432,22 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelar.setEnabled(false);
 	}
 	
-	public void acionarBotaoEditar() {
+	public void acionarBotaoSalvarVeiculo() {
+		jtfNomeVeiculo.setEditable(false);
+		jtfPlacaVeiculo.setEditable(false);
+		//procedimentos
+		jbNovoVeiculo.setEnabled(true);
+		jbEditarVeiculo.setEnabled(true);
+		jbExcluirVeiculo.setEnabled(true);
+		jbSalvarVeiculo.setEnabled(false);
+		jbCancelarVeiculo.setEnabled(false);
+	}
+	
+	public void acionarBotaoEditarCliente() {
 		jtfNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
-		jtfNomeVeiculo.setEditable(true);
-		jtfPlacaVeiculo.setEditable(true);
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
@@ -360,20 +456,26 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelar.setEnabled(true);
 	}
 	
-	public void acionarBotaoExcluir() {
+	public void acionarBotaoEditarVeiculo() {
+		jtfNomeVeiculo.setEditable(true);
+		jtfPlacaVeiculo.setEditable(true);
+		jbNovoVeiculo.setEnabled(false);
+		jbEditarVeiculo.setEnabled(true);
+		jbExcluirVeiculo.setEnabled(false);
+		jbSalvarVeiculo.setEnabled(true);
+		jbCancelarVeiculo.setEnabled(true);
+	}
+	
+	public void acionarBotaoExcluirCliente() {
 		//faz procedimento para exclusão do registro
 		//da mensagem ao usuário que exclui
 		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
-		jtfNomeVeiculo.setEditable(false);
-		jtfPlacaVeiculo.setEditable(false);
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
-		jtfNomeVeiculo.setText("");
-		jtfPlacaVeiculo.setText("");
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);
@@ -382,31 +484,53 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelar.setEnabled(false);
 	}
 	
-	public void acionarBotaoCancelar() {
+	public void acionarBotaoExcluirVeiculo() {
+		//procedimentos para exclusão
+		jtfNomeVeiculo.setEditable(false);
+		jtfPlacaVeiculo.setEditable(false);
+		jtfNomeVeiculo.setText("");
+		jtfPlacaVeiculo.setText("");
+		jbNovoVeiculo.setEnabled(true);
+		jbEditarVeiculo.setEnabled(false);
+		jbExcluirVeiculo.setEnabled(false);
+		jbSalvarVeiculo.setEnabled(false);
+		jbCancelarVeiculo.setEnabled(false);
+	}
+	
+	public void acionarBotaoCancelarCliente() {
 		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
-		jtfNomeVeiculo.setEditable(false);
-		jtfPlacaVeiculo.setEditable(false);
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
-		jtfNomeVeiculo.setText("");
-		jtfPlacaVeiculo.setText("");
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(false);
 		jbCancelar.setEnabled(false);
+	}
+	
+	public void acionarBotaoCancelarVeiculo() {
+		jtfNomeVeiculo.setEditable(false);
+		jtfPlacaVeiculo.setEditable(false);
+		jtfNomeVeiculo.setText("");
+		jtfPlacaVeiculo.setText("");
+		jbNovoVeiculo.setEnabled(true);
+		jbEditarVeiculo.setEnabled(false);
+		jbExcluirVeiculo.setEnabled(false);
+		jbSalvarVeiculo.setEnabled(false);
+		jbCancelarVeiculo.setEnabled(false);
 	}
 	
 	public void preencheCamposCliente(Cliente cliente) {
 		jtfNomeCliente.setText(cliente.getNome());
 		jtfCPFCliente.setText(cliente.getCpf());
 		jtfCNPJCliente.setText(cliente.getCnpj());
-	//	jtfNomeVeiculo.setText(cliente.getCarros());
+		jtfNomeVeiculo.setText(cliente.getCarros().get(0).getNome());
+		jtfPlacaVeiculo.setText(cliente.getCarros().get(0).getPlaca());
 	}
 	
 	public void botaoBuscar() {
@@ -419,51 +543,101 @@ public class FormCliente extends JFrame implements PreencheDados {
 		});
 	}
 	
-	public void botaoNovo() {
+	public void botaoNovoCliente() {
 		jbNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == jbNovo) {
-					acionarBotaoNovo();
+					acionarBotaoNovoCliente();
 				}
 			}
 		});
 	}
 	
-	public void botaoSalvar() {
+	public void botaoNovoVeiculo() {
+		jbNovoVeiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == jbNovoVeiculo) {
+					acionarBotaoNovoVeiculo();
+				}
+			}
+		});
+	}
+	
+	public void botaoSalvarCliente() {
 		jbSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == jbSalvar) {
-					acionarBotaoSalvar();
+					acionarBotaoSalvarCliente();
 				}
 			}
 		});
 	}
 	
-	public void botaoEditar() {
+	public void botaoSalvarVeiculo() {
+		jbSalvarVeiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == jbSalvarVeiculo) {
+					acionarBotaoSalvarVeiculo();
+				}
+			}
+		});
+	}
+	
+	public void botaoEditarCliente() {
 		jbEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == jbEditar) {
-					acionarBotaoEditar();
+					acionarBotaoEditarCliente();
 				}
 			}
 		});
 	}
 	
-	public void botaoExcluir() {
+	public void botaoEditarVeiculo() {
+		jbEditarVeiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == jbEditarVeiculo) {
+					acionarBotaoEditarVeiculo();
+				}
+			}
+		});
+	}
+	
+	public void botaoExcluirCliente() {
 		jbExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == jbExcluir) {
-					acionarBotaoExcluir();
+					acionarBotaoExcluirCliente();
 				}
 			}
 		});
 	}
 	
-	public void botaoCancelar() {
+	public void botaoExcluirVeiculo() {
+		jbExcluirVeiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == jbExcluirVeiculo) {
+					acionarBotaoExcluirVeiculo();
+				}
+			}
+		});
+	}
+	
+	public void botaoCancelarCliente() {
 		jbCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == jbCancelar) {
-					acionarBotaoCancelar();
+					acionarBotaoCancelarCliente();
+				}
+			}
+		});
+	}
+	
+	public void botaoCancelarVeiculo() {
+		jbCancelarVeiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == jbCancelarVeiculo) {
+					acionarBotaoCancelarVeiculo();
 				}
 			}
 		});
@@ -482,14 +656,19 @@ public class FormCliente extends JFrame implements PreencheDados {
 	public FormCliente() {
 		componentesClienteForm();
 		botaoBuscar();
-		botaoNovo();
-		botaoSalvar();
-		botaoEditar();
-		botaoExcluir();
-		botaoCancelar();
+		botaoNovoCliente();
+		botaoSalvarCliente();
+		botaoEditarCliente();
+		botaoExcluirCliente();
+		botaoCancelarCliente();
+		botaoNovoVeiculo();
+		botaoSalvarVeiculo();
+		botaoEditarVeiculo();
+		botaoExcluirVeiculo();
+		botaoCancelarVeiculo();
 		botaoFechar();
 	}
-
+	
 	@Override
 	public void preencherCampos(MinhaEntidade entidade) {
 		this.preencheCamposCliente((Cliente)entidade);

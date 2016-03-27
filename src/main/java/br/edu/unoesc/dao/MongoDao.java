@@ -74,4 +74,19 @@ public class MongoDao implements GenericDao {
 		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
 		collection.update("{" + campo + ":'" + valor + "'}").with(objeto);
 	}
+	
+	@Override
+	public void remove (MinhaEntidade objeto, String campo, String valor){
+		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
+		collection.remove("{"+campo+":'"+valor+"'}");
+		
+	}
+	public void remove (MinhaEntidade objeto, String campo, Integer valor){
+		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
+		collection.remove("{"+campo+":"+valor+"}");
+		
+	}
+	
+	
+	
 }

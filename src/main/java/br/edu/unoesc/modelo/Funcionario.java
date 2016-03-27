@@ -12,10 +12,11 @@ import lombok.Setter;
 public class Funcionario implements MinhaEntidade {
 	
 	private String nome;
+	private String cpf;
 	private Integer cracha;
 	
 	public String[] vetorDados(){
-		return new String[]{nome, cracha.toString()};
+		return new String[]{nome, cpf ,cracha.toString()};
 	}
 	
 }

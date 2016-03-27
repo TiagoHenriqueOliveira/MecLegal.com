@@ -292,6 +292,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jpVeiculoCliente.add(jbSalvarVeiculo);
 		
 		jbNovoVeiculo = new JButton("Novo");
+		jbNovoVeiculo.setEnabled(false);
 		jbNovoVeiculo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/novo.png")));
 		jbNovoVeiculo.setToolTipText("Novo cadastro do Cliente");
 		jbNovoVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -335,6 +336,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeVeiculo.setText("");
 		jtfPlacaVeiculo.setText("");
 		jbNovo.setEnabled(false);
+		jbNovoVeiculo.setEnabled(true);
 		jbEditar.setEnabled(true);
 		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -366,6 +368,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfCNPJCliente.setText("");
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
+		jbNovoVeiculo.setEnabled(true);
 		jbEditar.setEnabled(false);
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(true);
@@ -373,15 +376,20 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoNovoVeiculo() {
-		jtfNomeVeiculo.setEditable(true);
-		jtfPlacaVeiculo.setEditable(true);
-		jtfNomeVeiculo.setText("");
-		jtfPlacaVeiculo.setText("");
-		jbNovoVeiculo.setEnabled(false);
-		jbEditarVeiculo.setEnabled(false);
-		jbExcluirVeiculo.setEnabled(false);
-		jbSalvarVeiculo.setEnabled(true);
-		jbCancelarVeiculo.setEnabled(true);
+		if(jtfNomeCliente.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "É Obrigatório ter um cliente informado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfNomeCliente.requestFocus();
+		} else {
+			jtfNomeVeiculo.setEditable(true);
+			jtfPlacaVeiculo.setEditable(true);
+			jtfNomeVeiculo.setText("");
+			jtfPlacaVeiculo.setText("");
+			jbNovoVeiculo.setEnabled(false);
+			jbEditarVeiculo.setEnabled(false);
+			jbExcluirVeiculo.setEnabled(false);
+			jbSalvarVeiculo.setEnabled(true);
+			jbCancelarVeiculo.setEnabled(true);
+		}
 	}
 	
 	public void acionarBotaoSalvarCliente() {
@@ -422,14 +430,13 @@ public class FormCliente extends JFrame implements PreencheDados {
 				cliente.adicionarCarro(carro);
 				MongoDao.getDAO().update(cliente, "nome", cliente.getNome());
 			}
+			jbBuscar.setEnabled(true);
+			jbNovo.setEnabled(true);
+			jbEditar.setEnabled(true);
+			jbExcluir.setEnabled(true);
+			jbSalvar.setEnabled(false);
+			jbCancelar.setEnabled(false);
 		}
-		
-		jbBuscar.setEnabled(true);
-		jbNovo.setEnabled(true);
-		jbEditar.setEnabled(true);
-		jbExcluir.setEnabled(true);
-		jbSalvar.setEnabled(false);
-		jbCancelar.setEnabled(false);
 	}
 	
 	public void acionarBotaoSalvarVeiculo() {

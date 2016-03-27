@@ -44,24 +44,24 @@ public class FormFuncionario extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setTitle("Cadastro de Funcion·rios");
+		this.setTitle("Cadastro de Funcion√°rios");
 		this.setBounds(100, 100, 703, 189);
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
-		jlBuscarFuncionario = new JLabel("Buscar Fruncion·rio por nome");
+		jlBuscarFuncionario = new JLabel("Buscar Fruncion√°rio por nome");
 		jlBuscarFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlBuscarFuncionario.setBounds(10, 11, 190, 14);
 		getContentPane().add(jlBuscarFuncionario);
 		
-		jlBuscarCracha = new JLabel("Crach\u00E1");
+		jlBuscarCracha = new JLabel("Crach√°");
 		jlBuscarCracha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlBuscarCracha.setBounds(288, 11, 80, 14);
 		getContentPane().add(jlBuscarCracha);
 		
 		jtfBuscarNomeFuncionario = new JTextField();
 		jtfBuscarNomeFuncionario.setDocument(new ConteudoString());
-		jtfBuscarNomeFuncionario.setToolTipText("Informar o nome do Fruncion·rio");
+		jtfBuscarNomeFuncionario.setToolTipText("Informar o nome do Fruncion√°rio");
 		jtfBuscarNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfBuscarNomeFuncionario.setColumns(10);
 		jtfBuscarNomeFuncionario.setBounds(10, 25, 268, 20);
@@ -70,14 +70,14 @@ public class FormFuncionario extends JFrame {
 		jtfBuscarCrachaFuncionario = new JTextField();
 		jtfBuscarCrachaFuncionario.setDocument(new ConteudoNumerico());
 		jtfBuscarCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarCrachaFuncionario.setToolTipText("Informar o n˙mero do crach\u00E1");
+		jtfBuscarCrachaFuncionario.setToolTipText("Informar o n√∫mero do crach√°");
 		jtfBuscarCrachaFuncionario.setBounds(288, 25, 50, 20);
 		getContentPane().add(jtfBuscarCrachaFuncionario);
 		jtfBuscarCrachaFuncionario.setColumns(10);
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
-		jbBuscar.setToolTipText("Buscar informaÁıes do Fruncion·rio");
+		jbBuscar.setToolTipText("Buscar informa√ß√µes do Funcion√°rio");
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(348, 21, 89, 25);
 		getContentPane().add(jbBuscar);
@@ -89,24 +89,24 @@ public class FormFuncionario extends JFrame {
 		jpFuncionario.setBounds(10, 56, 670, 94);
 		getContentPane().add(jpFuncionario);
 		
-		jlNomeFuncionario = new JLabel("Nome do Fruncion·rio");
+		jlNomeFuncionario = new JLabel("Nome do Fruncion√°rio");
 		jlNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlNomeFuncionario.setBounds(10, 11, 132, 15);
 		jpFuncionario.add(jlNomeFuncionario);
 		
-		jlCPFFuncionario = new JLabel("CPF do Fruncion·rio");
+		jlCPFFuncionario = new JLabel("CPF do Funcion√°rio");
 		jlCPFFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlCPFFuncionario.setBounds(277, 11, 132, 15);
 		jpFuncionario.add(jlCPFFuncionario);
 		
-		jlCrachaFuncionario = new JLabel("Crach\u00E1");
+		jlCrachaFuncionario = new JLabel("Crach√°");
 		jlCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlCrachaFuncionario.setBounds(397, 14, 80, 14);
+		jlCrachaFuncionario.setBounds(397, 11, 80, 14);
 		jpFuncionario.add(jlCrachaFuncionario);
 		
 		jtfNomeFuncionario = new JTextField();
 		jtfNomeFuncionario.setDocument(new ConteudoString());
-		jtfNomeFuncionario.setToolTipText("Informar nome do Fruncion·rio");
+		jtfNomeFuncionario.setToolTipText("Informar nome do Funcion√°rio");
 		jtfNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeFuncionario.setEditable(false);
 		jtfNomeFuncionario.setColumns(10);
@@ -130,21 +130,21 @@ public class FormFuncionario extends JFrame {
 		jtfCrachaFuncionario.setDocument(new ConteudoNumerico());
 		jtfCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfCrachaFuncionario.setEditable(false);
-		jtfCrachaFuncionario.setToolTipText("Informar o n˙mero do crach·");
+		jtfCrachaFuncionario.setToolTipText("Informar o n√∫mero do crach√°");
 		jtfCrachaFuncionario.setColumns(10);
 		jtfCrachaFuncionario.setBounds(397, 28, 50, 20);
 		jpFuncionario.add(jtfCrachaFuncionario);
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/novo.png")));
-		jbNovo.setToolTipText("Novo cadastro do Fruncion·rio");
+		jbNovo.setToolTipText("Novo cadastro do Funcion√°rio");
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 59, 100, 25);
 		jpFuncionario.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
 		jbSalvar.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
-		jbSalvar.setToolTipText("Salvar cadastro do Fruncion·rio");
+		jbSalvar.setToolTipText("Salvar cadastro do Funcion√°rio");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setEnabled(false);
 		jbSalvar.setBounds(120, 59, 100, 25);
@@ -152,7 +152,7 @@ public class FormFuncionario extends JFrame {
 		
 		jbEditar = new JButton("Editar");
 		jbEditar.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/editar.png")));
-		jbEditar.setToolTipText("Editar cadastro do Fruncion·rio");
+		jbEditar.setToolTipText("Editar cadastro do Funcion√°rio");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setEnabled(false);
 		jbEditar.setBounds(230, 59, 100, 25);
@@ -160,7 +160,7 @@ public class FormFuncionario extends JFrame {
 		
 		jbCancelar = new JButton("Cancelar");
 		jbCancelar.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
-		jbCancelar.setToolTipText("Cancelar cadastro do Fruncion·rio");
+		jbCancelar.setToolTipText("Cancelar cadastro do Funcion√°rio");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setEnabled(false);
 		jbCancelar.setBounds(450, 59, 100, 25);
@@ -175,7 +175,7 @@ public class FormFuncionario extends JFrame {
 		
 		jbExcluir = new JButton("Excluir");
 		jbExcluir.setIcon(new ImageIcon(FormFuncionario.class.getResource("/br/edu/unoesc/imagens/deletar.png")));
-		jbExcluir.setToolTipText("Excluir cadastro do Fruncion·rio");
+		jbExcluir.setToolTipText("Excluir cadastro do Funcion√°rio");
 		jbExcluir.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbExcluir.setEnabled(false);
 		jbExcluir.setBounds(340, 59, 100, 25);
@@ -222,7 +222,7 @@ public class FormFuncionario extends JFrame {
 		jtfNomeFuncionario.setEditable(true);
 		jtfCPFFuncionario.setEditable(true);
 		jtfCrachaFuncionario.setEditable(true);
-		//faz procedimentos para ediÁ„o do registro
+		//faz procedimentos para ediÔøΩÔøΩo do registro
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
@@ -232,8 +232,8 @@ public class FormFuncionario extends JFrame {
 	}
 	
 	public void acionarBotaoExcluir() {
-		//faz procedimento para exclus„o do registro
-		//da mensagem ao usu·rio que exclui
+		//faz procedimento para exclusÔøΩo do registro
+		//da mensagem ao usuÔøΩrio que exclui
 		jtfBuscarNomeFuncionario.requestFocus();
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);

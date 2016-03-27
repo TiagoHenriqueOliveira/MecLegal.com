@@ -123,14 +123,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 		}
 		
 		jbBuscar = new JButton("Buscar");
-		jbBuscar.setToolTipText("Buscar informa\u00E7\u00F5es do cliente");
+		jbBuscar.setToolTipText("Buscar informaÃ§Ãµes do cliente");
 		jbBuscar.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(588, 21, 89, 25);
 		getContentPane().add(jbBuscar);
 		
 		jpInformacoesCliente = new JPanel();
-		jpInformacoesCliente.setBorder(BorderFactory.createTitledBorder("Informações do Cliente"));
+		jpInformacoesCliente.setBorder(BorderFactory.createTitledBorder("InformaÃ§Ãµes do Cliente"));
 		jpInformacoesCliente.setBounds(10, 56, 670, 470);
 		getContentPane().add(jpInformacoesCliente);
 		jpInformacoesCliente.setLayout(null);
@@ -234,14 +234,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jpInformacoesCliente.add(jbExcluir);
 		
 		jpVeiculoCliente = new JPanel();
-		jpVeiculoCliente.setBorder(BorderFactory.createTitledBorder("Veículos do Cliente"));
+		jpVeiculoCliente.setBorder(BorderFactory.createTitledBorder("VeÃ­culos do Cliente"));
 		jpVeiculoCliente.setBounds(10, 69, 650, 354);
 		jpInformacoesCliente.add(jpVeiculoCliente);
 		jpVeiculoCliente.setLayout(null);
 		
 		dados = new Vector<String>();
-		dados.add("Nome do Veículo");
-		dados.add("Placa do Veículo");
+		dados.add("Nome do VeÃ­culo");
+		dados.add("Placa do VeÃ­culo");
 		
 		dtmListaVeiculoCliente = new DefaultTableModel();
 		dtmListaVeiculoCliente.setColumnIdentifiers(dados);
@@ -299,7 +299,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbNovoVeiculo.setBounds(58, 318, 100, 25);
 		jpVeiculoCliente.add(jbNovoVeiculo);
 		
-		jlNomeVeiculo = new JLabel("Nome do Veículo");
+		jlNomeVeiculo = new JLabel("Nome do VeÃ­culo");
 		jlNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlNomeVeiculo.setBounds(58, 272, 210, 15);
 		jpVeiculoCliente.add(jlNomeVeiculo);
@@ -316,14 +316,13 @@ public class FormCliente extends JFrame implements PreencheDados {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfPlacaVeiculo.setToolTipText("Informar placa do ve\u00EDculo completa");
 		jtfPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfPlacaVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setColumns(10);
 		jtfPlacaVeiculo.setBounds(518, 287, 80, 20);
 		jpVeiculoCliente.add(jtfPlacaVeiculo);
 		
-		jlPlacaVeiculo = new JLabel("Placa do Veículo");
+		jlPlacaVeiculo = new JLabel("Placa do VeÃ­culo");
 		jlPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlPlacaVeiculo.setBounds(518, 272, 132, 15);
 		jpVeiculoCliente.add(jlPlacaVeiculo);
@@ -339,7 +338,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbNovoVeiculo.setEnabled(true);
 		jbEditar.setEnabled(true);
 		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
-			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Obrigatï¿½rio informar um parÃ¢metro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfBuscarNomeCliente.requestFocus();
 			jbNovo.setEnabled(true);
 			jbEditar.setEnabled(false);
@@ -377,7 +376,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoNovoVeiculo() {
 		if(jtfNomeCliente.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "É Obrigatório ter um cliente informado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Ã‰ ObrigatÃ³rio ter um cliente informado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfNomeCliente.requestFocus();
 		} else {
 			jtfNomeVeiculo.setEditable(true);
@@ -399,16 +398,16 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfCNPJCliente.setEditable(false);
 		
 		if(jtfNomeCliente.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Obrigatório informar um nome para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Obrigatï¿½rio informar um nome para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfNomeCliente.requestFocus();
 		} else if(jtfCPFCliente.getText().equals("   .   .   -  ") && jtfCNPJCliente.getText().equals("  .   .   /    -  ")) {
-			JOptionPane.showMessageDialog(null, "Obrigatório informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Obrigatï¿½rio informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfCPFCliente.requestFocus();
 //		} else if(jtfNomeVeiculo.getText().equals("")) {
-//			JOptionPane.showMessageDialog(null, "Obrigatório informar o nome do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+//			JOptionPane.showMessageDialog(null, "Obrigatï¿½rio informar o nome do veï¿½culo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 //			jtfNomeVeiculo.requestFocus();
 //		} else if(jtfPlacaVeiculo.getText().equals("   -    ")) {
-//			JOptionPane.showMessageDialog(null, "Obrigatório informar a placa do veículo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+//			JOptionPane.showMessageDialog(null, "Obrigatï¿½rio informar a placa do veï¿½culo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 //			jtfPlacaVeiculo.requestFocus();
 		} else {
 			cliente = new Cliente();
@@ -474,8 +473,8 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluirCliente() {
-		//faz procedimento para exclusão do registro
-		//da mensagem ao usuário que exclui
+		//faz procedimento para exclusï¿½o do registro
+		//da mensagem ao usuï¿½rio que exclui
 		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
@@ -492,7 +491,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluirVeiculo() {
-		//procedimentos para exclusão
+		//procedimentos para exclusï¿½o
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
 		jtfNomeVeiculo.setText("");

@@ -37,7 +37,7 @@ public class FormMostraTipoServico extends JFrame {
 	
 	public void componentesMostraTipoServico() {
 		dados = new Vector<String>();
-		dados.add("Descrição");
+		dados.add("DescriÃ§Ã£o");
 		dados.add("Valor");
 		
 		dtmListaTipoServico = new DefaultTableModel();
@@ -85,8 +85,8 @@ public class FormMostraTipoServico extends JFrame {
 					preencheDados.preencherCampos(tipoServico);
 					dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "Nenhum serviço foi selecionado!!!\n"
-								+ "Por gentileza, selecionar um serviço!!!", "Erro", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nenhum serviÃ§o foi selecionado!!!\n"
+								+ "Por gentileza, selecionar um serviÃ§o!!!", "Erro", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -103,7 +103,7 @@ public class FormMostraTipoServico extends JFrame {
 	
 	public void inicializarForm() {
 		listaTiposServicos = new ArrayList<>();
-		this.setTitle("Lista Tipos de Serviços");
+		this.setTitle("Lista Tipos de ServiÃ§os");
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormMostraTipoServico.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

@@ -39,7 +39,7 @@ public class FormMostraCliente extends JFrame {
 	
 	public void componentesMostraCliente() {
 		dados = new Vector<String>();
-		dados.add("Descrição");
+		dados.add("DescriÃ§Ã£o");
 		dados.add("CPF");
 		dados.add("CNPJ");
 		

@@ -16,7 +16,7 @@ public class Funcionario implements MinhaEntidade {
 	private Integer cracha;
 	
 	public String[] vetorDados(){
-		return new String[]{nome, cpf ,cracha.toString()};
+		return new String[]{cracha.toString(), nome, cpf};
 	}
 	
 }

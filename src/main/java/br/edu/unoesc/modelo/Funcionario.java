@@ -18,5 +18,4 @@ public class Funcionario implements MinhaEntidade {
 	public String[] vetorDados(){
 		return new String[]{cracha.toString(), nome, cpf};
 	}
-	
 }

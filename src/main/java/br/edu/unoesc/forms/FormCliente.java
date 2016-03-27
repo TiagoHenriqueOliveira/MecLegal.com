@@ -338,7 +338,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbNovoVeiculo.setEnabled(true);
 		jbEditar.setEnabled(true);
 		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
-			JOptionPane.showMessageDialog(null, "Obrigat�rio informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfBuscarNomeCliente.requestFocus();
 			jbNovo.setEnabled(true);
 			jbEditar.setEnabled(false);

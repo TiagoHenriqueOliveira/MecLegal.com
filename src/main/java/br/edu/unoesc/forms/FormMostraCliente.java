@@ -108,9 +108,9 @@ public class FormMostraCliente extends JFrame {
 				if(e.getSource() == jbSelecionar) {
 					Integer servicoSelecionado = jttListaCliente.getSelectedRow();
 					if(servicoSelecionado != -1) {
-					cliente = listaClientes.get(servicoSelecionado);
-					preencheDados.preencherCampos(cliente);
-					dispose();
+						cliente = listaClientes.get(servicoSelecionado);
+						preencheDados.preencherCampos(cliente);
+						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "Nenhum cliente foi selecionado!!!\n"
 								+ "Por gentileza, selecionar um cliente!!!", "Erro", JOptionPane.ERROR_MESSAGE);

@@ -42,6 +42,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JTextField jtfNomeCliente;
 	private JTextField jtfCPFCliente;
 	private JTextField jtfCNPJCliente;
+	private JTextField jtfNomeVeiculo;
 	private JFormattedTextField jtfPlacaVeiculo;
 	private JLabel jlBuscarClienteNome;
 	private JLabel jlBuscarClienteCNPJ;
@@ -58,17 +59,16 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JButton jbFechar;
 	private JButton jbExcluir;
 	private JButton jbBuscar;
-	private Cliente cliente;
-	private Carro carro;
-	private static FormCliente formCliente;
-	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null, null, null);
 	private JButton jbCancelarVeiculo;
 	private JButton jbExcluirVeiculo;
 	private JButton jbEditarVeiculo;
 	private JButton jbSalvarVeiculo;
 	private JButton jbNovoVeiculo;
-	private JTextField jtfNomeVeiculo;
-	
+	private Cliente cliente;
+	private Carro carro;
+	private static FormCliente formCliente;
+	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null, null, null);
+
 	public void componentesClienteForm() {
 		formCliente = this;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormCliente.class.getResource("/br/edu/unoesc/imagens/logo.png")));

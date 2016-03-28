@@ -210,12 +210,11 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 				Integer codigo = null;
 				if(!jtfBuscarCrachaFuncionario.getText().equals("")) {
 					codigo = Integer.valueOf(jtfBuscarCrachaFuncionario.getText());
-				} else {
-					formMostraFuncionario = new FormMostraFuncionario(formFuncionario, jtfBuscarNomeFuncionario.getText(), codigo);
-					formMostraFuncionario.setVisible(true);
-					jtfBuscarNomeFuncionario.setText("");
-					jtfBuscarCrachaFuncionario.setText("");
 				}
+				formMostraFuncionario = new FormMostraFuncionario(formFuncionario, jtfBuscarNomeFuncionario.getText(), codigo);
+				formMostraFuncionario.setVisible(true);
+				jtfBuscarNomeFuncionario.setText("");
+				jtfBuscarCrachaFuncionario.setText("");
 			}
 		}
 	}

@@ -81,7 +81,9 @@ public class FormMostraFuncionario extends JFrame {
 	
 	public void preencheDadosTabelaPorCracha() {
 		funcionario = new Funcionario();
+		System.out.println("Pegou objeto");
 		funcionario = (Funcionario) MongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", cracha);
+		System.out.println(funcionario.getNome());
 		dtmListaFuncionario.addRow(funcionario.vetorDados());
 	}
 	
@@ -121,11 +123,12 @@ public class FormMostraFuncionario extends JFrame {
 	
 	public void inicializarForm() {
 		listaFuncionarios = new ArrayList<>();
-		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(FormMostraFuncionario.class.getResource("/br/edu/unoesc/imagens/logo.png")));
-		setTitle("Lista de Funcionários");
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 475, 385);
+		this.setResizable(false);
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormMostraFuncionario.class.getResource("/br/edu/unoesc/imagens/logo.png")));
+		this.setTitle("Lista de Funcionários");
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setBounds(100, 100, 475, 385);
+		this.setLocationRelativeTo(null);
 		jpMostraFuncionario = new JPanel();
 		setContentPane(jpMostraFuncionario);
 		jpMostraFuncionario.setLayout(null);

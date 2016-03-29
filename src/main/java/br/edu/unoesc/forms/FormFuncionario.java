@@ -198,6 +198,7 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
 		jbCancelar.setEnabled(true);
+		jbExcluir.setEnabled(true);
 		if((jtfBuscarNomeFuncionario.getText().equals("")) && (jtfBuscarCrachaFuncionario.getText().equals(""))) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfBuscarNomeFuncionario.requestFocus();
@@ -225,12 +226,15 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoNovo() {
 		jtfNomeFuncionario.requestFocus();
+		
 		jtfNomeFuncionario.setEditable(true);
 		jtfCPFFuncionario.setEditable(true);
 		jtfCrachaFuncionario.setEditable(true);
+		
 		jtfNomeFuncionario.setText("");
 		jtfCPFFuncionario.setText("");
 		jtfCrachaFuncionario.setText("");
+		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(false);
@@ -244,7 +248,6 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);
-		//faz procedimentos para salvar
 		
 		if(jtfNomeFuncionario.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um nome para o funcionário!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -262,11 +265,15 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 				funcionario.setCpf(jtfCPFFuncionario.getText());
 				funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
 				MongoDao.getDAO().salvar(funcionario);
+				JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+				jtfBuscarNomeFuncionario.requestFocus();
 			} else {
 				funcionario.setNome(jtfNomeFuncionario.getText());
 				funcionario.setCpf(jtfCPFFuncionario.getText());
 				funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
 				MongoDao.getDAO().update(funcionario, "nome", funcionario.getNome());
+				JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+				jtfBuscarNomeFuncionario.requestFocus();
 			}
 		}
 		
@@ -283,6 +290,7 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jtfNomeFuncionario.setEditable(true);
 		jtfCPFFuncionario.setEditable(true);
 		jtfCrachaFuncionario.setEditable(true);
+		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
@@ -292,15 +300,21 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluir() {
-		//faz procedimento para exclus�o do registro
-		//da mensagem ao usu�rio que exclui
+		funcionario = new Funcionario();
+		funcionario.setNome(jtfNomeFuncionario.getText());
+		MongoDao.getDAO().remove(funcionario, "nome", funcionario.getNome());
+		
+		JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
 		jtfBuscarNomeFuncionario.requestFocus();
+		
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);
+		
 		jtfNomeFuncionario.setText("");
 		jtfCPFFuncionario.setText("");
 		jtfCrachaFuncionario.setText("");
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);
@@ -311,12 +325,15 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoCancelar() {
 		jtfBuscarNomeFuncionario.requestFocus();
+		
 		jtfNomeFuncionario.setEditable(false);
 		jtfCPFFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setEditable(false);
+		
 		jtfNomeFuncionario.setText("");
 		jtfCPFFuncionario.setText("");
 		jtfCrachaFuncionario.setText("");
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);

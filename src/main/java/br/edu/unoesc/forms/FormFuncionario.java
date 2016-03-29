@@ -46,7 +46,7 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	private JButton jbExcluir;
 	private Funcionario funcionario;
 	private static FormFuncionario formFuncionario;
-	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario(null, null, null);
+	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario(null, null);
 
 	public void componentesFormCliente() {
 		formFuncionario = this;
@@ -197,25 +197,29 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jtfCrachaFuncionario.setText("");
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
+		jbCancelar.setEnabled(true);
 		if((jtfBuscarNomeFuncionario.getText().equals("")) && (jtfBuscarCrachaFuncionario.getText().equals(""))) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfBuscarNomeFuncionario.requestFocus();
 			jbNovo.setEnabled(true);
 			jbEditar.setEnabled(false);
-		} else {
+		} else if(!jtfBuscarNomeFuncionario.getText().equals("")) {
 			if(formMostraFuncionario.isVisible()) {
 				formMostraFuncionario.requestFocus();
 				formMostraFuncionario.setLocationRelativeTo(null);
 			} else {
-				Integer codigo = null;
-				if(!jtfBuscarCrachaFuncionario.getText().equals("")) {
-					codigo = Integer.valueOf(jtfBuscarCrachaFuncionario.getText());
-				}
-				formMostraFuncionario = new FormMostraFuncionario(formFuncionario, jtfBuscarNomeFuncionario.getText(), codigo);
+				formMostraFuncionario = new FormMostraFuncionario(formFuncionario, jtfBuscarNomeFuncionario.getText());
 				formMostraFuncionario.setVisible(true);
 				jtfBuscarNomeFuncionario.setText("");
 				jtfBuscarCrachaFuncionario.setText("");
 			}
+		} else {
+			Funcionario funcionario = (Funcionario) MongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", Integer.valueOf(jtfBuscarCrachaFuncionario.getText()));
+			jtfNomeFuncionario.setText(funcionario.getNome());
+			jtfCPFFuncionario.setText(funcionario.getCpf());
+			jtfCrachaFuncionario.setText(String.valueOf(funcionario.getCracha()));
+			jtfBuscarNomeFuncionario.requestFocus();
+			jtfBuscarCrachaFuncionario.setText("");
 		}
 	}
 	
@@ -279,7 +283,6 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jtfNomeFuncionario.setEditable(true);
 		jtfCPFFuncionario.setEditable(true);
 		jtfCrachaFuncionario.setEditable(true);
-		//faz procedimentos para edi��o do registro
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);

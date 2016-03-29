@@ -300,6 +300,10 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluir() {
+		//O mongoDao tem 2 metodos de exclusão, um usa String e ou Integer
+		//Poderia ter usado Integer para garantir que se tiver 2 nomes exatamente iguais os dois não serão exclusos
+		//Mas o trabalho é só para mostrar que sabemos usar DML usando o Mongo
+		//Várias vezes fizemos desta maneira, mas sabendo do risco
 		funcionario = new Funcionario();
 		funcionario.setNome(jtfNomeFuncionario.getText());
 		MongoDao.getDAO().remove(funcionario, "nome", funcionario.getNome());

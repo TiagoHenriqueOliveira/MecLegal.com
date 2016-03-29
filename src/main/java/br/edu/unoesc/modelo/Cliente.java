@@ -24,8 +24,8 @@ public class Cliente implements MinhaEntidade {
 	
 	public String[] vetorDados(){
 		if (this.cpf.equals("   .   .   -  ")){
-			return new String[]{nome,cpf,null};	
+			return new String[]{nome,null,cnpj};	
 		}
-		return new String[]{nome,null,cnpj};
+		return new String[]{nome,cpf,null};
 	}
 }

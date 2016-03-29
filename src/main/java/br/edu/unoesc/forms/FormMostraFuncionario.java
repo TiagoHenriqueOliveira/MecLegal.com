@@ -34,7 +34,6 @@ public class FormMostraFuncionario extends JFrame {
 	private Funcionario funcionario;
 	private List<Funcionario> listaFuncionarios;
 	private String descricao;
-	private Integer cracha;
 	
 	public void componentesFormMostraFuncionario() {
 		dados = new Vector<String>();
@@ -79,22 +78,6 @@ public class FormMostraFuncionario extends JFrame {
 		});
 	}
 	
-	public void preencheDadosTabelaPorCracha() {
-		funcionario = new Funcionario();
-		System.out.println("Pegou objeto");
-		funcionario = (Funcionario) MongoDao.getDAO().buscaGenerica(Funcionario.class, "cracha", cracha);
-		System.out.println(funcionario.getNome());
-		dtmListaFuncionario.addRow(funcionario.vetorDados());
-	}
-	
-	public void validaPesquisa() {
-		if(descricao != null && !descricao.equals("")) {
-			this.preencheDadosTabelaPorNome();
-		} else if(cracha != null && !cracha.equals("")) {
-			this.preencheDadosTabelaPorCracha();
-		}
-	}
-	
 	public void acionarBotaoSelecionar() {
 		jbSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -134,15 +117,14 @@ public class FormMostraFuncionario extends JFrame {
 		jpMostraFuncionario.setLayout(null);
 		
 		componentesFormMostraFuncionario();
-		validaPesquisa();
+		preencheDadosTabelaPorNome();
 		acionarBotaoSelecionar();
 		acionarBotaoCancelar();
 	}
 
-	public FormMostraFuncionario(PreencheDados dados, String descricao, Integer codigo) {
+	public FormMostraFuncionario(PreencheDados dados, String descricao) {
 		this.preencheDados = dados;
 		this.descricao = descricao;
-		this.cracha = codigo;
 		inicializarForm();
 	}
 }

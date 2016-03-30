@@ -34,8 +34,6 @@ public class FormMostraCliente extends JFrame {
 	private Cliente cliente;
 	private List<Cliente> listaClientes;
 	private String descricao;
-	private String cpf;
-	private String cnpj;
 	
 	public void componentesMostraCliente() {
 		dados = new Vector<String>();
@@ -79,29 +77,7 @@ public class FormMostraCliente extends JFrame {
 			dtmListaCliente.addRow(cliente.vetorDados());
 		});
 	}
-	
-	public void preencheDadosTabelaBuscaPorCPF() {
-		cliente = new Cliente();
-		cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", cpf);
-		dtmListaCliente.addRow(cliente.vetorDados());
-	}
-	
-	public void preencheDadosTabelaBuscaPorCNPJ() {
-		cliente = new Cliente();
-		cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cnpj", cnpj);
-		dtmListaCliente.addRow(cliente.vetorDados());
-	}
-	
-	public void validaPesquisa() {
-		if(descricao != null && !descricao.equals("")) {
-			this.preencheDadosTabelaBuscaPorNome();
-		} else if(cpf != null && !cpf.equals("   .   .   -  ")) {
-			this.preencheDadosTabelaBuscaPorCPF();
-		} else if(cnpj != null && !cnpj.equals("  .   .   /    -  ")) {
-			this.preencheDadosTabelaBuscaPorCNPJ();
-		}
-	}
-	
+
 	public void acionarBotaoSelecionar() {
 		jbSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -140,16 +116,14 @@ public class FormMostraCliente extends JFrame {
 		setContentPane(jpListaCliente);
 		
 		componentesMostraCliente();
-		validaPesquisa();
+		preencheDadosTabelaBuscaPorNome();
 		acionarBotaoSelecionar();
 		acionarBotaoCancelar();
 	}
 
-	public FormMostraCliente(PreencheDados dados, String descricao, String cpf, String cnpj) {
+	public FormMostraCliente(PreencheDados dados, String descricao) {
 		this.preencheDados = dados;
 		this.descricao = descricao;
-		this.cpf = cpf;
-		this.cnpj = cnpj;
 		inicializarForm();
 	}
 }

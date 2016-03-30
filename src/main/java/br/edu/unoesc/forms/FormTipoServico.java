@@ -1,6 +1,7 @@
 package br.edu.unoesc.forms;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import br.edu.unoesc.dao.MongoDao;
@@ -20,8 +22,6 @@ import br.edu.unoesc.modelo.TipoServico;
 import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
-import java.awt.Toolkit;
-import javax.swing.SwingConstants;
 
 public class FormTipoServico extends JFrame implements PreencheDados {
 
@@ -63,7 +63,6 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		jtfBuscarServicoNome.setDocument(new ConteudoAlfaNumerico());
 		jtfBuscarServicoNome.setToolTipText("Informar o nome do Serviço");
 		jtfBuscarServicoNome.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarServicoNome.setColumns(10);
 		jtfBuscarServicoNome.setBounds(10, 25, 328, 20);
 		getContentPane().add(jtfBuscarServicoNome);
 		
@@ -96,7 +95,6 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		jtfNomeServico.setToolTipText("Informar nome do Serviço");
 		jtfNomeServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeServico.setEditable(false);
-		jtfNomeServico.setColumns(10);
 		jtfNomeServico.setBounds(10, 28, 377, 20);
 		jpServicos.add(jtfNomeServico);
 		
@@ -106,7 +104,6 @@ public class FormTipoServico extends JFrame implements PreencheDados {
 		jtfValorServico.setToolTipText("Formato do valor: 20.0");
 		jtfValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfValorServico.setEditable(false);
-		jtfValorServico.setColumns(10);
 		jtfValorServico.setBounds(397, 28, 60, 20);
 		jpServicos.add(jtfValorServico);
 		

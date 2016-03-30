@@ -4,8 +4,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -34,7 +33,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private static final long serialVersionUID = 1L;
 	private JPanel jpInformacoesCliente;
 	private JPanel jpVeiculoCliente;
-	private Vector<String> dados;
+	private String[] dados = new String[]{"Nome do Veículo", "Placa do Veículo"};
 	private JTable jttListaVeiculoCliente;
 	private DefaultTableModel dtmListaVeiculoCliente;
 	private JScrollPane jspListaVeiculoCliente;
@@ -67,8 +66,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JButton jbSalvarVeiculo;
 	private JButton jbNovoVeiculo;
 	private Cliente cliente = new Cliente();
-	private Carro carro = new Carro();
-	private List<Carro> listaCarros;
+	private ArrayList<Carro> listaCarros = new ArrayList<Carro>();
 	private static FormCliente formCliente;
 	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
 
@@ -159,14 +157,12 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeCliente.setBounds(10, 38, 257, 20);
 		jpInformacoesCliente.add(jtfNomeCliente);
-		jtfNomeCliente.setColumns(10);
 		
 		try {
 			jtfCPFCliente = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 			jtfCPFCliente.setEditable(false);
 			jtfCPFCliente.setToolTipText("Informar CPF completo");
 			jtfCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			jtfCPFCliente.setColumns(10);
 			jtfCPFCliente.setBounds(277, 38, 110, 20);
 			jpInformacoesCliente.add(jtfCPFCliente);
 		} catch (Exception e) {
@@ -178,18 +174,12 @@ public class FormCliente extends JFrame implements PreencheDados {
 			jtfCNPJCliente.setEditable(false);
 			jtfCNPJCliente.setToolTipText("Informar CNPJ completo");
 			jtfCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			jtfCNPJCliente.setColumns(10);
 			jtfCNPJCliente.setBounds(428, 38, 125, 20);
 			jpInformacoesCliente.add(jtfCNPJCliente);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		try {
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+				
 		jbNovo = new JButton("Novo");
 		jbNovo.setToolTipText("Novo cadastro do Cliente");
 		jbNovo.setIcon(new ImageIcon(FormCliente.class.getResource("/br/edu/unoesc/imagens/novo.png")));
@@ -241,10 +231,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jpVeiculoCliente.setBounds(10, 69, 650, 354);
 		jpInformacoesCliente.add(jpVeiculoCliente);
 		jpVeiculoCliente.setLayout(null);
-		
-		dados = new Vector<String>();
-		dados.add("Nome do Veículo");
-		dados.add("Placa do Veículo");
 		
 		dtmListaVeiculoCliente = new DefaultTableModel();
 		dtmListaVeiculoCliente.setColumnIdentifiers(dados);
@@ -311,7 +297,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeVeiculo.setDocument(new ConteudoAlfaNumerico());
 		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeVeiculo.setEditable(false);
-		jtfNomeVeiculo.setColumns(10);
 		jtfNomeVeiculo.setBounds(58, 287, 430, 20);
 		jpVeiculoCliente.add(jtfNomeVeiculo);
 		
@@ -322,7 +307,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		}
 		jtfPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfPlacaVeiculo.setEditable(false);
-		jtfPlacaVeiculo.setColumns(10);
+
 		jtfPlacaVeiculo.setBounds(518, 287, 80, 20);
 		jpVeiculoCliente.add(jtfPlacaVeiculo);
 		
@@ -411,7 +396,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoSalvarCliente() {
 		jtfBuscarNomeCliente.requestFocus();
-		
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
@@ -427,17 +411,16 @@ public class FormCliente extends JFrame implements PreencheDados {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
-				carro.setNome(jtfNomeVeiculo.getText());
-				carro.setPlaca(jtfPlacaVeiculo.getText());
-				this.acionarBotaoSalvarVeiculo();
+//aqui ta o segredo, ele seta a lista de carros do cliente igual a que esta sendo mostrada na tabela.
+				cliente.setCarros(this.listaCarros);
+//depois eh soh salvar o cliente ele salva a lista de carros..
 				MongoDao.getDAO().salvar(cliente);
 			} else {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
-				carro.setNome(jtfNomeVeiculo.getText());
-				carro.setPlaca(jtfPlacaVeiculo.getText());
-				this.acionarBotaoSalvarVeiculo();
+				//O mesmo o corre no update
+				cliente.setCarros(this.listaCarros);
 				MongoDao.getDAO().update(cliente, "nome", cliente.getNome());
 			}
 			
@@ -451,16 +434,18 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoSalvarVeiculo() {
-		cliente.adicionarCarro(carro);
-		
-		dtmListaVeiculoCliente.addRow(new String[]{carro.getNome(), carro.getPlaca()});
-		
+		//Instancia um novo objeto novoCarro com base nos dados inseridos.
+		Carro novoCarro = new Carro(jtfNomeVeiculo.getText(), jtfPlacaVeiculo.getText());
+		//Insere o novoCarro na lista.
+		this.listaCarros.add(novoCarro);
+		//Salva o cliente com a nova lista de carros no banco usando o metodo acionarBotaoSalvarCliente();
+		acionarBotaoSalvarCliente();
+		//adiciona o novoCarro na tabela. :)
+		dtmListaVeiculoCliente.addRow(novoCarro.vetorDados());
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
-		
 		jtfNomeVeiculo.setText("");
 		jtfPlacaVeiculo.setText("");
-		
 		jbNovoVeiculo.setEnabled(true);
 		jbEditarVeiculo.setEnabled(true);
 		jbExcluirVeiculo.setEnabled(true);
@@ -470,31 +455,25 @@ public class FormCliente extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoEditarCliente() {
 		jtfNomeCliente.requestFocus();
-		
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
-		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(true);
 		jbCancelar.setEnabled(true);
-		
 		jbNovoVeiculo.setEnabled(true);
 		jbEditarVeiculo.setEnabled(true);
 	}
 	
 	public void acionarBotaoEditarVeiculo() {
 		jtfNomeVeiculo.requestFocus();
-		
 		jtfNomeVeiculo.setEditable(true);
 		jtfPlacaVeiculo.setEditable(true);
-		
 		jtfNomeVeiculo.setText("");
 		jtfPlacaVeiculo.setText("");
-		
 		jbNovoVeiculo.setEnabled(false);
 		jbEditarVeiculo.setEnabled(true);
 		jbExcluirVeiculo.setEnabled(false);
@@ -533,7 +512,20 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluirVeiculo() {
-		//procedimentos para exclus�o
+		//procedimentos para exclusão.
+		
+		if(jttListaVeiculoCliente.getSelectedRow() == -1){
+			JOptionPane.showMessageDialog(null, "Nenhum Carro foi selecionado!!!\n"
+					+ "Por gentileza, selecionar um carro para deletar!!!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			Integer selecionado = jttListaVeiculoCliente.getSelectedRow();
+			System.out.println(listaCarros.get(selecionado).getNome());
+			listaCarros.remove(selecionado);
+			dtmListaVeiculoCliente.removeRow(selecionado);
+			acionarBotaoSalvarCliente();
+		}
+		
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
 		jtfNomeVeiculo.setText("");
@@ -577,16 +569,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelarVeiculo.setEnabled(false);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void preencheCamposCliente(Cliente cliente) {
 		jtfNomeCliente.setText(cliente.getNome());
 		jtfCPFCliente.setText(cliente.getCpf());
 		jtfCNPJCliente.setText(cliente.getCnpj());
-		//sei lá que porra quis fazer aqui
-//		listaCarros = (List<Carro>) MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", cliente.getNome());
-//		listaCarros.forEach(carro -> {
-//			dtmListaVeiculoCliente.addRow(carro.vetorDados());
-//		});
+		listaCarros = cliente.getCarros();
+		listaCarros.forEach(carro -> {
+			dtmListaVeiculoCliente.addRow(carro.vetorDados());
+		});
 	}
 	
 	public void botaoBuscar() {

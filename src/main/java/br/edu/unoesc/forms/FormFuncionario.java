@@ -199,7 +199,8 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jbEditar.setEnabled(true);
 		jbCancelar.setEnabled(true);
 		jbExcluir.setEnabled(true);
-		if((jtfBuscarNomeFuncionario.getText().equals("")) && (jtfBuscarCrachaFuncionario.getText().equals(""))) {
+		
+		if(jtfBuscarNomeFuncionario.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfBuscarNomeFuncionario.requestFocus();
 			jbNovo.setEnabled(true);

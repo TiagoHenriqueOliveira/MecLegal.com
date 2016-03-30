@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -25,6 +26,7 @@ import br.edu.unoesc.modelo.Carro;
 import br.edu.unoesc.modelo.Cliente;
 import br.edu.unoesc.modelo.MinhaEntidade;
 import br.edu.unoesc.preencheDados.PreencheDados;
+import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 
 public class FormCliente extends JFrame implements PreencheDados {
@@ -64,10 +66,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JButton jbEditarVeiculo;
 	private JButton jbSalvarVeiculo;
 	private JButton jbNovoVeiculo;
-	private Cliente cliente;
-	private Carro carro;
+	private Cliente cliente = new Cliente();
+	private Carro carro = new Carro();
+	private List<Carro> listaCarros;
 	private static FormCliente formCliente;
-	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null, null, null);
+	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
 
 	public void componentesClienteForm() {
 		formCliente = this;
@@ -305,6 +308,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jpVeiculoCliente.add(jlNomeVeiculo);
 		
 		jtfNomeVeiculo = new JTextField();
+		jtfNomeVeiculo.setDocument(new ConteudoAlfaNumerico());
 		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeVeiculo.setEditable(false);
 		jtfNomeVeiculo.setColumns(10);
@@ -332,28 +336,36 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
-		jtfNomeVeiculo.setText("");
-		jtfPlacaVeiculo.setText("");
 		jbNovo.setEnabled(false);
-		jbNovoVeiculo.setEnabled(true);
 		jbEditar.setEnabled(true);
+		jbCancelar.setEnabled(true);
+		jbExcluir.setEnabled(true);
+		
 		if((jtfBuscarNomeCliente.getText().equals("")) && (jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) && (jtfBuscarCNPJCliente.getText().equals("  .   .   /    -  "))) {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar um parâmetro de busca!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfBuscarNomeCliente.requestFocus();
 			jbNovo.setEnabled(true);
 			jbEditar.setEnabled(false);
-		} else {
+		} else if(!jtfBuscarNomeCliente.getText().equals("")) {
 			if(formMostraCliente.isVisible()) {
 				formMostraCliente.requestFocus();
 				formMostraCliente.setLocationRelativeTo(null);
 			} else {
-				formMostraCliente = new FormMostraCliente(formCliente, jtfBuscarNomeCliente.getText(), jtfBuscarCPFCliente.getText(), jtfBuscarCNPJCliente.getText());
+				formMostraCliente = new FormMostraCliente(formCliente, jtfBuscarNomeCliente.getText());
 				formMostraCliente.setVisible(true);
 				formMostraCliente.setLocationRelativeTo(null);
 				jtfBuscarNomeCliente.setText("");
-				jtfBuscarCPFCliente.setText("");
-				jtfBuscarCNPJCliente.setText("");
 			}
+		} else if(!jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) {
+			Cliente cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", jtfBuscarCPFCliente.getText());
+			jtfNomeCliente.setText(cliente.getNome());
+			jtfCPFCliente.setText(cliente.getCpf());
+			jtfBuscarCPFCliente.setText("");
+		} else {
+			Cliente cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cnpj", jtfBuscarCNPJCliente.getText());
+			jtfNomeCliente.setText(cliente.getNome());
+			jtfCNPJCliente.setText(cliente.getCnpj());
+			jtfBuscarCNPJCliente.setText("");
 		}
 	}
 	
@@ -362,9 +374,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
+		
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
+		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbNovoVeiculo.setEnabled(true);
@@ -379,10 +393,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 			JOptionPane.showMessageDialog(null, "É Obrigatório ter um cliente informado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfNomeCliente.requestFocus();
 		} else {
-			jtfNomeVeiculo.setEditable(true);
-			jtfPlacaVeiculo.setEditable(true);
+			jtfNomeVeiculo.requestFocus();
+			
 			jtfNomeVeiculo.setText("");
 			jtfPlacaVeiculo.setText("");
+			
+			jtfNomeVeiculo.setEditable(true);
+			jtfPlacaVeiculo.setEditable(true);
+			
 			jbNovoVeiculo.setEnabled(false);
 			jbEditarVeiculo.setEnabled(false);
 			jbExcluirVeiculo.setEnabled(false);
@@ -393,32 +411,25 @@ public class FormCliente extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoSalvarCliente() {
 		jtfBuscarNomeCliente.requestFocus();
+		
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
 		
 		if(jtfNomeCliente.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Obrigat�rio informar um nome para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "É Obrigatório informar um nome para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfNomeCliente.requestFocus();
 		} else if(jtfCPFCliente.getText().equals("   .   .   -  ") && jtfCNPJCliente.getText().equals("  .   .   /    -  ")) {
-			JOptionPane.showMessageDialog(null, "Obrigat�rio informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "É Obrigatório informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfCPFCliente.requestFocus();
-//		} else if(jtfNomeVeiculo.getText().equals("")) {
-//			JOptionPane.showMessageDialog(null, "Obrigat�rio informar o nome do ve�culo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-//			jtfNomeVeiculo.requestFocus();
-//		} else if(jtfPlacaVeiculo.getText().equals("   -    ")) {
-//			JOptionPane.showMessageDialog(null, "Obrigat�rio informar a placa do ve�culo!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-//			jtfPlacaVeiculo.requestFocus();
 		} else {
-			cliente = new Cliente();
-			carro = new Carro();
 			if(MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", jtfNomeCliente.getText()) == null) {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
 				carro.setNome(jtfNomeVeiculo.getText());
 				carro.setPlaca(jtfPlacaVeiculo.getText());
-				cliente.adicionarCarro(carro);
+				this.acionarBotaoSalvarVeiculo();
 				MongoDao.getDAO().salvar(cliente);
 			} else {
 				cliente.setNome(jtfNomeCliente.getText());
@@ -426,9 +437,10 @@ public class FormCliente extends JFrame implements PreencheDados {
 				cliente.setCnpj(jtfCNPJCliente.getText());
 				carro.setNome(jtfNomeVeiculo.getText());
 				carro.setPlaca(jtfPlacaVeiculo.getText());
-				cliente.adicionarCarro(carro);
+				this.acionarBotaoSalvarVeiculo();
 				MongoDao.getDAO().update(cliente, "nome", cliente.getNome());
 			}
+			
 			jbBuscar.setEnabled(true);
 			jbNovo.setEnabled(true);
 			jbEditar.setEnabled(true);
@@ -439,9 +451,16 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoSalvarVeiculo() {
+		cliente.adicionarCarro(carro);
+		
+		dtmListaVeiculoCliente.addRow(new String[]{carro.getNome(), carro.getPlaca()});
+		
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
-		//procedimentos
+		
+		jtfNomeVeiculo.setText("");
+		jtfPlacaVeiculo.setText("");
+		
 		jbNovoVeiculo.setEnabled(true);
 		jbEditarVeiculo.setEnabled(true);
 		jbExcluirVeiculo.setEnabled(true);
@@ -451,20 +470,31 @@ public class FormCliente extends JFrame implements PreencheDados {
 	
 	public void acionarBotaoEditarCliente() {
 		jtfNomeCliente.requestFocus();
+		
 		jtfNomeCliente.setEditable(true);
 		jtfCPFCliente.setEditable(true);
 		jtfCNPJCliente.setEditable(true);
+		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(true);
 		jbCancelar.setEnabled(true);
+		
+		jbNovoVeiculo.setEnabled(true);
+		jbEditarVeiculo.setEnabled(true);
 	}
 	
 	public void acionarBotaoEditarVeiculo() {
+		jtfNomeVeiculo.requestFocus();
+		
 		jtfNomeVeiculo.setEditable(true);
 		jtfPlacaVeiculo.setEditable(true);
+		
+		jtfNomeVeiculo.setText("");
+		jtfPlacaVeiculo.setText("");
+		
 		jbNovoVeiculo.setEnabled(false);
 		jbEditarVeiculo.setEnabled(true);
 		jbExcluirVeiculo.setEnabled(false);
@@ -473,15 +503,27 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluirCliente() {
-		//faz procedimento para exclus�o do registro
-		//da mensagem ao usu�rio que exclui
-		jtfBuscarNomeCliente.requestFocus();
+		cliente = new Cliente();
+		if(!jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) {
+			cliente.setCpf(jtfCPFCliente.getText());
+			MongoDao.getDAO().remove(cliente, "cpf", cliente.getCpf());
+			JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+			jtfBuscarNomeCliente.requestFocus();
+		} else {
+			cliente.setCnpj(jtfCNPJCliente.getText());
+			MongoDao.getDAO().remove(cliente, "cnpj", cliente.getCnpj());
+			JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+			jtfBuscarNomeCliente.requestFocus();
+		}
+	
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
+		
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);
@@ -508,9 +550,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeCliente.setEditable(false);
 		jtfCPFCliente.setEditable(false);
 		jtfCNPJCliente.setEditable(false);
+		
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);
@@ -522,8 +566,10 @@ public class FormCliente extends JFrame implements PreencheDados {
 	public void acionarBotaoCancelarVeiculo() {
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
+		
 		jtfNomeVeiculo.setText("");
 		jtfPlacaVeiculo.setText("");
+		
 		jbNovoVeiculo.setEnabled(true);
 		jbEditarVeiculo.setEnabled(false);
 		jbExcluirVeiculo.setEnabled(false);
@@ -531,12 +577,16 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelarVeiculo.setEnabled(false);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void preencheCamposCliente(Cliente cliente) {
 		jtfNomeCliente.setText(cliente.getNome());
 		jtfCPFCliente.setText(cliente.getCpf());
 		jtfCNPJCliente.setText(cliente.getCnpj());
-		jtfNomeVeiculo.setText(cliente.getCarros().get(0).getNome());
-		jtfPlacaVeiculo.setText(cliente.getCarros().get(0).getPlaca());
+		//sei lá que porra quis fazer aqui
+//		listaCarros = (List<Carro>) MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", cliente.getNome());
+//		listaCarros.forEach(carro -> {
+//			dtmListaVeiculoCliente.addRow(carro.vetorDados());
+//		});
 	}
 	
 	public void botaoBuscar() {
@@ -660,6 +710,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 
 	public FormCliente() {
+		setResizable(false);
 		componentesClienteForm();
 		botaoBuscar();
 		botaoNovoCliente();

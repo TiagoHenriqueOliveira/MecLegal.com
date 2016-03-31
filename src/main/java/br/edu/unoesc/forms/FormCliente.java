@@ -66,9 +66,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JButton jbSalvarVeiculo;
 	private JButton jbNovoVeiculo;
 	private Cliente cliente = new Cliente();
-	private ArrayList<Carro> listaCarros = new ArrayList<Carro>();
+	private ArrayList<Carro> listaCarros;
 	private static FormCliente formCliente;
 	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
+	private Boolean editarVeiculo = false;
+	private Integer indexCarroSelecionado;
 
 	public void componentesClienteForm() {
 		formCliente = this;
@@ -429,19 +431,28 @@ public class FormCliente extends JFrame implements PreencheDados {
 			jbEditar.setEnabled(true);
 			jbExcluir.setEnabled(true);
 			jbSalvar.setEnabled(false);
-			jbCancelar.setEnabled(false);
+			jbCancelar.setEnabled(true);
 		}
 	}
 	
 	public void acionarBotaoSalvarVeiculo() {
-		//Instancia um novo objeto novoCarro com base nos dados inseridos.
-		Carro novoCarro = new Carro(jtfNomeVeiculo.getText(), jtfPlacaVeiculo.getText());
-		//Insere o novoCarro na lista.
-		this.listaCarros.add(novoCarro);
-		//Salva o cliente com a nova lista de carros no banco usando o metodo acionarBotaoSalvarCliente();
+		
+		if (editarVeiculo){
+			Carro carroEdit = new Carro(jtfNomeVeiculo.getText(), jtfPlacaVeiculo.getText());
+			this.listaCarros.set(indexCarroSelecionado, carroEdit);
+			editarVeiculo = false;
+			dtmListaVeiculoCliente.removeRow(indexCarroSelecionado);
+			dtmListaVeiculoCliente.addRow(carroEdit.vetorDados());
+		}
+		else {
+			if (!jtfNomeVeiculo.getText().isEmpty() && !jtfPlacaVeiculo.getText().isEmpty()){
+				Carro novoCarro = new Carro(jtfNomeVeiculo.getText(), jtfPlacaVeiculo.getText());
+				this.listaCarros.add(novoCarro);
+				dtmListaVeiculoCliente.addRow(novoCarro.vetorDados());	
+			}
+		}
+		
 		acionarBotaoSalvarCliente();
-		//adiciona o novoCarro na tabela. :)
-		dtmListaVeiculoCliente.addRow(novoCarro.vetorDados());
 		jtfNomeVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setEditable(false);
 		jtfNomeVeiculo.setText("");
@@ -466,17 +477,21 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbCancelar.setEnabled(true);
 		jbNovoVeiculo.setEnabled(true);
 		jbEditarVeiculo.setEnabled(true);
+		jbExcluirVeiculo.setEnabled(true);
 	}
 	
 	public void acionarBotaoEditarVeiculo() {
 		jtfNomeVeiculo.requestFocus();
 		jtfNomeVeiculo.setEditable(true);
 		jtfPlacaVeiculo.setEditable(true);
-		jtfNomeVeiculo.setText("");
-		jtfPlacaVeiculo.setText("");
+		editarVeiculo = true;
+		this.indexCarroSelecionado = jttListaVeiculoCliente.getSelectedRow();
+		Carro carroEdit = listaCarros.get(this.indexCarroSelecionado);
+		jtfNomeVeiculo.setText(carroEdit.getNome());
+		jtfPlacaVeiculo.setText(carroEdit.getPlaca());
 		jbNovoVeiculo.setEnabled(false);
-		jbEditarVeiculo.setEnabled(true);
-		jbExcluirVeiculo.setEnabled(false);
+		jbEditarVeiculo.setEnabled(false);
+		jbExcluirVeiculo.setEnabled(true);
 		jbSalvarVeiculo.setEnabled(true);
 		jbCancelarVeiculo.setEnabled(true);
 	}
@@ -512,7 +527,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluirVeiculo() {
-		//procedimentos para exclusão.
 		
 		if(jttListaVeiculoCliente.getSelectedRow() == -1){
 			JOptionPane.showMessageDialog(null, "Nenhum Carro foi selecionado!!!\n"
@@ -520,10 +534,8 @@ public class FormCliente extends JFrame implements PreencheDados {
 		}
 		else{
 			Integer selecionado = jttListaVeiculoCliente.getSelectedRow();
-			System.out.println(listaCarros.get(selecionado).getNome());
-			listaCarros.remove(selecionado);
+			listaCarros.remove(selecionado.intValue());
 			dtmListaVeiculoCliente.removeRow(selecionado);
-			acionarBotaoSalvarCliente();
 		}
 		
 		jtfNomeVeiculo.setEditable(false);
@@ -533,7 +545,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbNovoVeiculo.setEnabled(true);
 		jbEditarVeiculo.setEnabled(false);
 		jbExcluirVeiculo.setEnabled(false);
-		jbSalvarVeiculo.setEnabled(false);
+		jbSalvarVeiculo.setEnabled(true);
 		jbCancelarVeiculo.setEnabled(false);
 	}
 	
@@ -547,12 +559,20 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
 		
+		for (Integer i=dtmListaVeiculoCliente.getRowCount()-1; i >= 0; i--){
+			dtmListaVeiculoCliente.removeRow(i);	
+		}
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(false);
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(false);
 		jbCancelar.setEnabled(false);
+		jbCancelarVeiculo.setEnabled(false);
+		jbEditarVeiculo.setEnabled(false);
+		jbNovoVeiculo.setEnabled(false);
+		jbExcluirVeiculo.setEnabled(false);
 	}
 	
 	public void acionarBotaoCancelarVeiculo() {
@@ -563,8 +583,8 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfPlacaVeiculo.setText("");
 		
 		jbNovoVeiculo.setEnabled(true);
-		jbEditarVeiculo.setEnabled(false);
-		jbExcluirVeiculo.setEnabled(false);
+		jbEditarVeiculo.setEnabled(true);
+		jbExcluirVeiculo.setEnabled(true);
 		jbSalvarVeiculo.setEnabled(false);
 		jbCancelarVeiculo.setEnabled(false);
 	}
@@ -573,6 +593,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeCliente.setText(cliente.getNome());
 		jtfCPFCliente.setText(cliente.getCpf());
 		jtfCNPJCliente.setText(cliente.getCnpj());
+		
+		if (listaCarros != null){
+
+			for (int i = dtmListaVeiculoCliente.getRowCount()-1; i>=0 ; i-- ){
+				dtmListaVeiculoCliente.removeRow(i);
+			}
+			
+		}
 		listaCarros = cliente.getCarros();
 		listaCarros.forEach(carro -> {
 			dtmListaVeiculoCliente.addRow(carro.vetorDados());

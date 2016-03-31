@@ -320,6 +320,8 @@ public class FormCliente extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoBuscar() {
+		dtmListaVeiculoCliente.setNumRows(0);
+		
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
@@ -345,13 +347,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 			}
 		} else if(!jtfBuscarCPFCliente.getText().equals("   .   .   -  ")) {
 			Cliente cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", jtfBuscarCPFCliente.getText());
-			jtfNomeCliente.setText(cliente.getNome());
-			jtfCPFCliente.setText(cliente.getCpf());
+			preencheCamposCliente(cliente);
 			jtfBuscarCPFCliente.setText("");
 		} else {
 			Cliente cliente = (Cliente) MongoDao.getDAO().buscaGenerica(Cliente.class, "cnpj", jtfBuscarCNPJCliente.getText());
-			jtfNomeCliente.setText(cliente.getNome());
-			jtfCNPJCliente.setText(cliente.getCnpj());
+			preencheCamposCliente(cliente);
 			jtfBuscarCNPJCliente.setText("");
 		}
 	}
@@ -413,15 +413,12 @@ public class FormCliente extends JFrame implements PreencheDados {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
-//aqui ta o segredo, ele seta a lista de carros do cliente igual a que esta sendo mostrada na tabela.
 				cliente.setCarros(this.listaCarros);
-//depois eh soh salvar o cliente ele salva a lista de carros..
 				MongoDao.getDAO().salvar(cliente);
 			} else {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
-				//O mesmo o corre no update
 				cliente.setCarros(this.listaCarros);
 				MongoDao.getDAO().update(cliente, "nome", cliente.getNome());
 			}
@@ -558,10 +555,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
 		jtfCNPJCliente.setText("");
-		
-		for (Integer i=dtmListaVeiculoCliente.getRowCount()-1; i >= 0; i--){
-			dtmListaVeiculoCliente.removeRow(i);	
-		}
 		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);

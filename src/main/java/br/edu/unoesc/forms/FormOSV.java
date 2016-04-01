@@ -60,6 +60,8 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		this.setBounds(100, 100, 586, 328);
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
+		jpAgendaServico.setToolTipText("As informações de: Cliente, Veículo, Tipo de Serviço e Funcionário, "
+				+ "são pesquisadas pressionando 'Enter' nos seus respectivos campos!");
 		
 		jpAgendaServico.setBorder(UIManager.getBorder("PopupMenu.border"));
 		jpAgendaServico.setBounds(10, 57, 560, 232);

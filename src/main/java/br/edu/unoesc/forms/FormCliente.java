@@ -587,13 +587,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfCPFCliente.setText(cliente.getCpf());
 		jtfCNPJCliente.setText(cliente.getCnpj());
 		
-		if (listaCarros != null){
-
-			for (int i = dtmListaVeiculoCliente.getRowCount()-1; i>=0 ; i-- ){
-				dtmListaVeiculoCliente.removeRow(i);
-			}
-			
-		}
 		listaCarros = cliente.getCarros();
 		listaCarros.forEach(carro -> {
 			dtmListaVeiculoCliente.addRow(carro.vetorDados());

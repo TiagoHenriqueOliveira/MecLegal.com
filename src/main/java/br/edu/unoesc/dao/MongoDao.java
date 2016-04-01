@@ -50,14 +50,14 @@ public class MongoDao implements GenericDao {
 	// Busca Generica, busca o valor EXATO e retorna somente 1 Objeto, se
 	// existir no Banco, caso nao, retorna null.
 	@SuppressWarnings({ "unchecked" })
-	public Object buscaGenerica(Class classe, String campo, String valor) {
-		Object objeto = jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
+	public <T> T buscaGenerica(Class classe, String campo, String valor) {
+		T objeto = (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
 		return objeto;
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public Object buscaGenerica(Class classe, String campo, Integer valor) {
-		Object objeto = jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
+	public <T> T buscaGenerica(Class classe, String campo, Integer valor) {
+		T objeto = (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
 		return objeto;
 	}
 

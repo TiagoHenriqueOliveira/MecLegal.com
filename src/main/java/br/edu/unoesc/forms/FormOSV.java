@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
@@ -171,7 +172,6 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jpAgendaServico.add(jtfServicoAgendado);
 		
 		jtfValorServico = new JTextField();
-		jtfValorServico.setDocument(new ConteudoNumerico());
 		jtfValorServico.setEditable(false);
 		jtfValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfValorServico.setToolTipText("");
@@ -436,7 +436,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 	public void preencheDadosServico(MinhaEntidade tipoServico) {
 		tipoServicoOSV = (TipoServico)tipoServico;
 		jtfServicoAgendado.setText(tipoServicoOSV.getNome());
-		jtfValorServico.setText(String.valueOf(tipoServicoOSV.getValor()));
+		jtfValorServico.setText(String.valueOf(new DecimalFormat("R$ #,##0.00").format(tipoServicoOSV.getValor())));
 	}
 	public void preencheDadosCarro(MinhaEntidade carro){
 		carroOSV = (Carro)carro;

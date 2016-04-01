@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,50 +19,36 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
+import br.edu.unoesc.dao.MongoDao;
+import br.edu.unoesc.modelo.Carro;
 import br.edu.unoesc.modelo.Cliente;
 import br.edu.unoesc.modelo.Funcionario;
 import br.edu.unoesc.modelo.MinhaEntidade;
+import br.edu.unoesc.modelo.OSV;
 import br.edu.unoesc.modelo.TipoServico;
 import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 
-public class FormOSV extends JFrame implements PreencheDados {
+public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel jpAgendaServico;
-	private JTextField jtfBuscarNomeCliente;
-	private JTextField jtfNomeCliente;
-	private JTextField jtfCPFCliente;
-	private JTextField jtfCNPJCliente;
-	private JTextField jtfNomeVeiculo;
-	private JTextField jtfPlacaVeiculo;
-	private JTextField jtfServicoAgendado;
-	private JTextField jtfValorServico;
-	private JTextField jtfNomeFuncionario;
-	private JTextField jtfCrachaFuncionario;
-	private JLabel jlBuscarNomeCliente;
-	private JLabel jlNomeCliente;
-	private JLabel jlCPFCliente;
-	private JLabel jlCNPJCliente;
-	private JLabel jlNomeVeiculo;
-	private JLabel jlPlacaVeiculo;
-	private JLabel jlServicoAgendado;
-	private JLabel jlValorServico;
-	private JLabel jlNomeFuncionario;
-	private JLabel jlCrachaFuncionario;
-	private JButton jbBuscar;
-	private JButton jbNovo;
-	private JButton jbSalvar;
-	private JButton jbEditar;
-	private JButton jbCancelar;
-	private JButton jbFechar;
+	private JPanel jpAgendaServico = new JPanel(null);
+	private JTextField jtfBuscarNomeCliente, jtfNomeCliente, jtfCPFCliente, jtfCNPJCliente, jtfNomeVeiculo, jtfPlacaVeiculo, jtfServicoAgendado,jtfValorServico, jtfNomeFuncionario,jtfCrachaFuncionario;
+	private JLabel jlBuscarNomeCliente, jlNomeCliente, jlCPFCliente, jlCNPJCliente, jlNomeVeiculo, jlPlacaVeiculo, jlServicoAgendado, jlValorServico, jlNomeFuncionario,jlCrachaFuncionario;
+	private JButton jbBuscar,jbNovo, jbSalvar, jbEditar,jbCancelar, jbFechar;
 	private static FormOSV formOSV;
-	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
-	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario(null, null);
-	private FormMostraTipoServico formMostraTipoServico = new FormMostraTipoServico(null, null);
-	private FormMostraCarro formMostraCarro = new FormMostraCarro(null, null);
+	private FormMostraCliente formMostraCliente = new FormMostraCliente();
+	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario();
+	private FormMostraTipoServico formMostraTipoServico = new FormMostraTipoServico();
+	private FormMostraCarro formMostraCarro = new FormMostraCarro();
+	private FormMostraOSV formMostraOsv = new FormMostraOSV();
+	private Cliente clienteOSV;
+	private Carro carroOSV;
+	private Funcionario funcionarioOSV;
+	private TipoServico tipoServicoOSV;
+	private OSV osvOSV;
 	
 	public void componentesFormOSV() {
 		formOSV = this;
@@ -73,8 +60,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
-		jpAgendaServico = new JPanel();
-		jpAgendaServico.setLayout(null);
 		jpAgendaServico.setBorder(UIManager.getBorder("PopupMenu.border"));
 		jpAgendaServico.setBounds(10, 57, 560, 232);
 		getContentPane().add(jpAgendaServico);
@@ -134,7 +119,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfNomeCliente.setEditable(false);
 		jtfNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeCliente.setToolTipText("Informar nome do cliente");
-		jtfNomeCliente.setColumns(10);
 		jtfNomeCliente.setBounds(10, 26, 300, 20);
 		jpAgendaServico.add(jtfNomeCliente);
 		
@@ -145,7 +129,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		}
 		jtfCPFCliente.setEditable(false);
 		jtfCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfCPFCliente.setColumns(10);
 		jtfCPFCliente.setBounds(320, 26, 100, 20);
 		jpAgendaServico.add(jtfCPFCliente);
 		
@@ -157,7 +140,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfCNPJCliente.setEditable(false);
 		jtfCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfCNPJCliente.setToolTipText("");
-		jtfCNPJCliente.setColumns(10);
 		jtfCNPJCliente.setBounds(430, 26, 120, 20);
 		jpAgendaServico.add(jtfCNPJCliente);
 		
@@ -166,7 +148,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfNomeVeiculo.setEditable(false);
 		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeVeiculo.setToolTipText("Informar nome do veículo");
-		jtfNomeVeiculo.setColumns(10);
 		jtfNomeVeiculo.setBounds(10, 72, 300, 20);
 		jpAgendaServico.add(jtfNomeVeiculo);
 		
@@ -178,7 +159,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfPlacaVeiculo.setEditable(false);
 		jtfPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfPlacaVeiculo.setToolTipText("");
-		jtfPlacaVeiculo.setColumns(10);
 		jtfPlacaVeiculo.setBounds(320, 72, 100, 20);
 		jpAgendaServico.add(jtfPlacaVeiculo);
 		
@@ -187,7 +167,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfServicoAgendado.setEditable(false);
 		jtfServicoAgendado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfServicoAgendado.setToolTipText("Informar serviço a ser executado");
-		jtfServicoAgendado.setColumns(10);
 		jtfServicoAgendado.setBounds(10, 118, 300, 20);
 		jpAgendaServico.add(jtfServicoAgendado);
 		
@@ -196,7 +175,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfValorServico.setEditable(false);
 		jtfValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfValorServico.setToolTipText("");
-		jtfValorServico.setColumns(10);
 		jtfValorServico.setBounds(320, 118, 100, 20);
 		jpAgendaServico.add(jtfValorServico);
 		
@@ -205,7 +183,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfNomeFuncionario.setEditable(false);
 		jtfNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfNomeFuncionario.setToolTipText("Informar nome do funcionário");
-		jtfNomeFuncionario.setColumns(10);
 		jtfNomeFuncionario.setBounds(10, 164, 300, 20);
 		jpAgendaServico.add(jtfNomeFuncionario);
 		
@@ -213,7 +190,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfCrachaFuncionario.setDocument(new ConteudoNumerico());
 		jtfCrachaFuncionario.setEditable(false);
 		jtfCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfCrachaFuncionario.setColumns(10);
 		jtfCrachaFuncionario.setBounds(320, 164, 50, 20);
 		jpAgendaServico.add(jtfCrachaFuncionario);
 		
@@ -223,23 +199,13 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfBuscarNomeCliente.setToolTipText("Informar nome do cliente");
 		jtfBuscarNomeCliente.setBounds(10, 26, 300, 20);
 		getContentPane().add(jtfBuscarNomeCliente);
-		jtfBuscarNomeCliente.setColumns(10);
-		
-		try {
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/novo.png")));
 		jbNovo.setToolTipText("Novo cadastro da Ordem de Serviço");
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 195, 100, 25);
+		jbNovo.addActionListener(this);
 		jpAgendaServico.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
@@ -248,6 +214,7 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setEnabled(false);
 		jbSalvar.setBounds(120, 195, 100, 25);
+		jbSalvar.addActionListener(this);
 		jpAgendaServico.add(jbSalvar);
 		
 		jbEditar = new JButton("Editar");
@@ -256,6 +223,7 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setEnabled(false);
 		jbEditar.setBounds(230, 195, 100, 25);
+		jbEditar.addActionListener(this);
 		jpAgendaServico.add(jbEditar);
 		
 		jbCancelar = new JButton("Cancelar");
@@ -264,6 +232,7 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setEnabled(false);
 		jbCancelar.setBounds(340, 195, 100, 25);
+		jbCancelar.addActionListener(this);
 		jpAgendaServico.add(jbCancelar);
 		
 		jbFechar = new JButton("Fechar");
@@ -271,6 +240,7 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jbFechar.setToolTipText("Fechar tela de cadastro");
 		jbFechar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbFechar.setBounds(450, 195, 100, 25);
+		jbFechar.addActionListener(this);
 		jpAgendaServico.add(jbFechar);
 		
 		jbBuscar = new JButton("Buscar");
@@ -278,11 +248,23 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jbBuscar.setToolTipText("Buscar informações da Ordem de Serviço");
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbBuscar.setBounds(481, 21, 89, 25);
+		jbBuscar.addActionListener(this);
 		getContentPane().add(jbBuscar);
 	}
 
 	public void acionarBotaoBuscar() {
-		jtfBuscarNomeCliente.setText("");
+		if(formMostraOsv.isVisible()) {
+			formMostraOsv.requestFocus();
+			formMostraOsv.setLocationRelativeTo(null);
+		} else if(jtfBuscarNomeCliente.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "É Obrigatório informar um parâmetro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			jtfBuscarNomeCliente.requestFocus();
+		} else {
+			formMostraOsv = new FormMostraOSV(formOSV, jtfBuscarNomeCliente.getText());
+			System.out.println(jtfBuscarNomeCliente.getText());
+			formMostraOsv.setVisible(true);
+		}
+		
 	}
 	
 	public void acionarBotaoNovo() {
@@ -313,7 +295,10 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfNomeVeiculo.setEditable(false);
 		jtfServicoAgendado.setEditable(false);
 		jtfNomeFuncionario.setEditable(false);
-		//faz procedimentos para salvar
+
+		osvOSV = new OSV(clienteOSV, carroOSV, funcionarioOSV, tipoServicoOSV, LocalDate.now());
+		MongoDao.getDAO().salvar(osvOSV);
+		
 		jbBuscar.setEnabled(true);
 		jbNovo.setEnabled(true);
 		jbEditar.setEnabled(true);
@@ -327,7 +312,11 @@ public class FormOSV extends JFrame implements PreencheDados {
 		jtfNomeVeiculo.setEditable(true);
 		jtfServicoAgendado.setEditable(true);
 		jtfNomeFuncionario.setEditable(true);
+
+		
 		//faz procedimentos para edi��o do registro
+		
+		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
 		jbEditar.setEnabled(true);
@@ -336,6 +325,11 @@ public class FormOSV extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoCancelar() {
+		carroOSV = null;
+		osvOSV = null;
+		clienteOSV = null;
+		funcionarioOSV = null;
+		tipoServicoOSV = null;
 		jtfBuscarNomeCliente.requestFocus();
 		jtfNomeCliente.setEditable(false);
 		jtfNomeVeiculo.setEditable(false);
@@ -387,7 +381,7 @@ public class FormOSV extends JFrame implements PreencheDados {
 						JOptionPane.showMessageDialog(null, "É Obrigatório informar um parâmetro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 						jtfNomeVeiculo.requestFocus();
 					} else {
-						formMostraCarro = new FormMostraCarro(formOSV, jtfNomeCliente.getText());
+						formMostraCarro = new FormMostraCarro(formOSV, clienteOSV);
 						formMostraCarro.setVisible(true);
 					}
 				}
@@ -420,7 +414,6 @@ public class FormOSV extends JFrame implements PreencheDados {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(formMostraFuncionario.isVisible()) {
 						formMostraFuncionario.requestFocus();
-						formMostraFuncionario.setLocationRelativeTo(null);
 					} else if(jtfNomeFuncionario.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "É Obrigatório informar um parâmetro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 						jtfNomeFuncionario.requestFocus();
@@ -433,91 +426,42 @@ public class FormOSV extends JFrame implements PreencheDados {
 		});
 	}
 	
-	public void preencheDadosCliente(Cliente cliente) {
-		jtfNomeCliente.setText(cliente.getNome());
-		jtfCPFCliente.setText(cliente.getCpf());
-		jtfCNPJCliente.setText(cliente.getCnpj());
-		
+	public void preencheDadosCliente(MinhaEntidade cliente) {
+		clienteOSV = (Cliente)cliente;
+		jtfNomeCliente.setText(clienteOSV.getNome());
+		jtfCPFCliente.setText(clienteOSV.getCpf());
+		jtfCNPJCliente.setText(clienteOSV.getCnpj());	
 	}
 	
-	public void preencheDadosServico(TipoServico tipoServico) {
-		jtfServicoAgendado.setText(tipoServico.getNome());
-		jtfValorServico.setText(String.valueOf(tipoServico.getValor()));
+	public void preencheDadosServico(MinhaEntidade tipoServico) {
+		tipoServicoOSV = (TipoServico)tipoServico;
+		jtfServicoAgendado.setText(tipoServicoOSV.getNome());
+		jtfValorServico.setText(String.valueOf(tipoServicoOSV.getValor()));
+	}
+	public void preencheDadosCarro(MinhaEntidade carro){
+		carroOSV = (Carro)carro;
+		jtfNomeVeiculo.setText(carroOSV.getNome());
+		jtfPlacaVeiculo.setText(carroOSV.getPlaca());
 	}
 	
-	public void preencheDadosFuncionario(Funcionario funcionario) {
-		jtfNomeFuncionario.setText(funcionario.getNome());
-		jtfCrachaFuncionario.setText(String.valueOf(funcionario.getCracha()));
+	public void preencheDadosFuncionario(MinhaEntidade funcionario) {
+		funcionarioOSV = (Funcionario)funcionario;
+		jtfNomeFuncionario.setText(funcionarioOSV.getNome());
+		jtfCrachaFuncionario.setText(funcionarioOSV.getCracha().toString());
 	}
 	
-	public void botaoBuscar() {
-		jbBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == jbBuscar) {
-					acionarBotaoBuscar();
-				}
-			}
-		});
-	}
-	
-	public void botaoNovo() {
-		jbNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == jbNovo) {
-					acionarBotaoNovo();
-				}
-			}
-		});
-	}
-	
-	public void botaoSalvar() {
-		jbSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == jbSalvar) {
-					acionarBotaoSalvar();
-				}
-			}
-		});
-	}
-	
-	public void botaoEditar() {
-		jbEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == jbEditar) {
-					acionarBotaoEditar();
-				}
-			}
-		});
-	}
-	
-	public void botaoCancelar() {
-		jbCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == jbCancelar) {
-					acionarBotaoCancelar();
-				}
-			}
-		});
-	}
-	
-	public void botaoFechar() {
-		jbFechar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == jbFechar) {
-					dispose();
-				}
-			}
-		});
+	public void preencheDadosOSV(MinhaEntidade OSVselecionada){
+		this.osvOSV = (OSV) OSVselecionada;
+		preencheDadosCliente(osvOSV.getCliente());
+		preencheDadosServico(osvOSV.getTipoServico());
+		preencheDadosCarro(osvOSV.getCarro());
+		preencheDadosFuncionario(osvOSV.getFuncionario());
+		jbEditar.setEnabled(true);
+		jbCancelar.setEnabled(true);
 	}
 	
 	public FormOSV() {
 		componentesFormOSV();
-		botaoBuscar();
-		botaoNovo();
-		botaoSalvar();
-		botaoEditar();
-		botaoCancelar();
-		botaoFechar();
 		buscaCliente();
 		buscaCarro();
 		buscaFuncionario();
@@ -527,11 +471,41 @@ public class FormOSV extends JFrame implements PreencheDados {
 	@Override
 	public void preencherCampos(MinhaEntidade entidade) {
 		if(entidade instanceof Cliente) {
-			this.preencheDadosCliente((Cliente)entidade);
-		} else if(entidade instanceof TipoServico) {
-			this.preencheDadosServico((TipoServico)entidade);
+			this.preencheDadosCliente(entidade);
+		} else if (entidade instanceof Carro){
+			preencheDadosCarro(entidade);
+		}
+		else if(entidade instanceof TipoServico) {
+			this.preencheDadosServico(entidade);
 		} else if(entidade instanceof Funcionario) {
-			this.preencheDadosFuncionario((Funcionario)entidade);
+			this.preencheDadosFuncionario(entidade);
+		}
+		else if (entidade instanceof OSV){
+			this.preencheDadosOSV(entidade);
 		}
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object acao = e.getSource();
+if(acao == jbFechar){
+	dispose();
+}
+else if (acao == jbCancelar){
+	acionarBotaoCancelar();
+}
+else if (acao == jbEditar){
+	acionarBotaoEditar();
+}
+else if (acao == jbSalvar){
+	acionarBotaoSalvar();
+}
+else if(acao == jbNovo) {
+	acionarBotaoNovo();
+}
+else if(acao == jbBuscar) {
+	acionarBotaoBuscar();
+}
+		
+	}//final do actionPerformed
 }

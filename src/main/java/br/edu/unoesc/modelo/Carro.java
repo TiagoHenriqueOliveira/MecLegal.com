@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Carro {
+public class Carro implements MinhaEntidade{
 
 	private String nome;
 	private String placa;

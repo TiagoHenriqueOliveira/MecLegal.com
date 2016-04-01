@@ -117,6 +117,10 @@ public class FormMostraTipoServico extends JFrame {
 		acionarBotaoCancelar();
 	}
 	
+	public FormMostraTipoServico(){
+		
+	}
+	
 	public FormMostraTipoServico(PreencheDados dados, String descricao) {
 		this.preencheDados = dados;
 		this.descricao = descricao;

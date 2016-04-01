@@ -39,7 +39,7 @@ public class FormMostraFuncionario extends JFrame {
 		dados = new Vector<String>();
 		dados.add("Crachá");
 		dados.add("Descrição");
-		dados.add("Valor");
+		dados.add("CPF");
 		
 		dtmListaFuncionario = new DefaultTableModel();
 		dtmListaFuncionario.setColumnIdentifiers(dados);
@@ -119,6 +119,10 @@ public class FormMostraFuncionario extends JFrame {
 		preencheDadosTabelaPorNome();
 		acionarBotaoSelecionar();
 		acionarBotaoCancelar();
+	}
+	
+	public FormMostraFuncionario(){
+		
 	}
 
 	public FormMostraFuncionario(PreencheDados dados, String descricao) {

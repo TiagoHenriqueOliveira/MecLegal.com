@@ -8,6 +8,7 @@ import org.jongo.MongoCursor;
 import com.mongodb.MongoClient;
 
 import br.edu.unoesc.modelo.MinhaEntidade;
+import br.edu.unoesc.modelo.OSV;
 import lombok.Getter;
 
 @SuppressWarnings("rawtypes")
@@ -44,6 +45,16 @@ public class MongoDao implements GenericDao {
 		});
 		return array;
 	}
+	
+	public ArrayList<OSV> listaDeOSV(String nomeCliente){
+		MongoCursor<OSV> cursor = jongo.getCollection("br.edu.unoesc.modelo.OSV").find().as(OSV.class);
+		ArrayList<OSV> array = new ArrayList<>();
+		cursor.forEach(osv->{
+			array.add(osv);
+		});
+		return array;
+	}
+	
 
 	// Busca Generica, busca o valor EXATO e retorna somente 1 Objeto, se
 	// existir no Banco, caso nao, retorna null.

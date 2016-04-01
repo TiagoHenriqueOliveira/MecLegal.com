@@ -120,6 +120,10 @@ public class FormMostraCliente extends JFrame {
 		acionarBotaoSelecionar();
 		acionarBotaoCancelar();
 	}
+	
+	public FormMostraCliente(){
+		
+	}
 
 	public FormMostraCliente(PreencheDados dados, String descricao) {
 		this.preencheDados = dados;

@@ -3,7 +3,6 @@ package br.edu.unoesc.dao;
 import java.util.ArrayList;
 
 import org.jongo.Jongo;
-import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 
 import com.mongodb.MongoClient;
@@ -30,8 +29,6 @@ public class MongoDao implements GenericDao {
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
 	}
 
-	
-	
 	// Retorna um ArrayList com todos os objetos que contem no campo passado o
 	// conteudo texto passado.
 	// listaGenerica exemplo em SQL: listaGenerica(select classe where campo
@@ -45,7 +42,6 @@ public class MongoDao implements GenericDao {
 		cursor.forEach(retornado -> {
 			array.add(retornado);
 		});
-
 		return array;
 	}
 
@@ -53,14 +49,12 @@ public class MongoDao implements GenericDao {
 	// existir no Banco, caso nao, retorna null.
 	@SuppressWarnings({ "unchecked" })
 	public <T> T buscaGenerica(Class classe, String campo, String valor) {
-		T objeto = (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
-		return objeto;
+		return (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
 	}
 
 	@SuppressWarnings({ "unchecked" })
 	public <T> T buscaGenerica(Class classe, String campo, Integer valor) {
-		T objeto = (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
-		return objeto;
+		return (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
 	}
 
 	 // Funcao Generica para inserir no banco de dados. Ele salva com o nome
@@ -73,19 +67,20 @@ public class MongoDao implements GenericDao {
 
 	@Override
 	public void update(MinhaEntidade objeto, String campo, String valor) {
-		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
-		collection.update("{" + campo + ":'" + valor + "'}").with(objeto);
+		jongo.getCollection(objeto.getClass().getName()).update("{" + campo + ":'" + valor + "'}").with(objeto);
+	}
+	
+	public void update(MinhaEntidade objeto, String campo, Integer valor) {
+		jongo.getCollection(objeto.getClass().getName()).update("{" + campo + ":" + valor + "}").with(objeto);
 	}
 	
 	@Override
 	public void remove (MinhaEntidade objeto, String campo, String valor){
-		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
-		collection.remove("{"+campo+":'"+valor+"'}");
+		jongo.getCollection(objeto.getClass().getName()).remove("{"+campo+":'"+valor+"'}");
 		
 	}
 	public void remove (MinhaEntidade objeto, String campo, Integer valor){
-		MongoCollection collection = jongo.getCollection(objeto.getClass().getName());
-		collection.remove("{"+campo+":"+valor+"}");
+		jongo.getCollection(objeto.getClass().getName()).remove("{"+campo+":"+valor+"}");
 		
 	}
 	

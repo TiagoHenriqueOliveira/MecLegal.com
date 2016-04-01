@@ -30,15 +30,17 @@ public class MongoDao implements GenericDao {
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
 	}
 
+	
+	
 	// Retorna um ArrayList com todos os objetos que contem no campo passado o
 	// conteudo texto passado.
 	// listaGenerica exemplo em SQL: listaGenerica(select classe where campo
 	// like %texto%)
 	@SuppressWarnings({ "unchecked" })
-	public ArrayList<?> listaGenerica(Class classe, String campo, String texto) {
-		MongoCursor<?> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
+	public <T> ArrayList<T> listaGenerica(Class classe, String campo, String texto) {
+		MongoCursor<T> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
 
-		ArrayList array = new ArrayList<>();
+		ArrayList<T> array = new ArrayList<T>();
 
 		cursor.forEach(retornado -> {
 			array.add(retornado);
@@ -50,14 +52,14 @@ public class MongoDao implements GenericDao {
 	// Busca Generica, busca o valor EXATO e retorna somente 1 Objeto, se
 	// existir no Banco, caso nao, retorna null.
 	@SuppressWarnings({ "unchecked" })
-	public Object buscaGenerica(Class classe, String campo, String valor) {
-		Object objeto = jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
+	public <T> T buscaGenerica(Class classe, String campo, String valor) {
+		T objeto = (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
 		return objeto;
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public Object buscaGenerica(Class classe, String campo, Integer valor) {
-		Object objeto = jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
+	public <T> T buscaGenerica(Class classe, String campo, Integer valor) {
+		T objeto = (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
 		return objeto;
 	}
 

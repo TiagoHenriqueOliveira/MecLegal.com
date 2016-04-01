@@ -39,12 +39,16 @@ public class FormMostraOSV extends JFrame implements ActionListener{
 		jttListaOSV.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jttListaOSV.setModel(dtmListaOSV);
 		jttListaOSV.getColumnModel().getColumn(0).setResizable(false);
-		jttListaOSV.getColumnModel().getColumn(0).setPreferredWidth(320);
+		jttListaOSV.getColumnModel().getColumn(0).setPreferredWidth(200);
 		jttListaOSV.getColumnModel().getColumn(1).setResizable(false);
-		jttListaOSV.getColumnModel().getColumn(1).setPreferredWidth(100);
+		jttListaOSV.getColumnModel().getColumn(1).setPreferredWidth(150);
+		jttListaOSV.getColumnModel().getColumn(2).setResizable(false);
+		jttListaOSV.getColumnModel().getColumn(2).setPreferredWidth(150);
+		jttListaOSV.getColumnModel().getColumn(3).setResizable(false);
+		jttListaOSV.getColumnModel().getColumn(3).setPreferredWidth(70);
 		
 		jspListaOSV = new JScrollPane(jttListaOSV);
-		jspListaOSV.setBounds(10, 11, 520, 300);
+		jspListaOSV.setBounds(10, 11, 775, 300);
 		jpListaOSV.add(jspListaOSV);
 		
 		jbSelecionar = new JButton("Selecionar");
@@ -66,7 +70,7 @@ public class FormMostraOSV extends JFrame implements ActionListener{
 		this.setResizable(false);
 		this.setTitle("Lista de OSVs");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setBounds(100, 100, 549, 382);
+		this.setBounds(100, 100, 800, 382);
 		this.setLocationRelativeTo(null);
 		setContentPane(jpListaOSV);
 		componentesMostraOSV();

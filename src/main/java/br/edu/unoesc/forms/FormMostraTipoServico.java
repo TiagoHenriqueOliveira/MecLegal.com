@@ -107,6 +107,7 @@ public class FormMostraTipoServico extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setSize(475, 385);
+		this.setLocationRelativeTo(null);
 		jpListaTipoServico = new JPanel();
 		this.setContentPane(jpListaTipoServico);
 		

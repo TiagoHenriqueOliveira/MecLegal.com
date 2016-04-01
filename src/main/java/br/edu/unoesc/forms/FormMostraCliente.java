@@ -111,6 +111,7 @@ public class FormMostraCliente extends JFrame {
 		this.setTitle("Lista Clientes");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(100, 100, 615, 382);
+		this.setLocationRelativeTo(null);
 		jpListaCliente = new JPanel();
 		setContentPane(jpListaCliente);
 		

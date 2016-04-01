@@ -488,24 +488,18 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object acao = e.getSource();
-if(acao == jbFechar){
-	dispose();
-}
-else if (acao == jbCancelar){
-	acionarBotaoCancelar();
-}
-else if (acao == jbEditar){
-	acionarBotaoEditar();
-}
-else if (acao == jbSalvar){
-	acionarBotaoSalvar();
-}
-else if(acao == jbNovo) {
-	acionarBotaoNovo();
-}
-else if(acao == jbBuscar) {
-	acionarBotaoBuscar();
-}
-		
-	}//final do actionPerformed
+		if (acao == jbFechar) {
+			dispose();
+		} else if (acao == jbCancelar) {
+			acionarBotaoCancelar();
+		} else if (acao == jbEditar) {
+			acionarBotaoEditar();
+		} else if (acao == jbSalvar) {
+			acionarBotaoSalvar();
+		} else if (acao == jbNovo) {
+			acionarBotaoNovo();
+		} else if (acao == jbBuscar) {
+			acionarBotaoBuscar();
+		}
+	}
 }

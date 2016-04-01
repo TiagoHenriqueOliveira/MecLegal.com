@@ -30,15 +30,17 @@ public class MongoDao implements GenericDao {
 		jongo = new Jongo(mongoClient.getDB("meclegal"));
 	}
 
+	
+	
 	// Retorna um ArrayList com todos os objetos que contem no campo passado o
 	// conteudo texto passado.
 	// listaGenerica exemplo em SQL: listaGenerica(select classe where campo
 	// like %texto%)
 	@SuppressWarnings({ "unchecked" })
-	public ArrayList<?> listaGenerica(Class classe, String campo, String texto) {
-		MongoCursor<?> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
+	public <T> ArrayList<T> listaGenerica(Class classe, String campo, String texto) {
+		MongoCursor<T> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
 
-		ArrayList array = new ArrayList<>();
+		ArrayList<T> array = new ArrayList<T>();
 
 		cursor.forEach(retornado -> {
 			array.add(retornado);

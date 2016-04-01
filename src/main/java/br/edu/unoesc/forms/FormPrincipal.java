@@ -71,20 +71,24 @@ public class FormPrincipal extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/* jbSair */ if (e.getSource() == jbSair) {
+		if (e.getSource() == jbSair) {
 			System.exit(0);
-			/* jbTipoServico */} else if (e.getSource() == jbTipoServico) {
+		} else if (e.getSource() == jbTipoServico) {
 			formTipoServico.setVisible(true);
 			formTipoServico.requestFocus();
-			/* jbOrdemServico */} else if (e.getSource() == jbOrdemServico) {
+			formTipoServico.setLocationRelativeTo(null);
+		} else if (e.getSource() == jbOrdemServico) {
 			formOSV.setVisible(true);
 			formOSV.requestFocus();
-			/* jbFuncionario */} else if (e.getSource() == jbFuncionario) {
+			formOSV.setLocationRelativeTo(null);
+		} else if (e.getSource() == jbFuncionario) {
 			formFuncionario.setVisible(true);
 			formFuncionario.requestFocus();
-			/* jbCliente */} else if (e.getSource() == jbCliente) {
+			formFuncionario.setLocationRelativeTo(null);
+		} else if (e.getSource() == jbCliente) {
 			formCliente.setVisible(true);
 			formCliente.requestFocus();
+			formCliente.setLocationRelativeTo(null);
 		}
-	}// Final do actionPerformed
+	}
 }

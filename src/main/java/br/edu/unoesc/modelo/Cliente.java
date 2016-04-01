@@ -28,8 +28,4 @@ public class Cliente implements MinhaEntidade {
 		}
 		return new String[]{nome,cpf,null};
 	}
-	
-	public String[] vetorDadosCarro(Carro carro) {
-		return new String[]{carro.getNome(), carro.getPlaca()};
-	}
 }

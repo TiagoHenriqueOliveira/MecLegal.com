@@ -67,9 +67,8 @@ public class FormMostraTipoServico extends JFrame {
 		jpListaTipoServico.add(jbCancelar);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void preencheDadosTabela() {
-		listaTiposServicos = (List<TipoServico>) MongoDao.getDAO().listaGenerica(TipoServico.class, "nome", descricao);
+		listaTiposServicos = MongoDao.getDAO().listaGenerica(TipoServico.class, "nome", descricao);
 		listaTiposServicos.forEach(servico->{			
 				dtmListaTipoServico.addRow(servico.listaDados());
 		});

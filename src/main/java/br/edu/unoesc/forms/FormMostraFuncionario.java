@@ -70,9 +70,8 @@ public class FormMostraFuncionario extends JFrame {
 		jpMostraFuncionario.add(jbCancelar);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void preencheDadosTabelaPorNome() {
-		listaFuncionarios = (List<Funcionario>) MongoDao.getDAO().listaGenerica(Funcionario.class, "nome", descricao);
+		listaFuncionarios = MongoDao.getDAO().listaGenerica(Funcionario.class, "nome", descricao);
 		listaFuncionarios.forEach(funcionario->{
 			dtmListaFuncionario.addRow(funcionario.vetorDados());
 		});

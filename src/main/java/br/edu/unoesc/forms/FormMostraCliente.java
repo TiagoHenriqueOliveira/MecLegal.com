@@ -70,9 +70,8 @@ public class FormMostraCliente extends JFrame {
 		jpListaCliente.add(jbCancelar);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void preencheDadosTabelaBuscaPorNome() {
-		listaClientes = (List<Cliente>) MongoDao.getDAO().listaGenerica(Cliente.class, "nome", descricao);
+		listaClientes = MongoDao.getDAO().listaGenerica(Cliente.class, "nome", descricao);
 		listaClientes.forEach(cliente->{
 			dtmListaCliente.addRow(cliente.vetorDados());
 		});

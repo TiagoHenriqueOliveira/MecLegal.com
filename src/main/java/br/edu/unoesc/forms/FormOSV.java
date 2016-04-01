@@ -4,28 +4,34 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
 
+import br.edu.unoesc.modelo.Cliente;
+import br.edu.unoesc.modelo.Funcionario;
+import br.edu.unoesc.modelo.MinhaEntidade;
+import br.edu.unoesc.modelo.TipoServico;
+import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
 
-public class FormOSV extends JFrame {
+public class FormOSV extends JFrame implements PreencheDados {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpAgendaServico;
 	private JTextField jtfBuscarNomeCliente;
-	private JTextField jtfBuscarCPFCliente;
-	private JTextField jtfBuscarCNPJCliente;
 	private JTextField jtfNomeCliente;
 	private JTextField jtfCPFCliente;
 	private JTextField jtfCNPJCliente;
@@ -36,8 +42,6 @@ public class FormOSV extends JFrame {
 	private JTextField jtfNomeFuncionario;
 	private JTextField jtfCrachaFuncionario;
 	private JLabel jlBuscarNomeCliente;
-	private JLabel jlBuscarCPFCliente;
-	private JLabel jlBuscarCNPJCliente;
 	private JLabel jlNomeCliente;
 	private JLabel jlCPFCliente;
 	private JLabel jlCNPJCliente;
@@ -53,36 +57,32 @@ public class FormOSV extends JFrame {
 	private JButton jbEditar;
 	private JButton jbCancelar;
 	private JButton jbFechar;
+	private static FormOSV formOSV;
+	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
+	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario(null, null);
+	private FormMostraTipoServico formMostraTipoServico = new FormMostraTipoServico(null, null);
+	private FormMostraCarro formMostraCarro = new FormMostraCarro(null, null);
 	
 	public void componentesFormOSV() {
+		formOSV = this;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FormOSV.class.getResource("/br/edu/unoesc/imagens/logo.png")));
 		this.setResizable(false);
 		this.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		this.setTitle("Agendamento de ServiÁos");
-		this.setBounds(100, 100, 660, 328);
+		this.setTitle("Agendamento de Servi√ßos");
+		this.setBounds(100, 100, 586, 328);
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		
 		jpAgendaServico = new JPanel();
 		jpAgendaServico.setLayout(null);
 		jpAgendaServico.setBorder(UIManager.getBorder("PopupMenu.border"));
-		jpAgendaServico.setBounds(10, 57, 626, 232);
+		jpAgendaServico.setBounds(10, 57, 560, 232);
 		getContentPane().add(jpAgendaServico);
 		
-		jlBuscarNomeCliente = new JLabel("Buscar por cliente");
+		jlBuscarNomeCliente = new JLabel("Buscar ordens de servi√ßo");
 		jlBuscarNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlBuscarNomeCliente.setBounds(10, 11, 120, 14);
+		jlBuscarNomeCliente.setBounds(10, 11, 300, 14);
 		getContentPane().add(jlBuscarNomeCliente);
-		
-		jlBuscarCPFCliente = new JLabel("Buscar CPF");
-		jlBuscarCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlBuscarCPFCliente.setBounds(320, 11, 120, 14);
-		getContentPane().add(jlBuscarCPFCliente);
-		
-		jlBuscarCNPJCliente = new JLabel("Buscar CNPJ");
-		jlBuscarCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jlBuscarCNPJCliente.setBounds(430, 11, 120, 14);
-		getContentPane().add(jlBuscarCNPJCliente);
 		
 		jlNomeCliente = new JLabel("Nome do Cliente");
 		jlNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -99,32 +99,32 @@ public class FormOSV extends JFrame {
 		jlCNPJCliente.setBounds(430, 11, 120, 14);
 		jpAgendaServico.add(jlCNPJCliente);
 		
-		jlNomeVeiculo = new JLabel("Nome do VeÌculo");
+		jlNomeVeiculo = new JLabel("Nome do Ve√≠culo");
 		jlNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlNomeVeiculo.setBounds(10, 57, 120, 14);
 		jpAgendaServico.add(jlNomeVeiculo);
 		
-		jlPlacaVeiculo = new JLabel("Placa do VeÌculo");
+		jlPlacaVeiculo = new JLabel("Placa do Ve√≠culo");
 		jlPlacaVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlPlacaVeiculo.setBounds(320, 57, 120, 14);
 		jpAgendaServico.add(jlPlacaVeiculo);
 		
-		jlServicoAgendado = new JLabel("ServiÁo Agendado");
+		jlServicoAgendado = new JLabel("Servi√ßo Agendado");
 		jlServicoAgendado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlServicoAgendado.setBounds(10, 103, 120, 14);
 		jpAgendaServico.add(jlServicoAgendado);
 		
-		jlValorServico = new JLabel("Valor do ServiÁo");
+		jlValorServico = new JLabel("Valor do Servi√ßo");
 		jlValorServico.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlValorServico.setBounds(320, 104, 120, 14);
 		jpAgendaServico.add(jlValorServico);
 		
-		jlNomeFuncionario = new JLabel("Nome do Funcion·rio");
+		jlNomeFuncionario = new JLabel("Nome do Funcion√°rio");
 		jlNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlNomeFuncionario.setBounds(10, 149, 140, 14);
 		jpAgendaServico.add(jlNomeFuncionario);
 		
-		jlCrachaFuncionario = new JLabel("Crach·");
+		jlCrachaFuncionario = new JLabel("Crach√°");
 		jlCrachaFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jlCrachaFuncionario.setBounds(320, 150, 100, 14);
 		jpAgendaServico.add(jlCrachaFuncionario);
@@ -158,14 +158,14 @@ public class FormOSV extends JFrame {
 		jtfCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfCNPJCliente.setToolTipText("");
 		jtfCNPJCliente.setColumns(10);
-		jtfCNPJCliente.setBounds(430, 26, 110, 20);
+		jtfCNPJCliente.setBounds(430, 26, 120, 20);
 		jpAgendaServico.add(jtfCNPJCliente);
 		
 		jtfNomeVeiculo = new JTextField();
 		jtfNomeVeiculo.setDocument(new ConteudoAlfaNumerico());
 		jtfNomeVeiculo.setEditable(false);
 		jtfNomeVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfNomeVeiculo.setToolTipText("Informar nome do veÌculo");
+		jtfNomeVeiculo.setToolTipText("Informar nome do ve√≠culo");
 		jtfNomeVeiculo.setColumns(10);
 		jtfNomeVeiculo.setBounds(10, 72, 300, 20);
 		jpAgendaServico.add(jtfNomeVeiculo);
@@ -186,7 +186,7 @@ public class FormOSV extends JFrame {
 		jtfServicoAgendado.setDocument(new ConteudoAlfaNumerico());
 		jtfServicoAgendado.setEditable(false);
 		jtfServicoAgendado.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfServicoAgendado.setToolTipText("Informar serviÁo a ser executado");
+		jtfServicoAgendado.setToolTipText("Informar servi√ßo a ser executado");
 		jtfServicoAgendado.setColumns(10);
 		jtfServicoAgendado.setBounds(10, 118, 300, 20);
 		jpAgendaServico.add(jtfServicoAgendado);
@@ -204,7 +204,7 @@ public class FormOSV extends JFrame {
 		jtfNomeFuncionario.setDocument(new ConteudoString());
 		jtfNomeFuncionario.setEditable(false);
 		jtfNomeFuncionario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfNomeFuncionario.setToolTipText("Informar nome do funcion·rio");
+		jtfNomeFuncionario.setToolTipText("Informar nome do funcion√°rio");
 		jtfNomeFuncionario.setColumns(10);
 		jtfNomeFuncionario.setBounds(10, 164, 300, 20);
 		jpAgendaServico.add(jtfNomeFuncionario);
@@ -226,37 +226,25 @@ public class FormOSV extends JFrame {
 		jtfBuscarNomeCliente.setColumns(10);
 		
 		try {
-			jtfBuscarCPFCliente = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfBuscarCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarCPFCliente.setToolTipText("Informar CPF completo");
-		jtfBuscarCPFCliente.setColumns(10);
-		jtfBuscarCPFCliente.setBounds(320, 26, 100, 20);
-		getContentPane().add(jtfBuscarCPFCliente);
 		
 		try {
-			jtfBuscarCNPJCliente = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		jtfBuscarCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jtfBuscarCNPJCliente.setToolTipText("Informar CNPJ completo");
-		jtfBuscarCNPJCliente.setColumns(10);
-		jtfBuscarCNPJCliente.setBounds(430, 26, 110, 20);
-		getContentPane().add(jtfBuscarCNPJCliente);
 		
 		jbNovo = new JButton("Novo");
 		jbNovo.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/novo.png")));
-		jbNovo.setToolTipText("Novo cadastro da Ordem de ServiÁo");
+		jbNovo.setToolTipText("Novo cadastro da Ordem de Servi√ßo");
 		jbNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovo.setBounds(10, 195, 100, 25);
 		jpAgendaServico.add(jbNovo);
 		
 		jbSalvar = new JButton("Salvar");
 		jbSalvar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/salvar.png")));
-		jbSalvar.setToolTipText("Salvar cadastro da Ordem de ServiÁo");
+		jbSalvar.setToolTipText("Salvar cadastro da Ordem de Servi√ßo");
 		jbSalvar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbSalvar.setEnabled(false);
 		jbSalvar.setBounds(120, 195, 100, 25);
@@ -264,7 +252,7 @@ public class FormOSV extends JFrame {
 		
 		jbEditar = new JButton("Editar");
 		jbEditar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/editar.png")));
-		jbEditar.setToolTipText("Editar cadastro da Ordem de ServiÁo");
+		jbEditar.setToolTipText("Editar cadastro da Ordem de Servi√ßo");
 		jbEditar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbEditar.setEnabled(false);
 		jbEditar.setBounds(230, 195, 100, 25);
@@ -272,7 +260,7 @@ public class FormOSV extends JFrame {
 		
 		jbCancelar = new JButton("Cancelar");
 		jbCancelar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/cancelar.png")));
-		jbCancelar.setToolTipText("Cancelar cadastro da Ordem de ServiÁo");
+		jbCancelar.setToolTipText("Cancelar cadastro da Ordem de Servi√ßo");
 		jbCancelar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbCancelar.setEnabled(false);
 		jbCancelar.setBounds(340, 195, 100, 25);
@@ -287,16 +275,14 @@ public class FormOSV extends JFrame {
 		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
-		jbBuscar.setToolTipText("Buscar informaÁıes da Ordem de ServiÁo");
+		jbBuscar.setToolTipText("Buscar informa√ß√µes da Ordem de Servi√ßo");
 		jbBuscar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		jbBuscar.setBounds(547, 22, 89, 25);
+		jbBuscar.setBounds(481, 21, 89, 25);
 		getContentPane().add(jbBuscar);
 	}
 
 	public void acionarBotaoBuscar() {
 		jtfBuscarNomeCliente.setText("");
-		jtfBuscarCPFCliente.setText("");
-		jtfBuscarCNPJCliente.setText("");
 	}
 	
 	public void acionarBotaoNovo() {
@@ -371,6 +357,99 @@ public class FormOSV extends JFrame {
 		jbCancelar.setEnabled(false);
 	}
 	
+	public void buscaCliente() {
+		jtfNomeCliente.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(formMostraCliente.isVisible()) {
+						formMostraCliente.requestFocus();
+						formMostraCliente.setLocationRelativeTo(null);
+					} else if(jtfNomeCliente.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "√â Obrigat√≥rio informar um par√¢metro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						jtfNomeCliente.requestFocus();
+					} else {
+						formMostraCliente = new FormMostraCliente(formOSV, jtfNomeCliente.getText());
+						formMostraCliente.setVisible(true);
+					}
+				}
+			}
+		});
+	}
+	
+	public void buscaCarro() {
+		jtfNomeVeiculo.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(formMostraCarro.isVisible()) {
+						formMostraCarro.requestFocus();
+						formMostraCarro.setLocationRelativeTo(null);
+					} else if(jtfNomeVeiculo.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "√â Obrigat√≥rio informar um par√¢metro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						jtfNomeVeiculo.requestFocus();
+					} else {
+						formMostraCarro = new FormMostraCarro(formOSV, jtfNomeCliente.getText());
+						formMostraCarro.setVisible(true);
+					}
+				}
+			}
+		});
+	}
+	
+	public void buscaServico() {
+		jtfServicoAgendado.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(formMostraTipoServico.isVisible()) {
+						formMostraTipoServico.requestFocus();
+						formMostraTipoServico.setLocationRelativeTo(null);
+					} else if(jtfServicoAgendado.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "√â Obrigat√≥rio informar um par√¢metro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						jtfServicoAgendado.requestFocus();
+					} else {
+						formMostraTipoServico = new FormMostraTipoServico(formOSV, jtfServicoAgendado.getText());
+						formMostraTipoServico.setVisible(true);
+					}
+				}
+			}
+		});
+	}
+	
+	public void buscaFuncionario() {
+		jtfNomeFuncionario.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(formMostraFuncionario.isVisible()) {
+						formMostraFuncionario.requestFocus();
+						formMostraFuncionario.setLocationRelativeTo(null);
+					} else if(jtfNomeFuncionario.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "√â Obrigat√≥rio informar um par√¢metro para pesquisa!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						jtfNomeFuncionario.requestFocus();
+					} else {
+						formMostraFuncionario = new FormMostraFuncionario(formOSV, jtfNomeFuncionario.getText());
+						formMostraFuncionario.setVisible(true);
+					}
+				}
+			}
+		});
+	}
+	
+	public void preencheDadosCliente(Cliente cliente) {
+		jtfNomeCliente.setText(cliente.getNome());
+		jtfCPFCliente.setText(cliente.getCpf());
+		jtfCNPJCliente.setText(cliente.getCnpj());
+		
+	}
+	
+	public void preencheDadosServico(TipoServico tipoServico) {
+		jtfServicoAgendado.setText(tipoServico.getNome());
+		jtfValorServico.setText(String.valueOf(tipoServico.getValor()));
+	}
+	
+	public void preencheDadosFuncionario(Funcionario funcionario) {
+		jtfNomeFuncionario.setText(funcionario.getNome());
+		jtfCrachaFuncionario.setText(String.valueOf(funcionario.getCracha()));
+	}
+	
 	public void botaoBuscar() {
 		jbBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -439,5 +518,20 @@ public class FormOSV extends JFrame {
 		botaoEditar();
 		botaoCancelar();
 		botaoFechar();
+		buscaCliente();
+		buscaCarro();
+		buscaFuncionario();
+		buscaServico();
+	}
+
+	@Override
+	public void preencherCampos(MinhaEntidade entidade) {
+		if(entidade instanceof Cliente) {
+			this.preencheDadosCliente((Cliente)entidade);
+		} else if(entidade instanceof TipoServico) {
+			this.preencheDadosServico((TipoServico)entidade);
+		} else if(entidade instanceof Funcionario) {
+			this.preencheDadosFuncionario((Funcionario)entidade);
+		}
 	}
 }

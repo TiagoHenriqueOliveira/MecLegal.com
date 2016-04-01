@@ -47,7 +47,8 @@ public class MongoDao implements GenericDao {
 	}
 	
 	public ArrayList<OSV> listaDeOSV(String nomeCliente){
-		MongoCursor<OSV> cursor = jongo.getCollection("br.edu.unoesc.modelo.OSV").find().as(OSV.class);
+		MongoCursor<OSV> cursor = jongo.getCollection("br.edu.unoesc.modelo.OSV").find(
+				"{cliente.nome:{$regex: #}}", nomeCliente +"*").as(OSV.class);
 		ArrayList<OSV> array = new ArrayList<>();
 		cursor.forEach(osv->{
 			array.add(osv);

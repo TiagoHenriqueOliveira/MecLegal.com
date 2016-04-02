@@ -1,7 +1,5 @@
 package br.edu.unoesc.modelo;
 
-import org.bson.types.ObjectId;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Funcionario implements MinhaEntidade {
+public class Funcionario extends MinhaEntidade {
 	
-	private ObjectId _id;
 	private String nome;
 	private String cpf;
 	private Integer cracha;
@@ -22,8 +19,5 @@ public class Funcionario implements MinhaEntidade {
 		return new String[]{cracha.toString(), nome, cpf};
 	}
 
-	@Override
-	public ObjectId getObjectId() {
-		return _id;
-	}
+
 }

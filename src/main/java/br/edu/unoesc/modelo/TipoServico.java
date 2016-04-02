@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TipoServico implements MinhaEntidade{
+public class TipoServico extends MinhaEntidade{
 	
 	private ObjectId _id;
 	private String nome;

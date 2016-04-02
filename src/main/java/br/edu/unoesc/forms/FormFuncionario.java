@@ -44,7 +44,7 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	private JButton jbCancelar;
 	private JButton jbFechar;
 	private JButton jbExcluir;
-	private Funcionario funcionario;
+	private Funcionario funcionario = new Funcionario();
 	private static FormFuncionario formFuncionario;
 	private FormMostraFuncionario formMostraFuncionario = new FormMostraFuncionario(null, null);
 
@@ -259,22 +259,12 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 			JOptionPane.showMessageDialog(null, "Obrigatório informar o crachá do funcionário!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfCrachaFuncionario.requestFocus();
 		} else {
-			funcionario = new Funcionario();
-			if(MongoDao.getDAO().buscaGenerica(Funcionario.class, "nome", jtfNomeFuncionario.getText()) == null) {
-				funcionario.setNome(jtfNomeFuncionario.getText());
-				funcionario.setCpf(jtfCPFFuncionario.getText());
-				funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
+			funcionario.setNome(jtfNomeFuncionario.getText());
+			funcionario.setCpf(jtfCPFFuncionario.getText());
+			funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
 				MongoDao.getDAO().salvar(funcionario);
 				JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
 				jtfBuscarNomeFuncionario.requestFocus();
-			} else {
-				funcionario.setNome(jtfNomeFuncionario.getText());
-				funcionario.setCpf(jtfCPFFuncionario.getText());
-				funcionario.setCracha(Integer.valueOf(jtfCrachaFuncionario.getText()));
-				MongoDao.getDAO().update(funcionario, "nome", funcionario.getNome());
-				JOptionPane.showMessageDialog(null, "Cadastro alterado com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
-				jtfBuscarNomeFuncionario.requestFocus();
-			}
 		}
 		
 		jbBuscar.setEnabled(true);
@@ -300,14 +290,7 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 	}
 	
 	public void acionarBotaoExcluir() {
-		//O mongoDao tem 2 metodos de exclusão, um usa String e ou Integer
-		//Poderia ter usado Integer para garantir que se tiver 2 nomes exatamente iguais os dois não serão exclusos
-		//Mas o trabalho é só para mostrar que sabemos usar DML usando o Mongo
-		//Várias vezes fizemos desta maneira, mas sabendo do risco
-		funcionario = new Funcionario();
-		funcionario.setNome(jtfNomeFuncionario.getText());
-		MongoDao.getDAO().remove(funcionario, "nome", funcionario.getNome());
-		
+		MongoDao.getDAO().remove(funcionario);
 		JOptionPane.showMessageDialog(null, "Cadastro excluído com sucesso!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
 		jtfBuscarNomeFuncionario.requestFocus();
 		
@@ -346,10 +329,11 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 		jbCancelar.setEnabled(false);
 	}
 	
-	public void preencheCamposFuncionario(Funcionario funcionario) {
-		jtfNomeFuncionario.setText(funcionario.getNome());
-		jtfCPFFuncionario.setText(funcionario.getCpf());
-		jtfCrachaFuncionario.setText(String.valueOf(funcionario.getCracha()));
+	public void preencheCamposFuncionario(MinhaEntidade funcionario) {
+		this.funcionario = (Funcionario) funcionario;
+		jtfNomeFuncionario.setText(this.funcionario.getNome());
+		jtfCPFFuncionario.setText(this.funcionario.getCpf());
+		jtfCrachaFuncionario.setText(this.funcionario.getCracha().toString());
 		jtfBuscarNomeFuncionario.requestFocus();
 	}
 	
@@ -436,6 +420,6 @@ public class FormFuncionario extends JFrame implements PreencheDados {
 
 	@Override
 	public void preencherCampos(MinhaEntidade entidade) {
-		this.preencheCamposFuncionario((Funcionario)entidade);
+		this.preencheCamposFuncionario(entidade);
 	}
 }

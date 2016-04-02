@@ -11,9 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Carro implements MinhaEntidade{
+public class Carro extends MinhaEntidade{
 
-	private ObjectId _id;
 	private String nome;
 	private String placa;
 	
@@ -23,11 +22,7 @@ public class Carro implements MinhaEntidade{
 
 	@Override
 	public ObjectId getObjectId() {
-		return _id;
+		return new ObjectId(_id);
 	}
 	
-	public Carro(String nome, String placa){
-		this.nome = nome;
-		this.placa = placa;
-	}
 }

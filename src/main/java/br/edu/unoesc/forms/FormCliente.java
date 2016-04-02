@@ -37,38 +37,14 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JTable jttListaVeiculoCliente;
 	private DefaultTableModel dtmListaVeiculoCliente;
 	private JScrollPane jspListaVeiculoCliente;
-	private JTextField jtfBuscarNomeCliente;
-	private JTextField jtfBuscarCPFCliente;
-	private JTextField jtfBuscarCNPJCliente;
-	private JTextField jtfNomeCliente;
-	private JTextField jtfCPFCliente;
-	private JTextField jtfCNPJCliente;
-	private JTextField jtfNomeVeiculo;
+	private JTextField jtfBuscarNomeCliente, jtfBuscarCPFCliente, jtfBuscarCNPJCliente, jtfNomeCliente, jtfCPFCliente, jtfCNPJCliente,jtfNomeVeiculo;
 	private JFormattedTextField jtfPlacaVeiculo;
-	private JLabel jlBuscarClienteNome;
-	private JLabel jlBuscarClienteCNPJ;
-	private JLabel jlBuscarClienteCPF;
-	private JLabel jlNomeCliente;
-	private JLabel jlCPF;
-	private JLabel jlCNPJ;
-	private JLabel jlNomeVeiculo; 
-	private JLabel jlPlacaVeiculo;
-	private JButton jbNovo;
-	private JButton jbSalvar;
-	private JButton jbEditar;
-	private JButton jbCancelar;
-	private JButton jbFechar;
-	private JButton jbExcluir;
-	private JButton jbBuscar;
-	private JButton jbCancelarVeiculo;
-	private JButton jbExcluirVeiculo;
-	private JButton jbEditarVeiculo;
-	private JButton jbSalvarVeiculo;
-	private JButton jbNovoVeiculo;
+	private JLabel jlBuscarClienteNome, jlBuscarClienteCNPJ, jlBuscarClienteCPF, jlNomeCliente, jlCPF, jlCNPJ, jlNomeVeiculo, jlPlacaVeiculo;
+	private JButton jbNovo, jbSalvar, jbEditar, jbCancelar, jbFechar, jbExcluir, jbBuscar, jbCancelarVeiculo, jbExcluirVeiculo, jbEditarVeiculo, jbSalvarVeiculo, jbNovoVeiculo;
 	private Cliente cliente = new Cliente();
 	private ArrayList<Carro> listaCarros = new ArrayList<Carro>();
 	private static FormCliente formCliente;
-	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
+	private FormMostraCliente formMostraCliente = new FormMostraCliente();
 	private Boolean editarVeiculo = false;
 	private Integer indexCarroSelecionado;
 
@@ -101,13 +77,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jtfBuscarNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jtfBuscarNomeCliente.setBounds(10, 25, 268, 20);
 		getContentPane().add(jtfBuscarNomeCliente);
-		jtfBuscarNomeCliente.setColumns(10);
 		
 		try {
 			jtfBuscarCPFCliente = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
 			jtfBuscarCPFCliente.setToolTipText("Informar CPF completo");
 			jtfBuscarCPFCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			jtfBuscarCPFCliente.setColumns(10);
 			jtfBuscarCPFCliente.setBounds(288, 25, 110, 20);
 			getContentPane().add(jtfBuscarCPFCliente);
 		} catch (Exception e) {
@@ -118,7 +92,6 @@ public class FormCliente extends JFrame implements PreencheDados {
 			jtfBuscarCNPJCliente = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
 			jtfBuscarCNPJCliente.setToolTipText("Informar CNPJ completo");
 			jtfBuscarCNPJCliente.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			jtfBuscarCNPJCliente.setColumns(10);
 			jtfBuscarCNPJCliente.setBounds(438, 25, 125, 20);
 			getContentPane().add(jtfBuscarCNPJCliente);
 		} catch (Exception e) {
@@ -409,22 +382,11 @@ public class FormCliente extends JFrame implements PreencheDados {
 			JOptionPane.showMessageDialog(null, "É Obrigatório informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfCPFCliente.requestFocus();
 		} else {
-//			if(MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", jtfNomeCliente.getText()) == null) {
-			if(cliente.get_id() == null) {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
 				cliente.setCarros(this.listaCarros);
 				MongoDao.getDAO().salvar(cliente);
-				cliente = (MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", cliente.getCpf()));
-			} else {
-				cliente.setNome(jtfNomeCliente.getText());
-				cliente.setCpf(jtfCPFCliente.getText());
-				cliente.setCnpj(jtfCNPJCliente.getText());
-				cliente.setCarros(this.listaCarros);
-				MongoDao.getDAO().update(cliente);
-			}
-			
 			jbBuscar.setEnabled(true);
 			jbNovo.setEnabled(true);
 			jbEditar.setEnabled(true);

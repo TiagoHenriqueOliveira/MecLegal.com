@@ -6,8 +6,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.bson.types.ObjectId;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +14,8 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OSV implements MinhaEntidade {
-	
-	private ObjectId _id;
+public class OSV extends MinhaEntidade {
+
 	private Cliente cliente;
 	private Carro carro;
 	private Funcionario funcionario;
@@ -49,8 +46,4 @@ public class OSV implements MinhaEntidade {
 		return new String[]{cliente.getNome(), tipoServico.getNome(), carro.getNome(), pegaData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()};
 	}
 
-	@Override
-	public ObjectId getObjectId() {
-		return _id;
-	}
 }

@@ -34,13 +34,10 @@ public class MongoDao implements GenericDao {
 	// conteudo texto passado.
 	// listaGenerica exemplo em SQL: listaGenerica(select classe where campo
 	// like %texto%)
-	@SuppressWarnings({ "unchecked" })
-	public <T> ArrayList<T> listaGenerica(Class classe, String campo, String texto) {
+	
+	public <T> ArrayList<T> listaGenerica(Class<T> classe, String campo, String texto) {
 		MongoCursor<T> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
-
-		
 		ArrayList<T> array = new ArrayList<T>();
-
 		cursor.forEach(retornado -> {
 			array.add(retornado);
 		});
@@ -50,14 +47,7 @@ public class MongoDao implements GenericDao {
 	public ArrayList<OSV> listaDeOSV(String nomeCliente){
 		MongoCursor<OSV> cursor = jongo.getCollection("br.edu.unoesc.modelo.OSV").find(
 				"{cliente.nome:{$regex: #}}", nomeCliente +"*").as(OSV.class);
-		
-		cursor.forEach(cu->{
-			System.out.println(cu.get_id().toString());
-		});
-		
-		ArrayList<OSV> array = new ArrayList<>();
-		
-		
+		ArrayList<OSV> array = new ArrayList<OSV>();
 		cursor.forEach(osv->{
 			array.add(osv);
 		});
@@ -66,14 +56,12 @@ public class MongoDao implements GenericDao {
 	
 
 	// Busca Generica, busca o valor EXATO e retorna somente 1 Objeto, se
-	// existir no Banco, caso nao, retorna null.
-	@SuppressWarnings({ "unchecked" })
-	public <T> T buscaGenerica(Class classe, String campo, String valor) {
+	// existir no Banco, caso nao, retorna null.	
+	public <T> T buscaGenerica(Class<T> classe, String campo, String valor) {
 		return (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":'" + valor + "'}").as(classe);
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	public <T> T buscaGenerica(Class classe, String campo, Integer valor) {
+	public <T> T buscaGenerica(Class<T> classe, String campo, Integer valor) {
 		return (T) jongo.getCollection(classe.getName()).findOne("{" + campo + ":" + valor + "}").as(classe);
 	}
 
@@ -82,7 +70,12 @@ public class MongoDao implements GenericDao {
 	 
 	@Override
 	public void salvar(MinhaEntidade objeto) {
+		if (objeto.getObjectId() == null){
 		jongo.getCollection(objeto.getClass().getName()).insert(objeto);
+		}
+		else {
+			update(objeto);
+		}
 	}
 
 	@Override
@@ -106,8 +99,7 @@ public class MongoDao implements GenericDao {
 	public void remove (MinhaEntidade objeto, String campo, Integer valor){
 		jongo.getCollection(objeto.getClass().getName()).remove("{"+campo+":"+valor+"}");	
 	}
-	
-	
-	
-	
+	public void remove(MinhaEntidade objeto){
+		jongo.getCollection(objeto.getClass().getName()).remove(objeto.getObjectId());
+	}
 }

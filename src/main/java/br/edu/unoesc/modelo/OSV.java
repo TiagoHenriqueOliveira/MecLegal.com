@@ -3,6 +3,7 @@ package br.edu.unoesc.modelo;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -40,6 +41,6 @@ public class OSV implements MinhaEntidade {
 	}
 	
 	public String[] vetorDados(){
-		return new String[]{cliente.getNome(), tipoServico.getNome(), carro.getNome(), pegaData().toString()};
+		return new String[]{cliente.getNome(), tipoServico.getNome(), carro.getNome(), pegaData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()};
 	}
 }

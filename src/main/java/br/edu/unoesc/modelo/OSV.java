@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.bson.types.ObjectId;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OSV implements MinhaEntidade {
 	
+	private ObjectId _id;
 	private Cliente cliente;
 	private Carro carro;
 	private Funcionario funcionario;
@@ -31,6 +34,8 @@ public class OSV implements MinhaEntidade {
 		return dataServico.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 	
+	
+	
 	public OSV(Cliente cliente, Carro carro, Funcionario funcionario, TipoServico tipo, LocalDate data){
 		this.cliente = cliente;
 		this.carro = carro;
@@ -41,5 +46,10 @@ public class OSV implements MinhaEntidade {
 	
 	public String[] vetorDados(){
 		return new String[]{cliente.getNome(), tipoServico.getNome(), carro.getNome(), pegaData().toString()};
+	}
+
+	@Override
+	public ObjectId getObjectId() {
+		return _id;
 	}
 }

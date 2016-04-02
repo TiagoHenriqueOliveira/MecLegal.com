@@ -66,7 +66,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 	private JButton jbSalvarVeiculo;
 	private JButton jbNovoVeiculo;
 	private Cliente cliente = new Cliente();
-	private ArrayList<Carro> listaCarros;
+	private ArrayList<Carro> listaCarros = new ArrayList<Carro>();
 	private static FormCliente formCliente;
 	private FormMostraCliente formMostraCliente = new FormMostraCliente(null, null);
 	private Boolean editarVeiculo = false;
@@ -409,18 +409,20 @@ public class FormCliente extends JFrame implements PreencheDados {
 			JOptionPane.showMessageDialog(null, "É Obrigatório informar um CPF ou CNPJ para o cliente!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			jtfCPFCliente.requestFocus();
 		} else {
-			if(MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", jtfNomeCliente.getText()) == null) {
+//			if(MongoDao.getDAO().buscaGenerica(Cliente.class, "nome", jtfNomeCliente.getText()) == null) {
+			if(cliente.get_id() == null) {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
 				cliente.setCarros(this.listaCarros);
 				MongoDao.getDAO().salvar(cliente);
+				cliente = (MongoDao.getDAO().buscaGenerica(Cliente.class, "cpf", cliente.getCpf()));
 			} else {
 				cliente.setNome(jtfNomeCliente.getText());
 				cliente.setCpf(jtfCPFCliente.getText());
 				cliente.setCnpj(jtfCNPJCliente.getText());
 				cliente.setCarros(this.listaCarros);
-				MongoDao.getDAO().update(cliente, "nome", cliente.getNome());
+				MongoDao.getDAO().update(cliente);
 			}
 			
 			jbBuscar.setEnabled(true);
@@ -566,6 +568,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbEditarVeiculo.setEnabled(false);
 		jbNovoVeiculo.setEnabled(false);
 		jbExcluirVeiculo.setEnabled(false);
+		dtmListaVeiculoCliente.setNumRows(0);
 	}
 	
 	public void acionarBotaoCancelarVeiculo() {

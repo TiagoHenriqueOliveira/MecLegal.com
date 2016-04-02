@@ -31,13 +31,14 @@ import br.edu.unoesc.preencheDados.PreencheDados;
 import br.edu.unoesc.validaConteudo.ConteudoAlfaNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoNumerico;
 import br.edu.unoesc.validaConteudo.ConteudoString;
+import javax.swing.SwingConstants;
 
 public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpAgendaServico = new JPanel(null);
 	private JTextField jtfBuscarNomeCliente, jtfNomeCliente, jtfCPFCliente, jtfCNPJCliente, jtfNomeVeiculo, jtfPlacaVeiculo, jtfServicoAgendado,jtfValorServico, jtfNomeFuncionario,jtfCrachaFuncionario;
-	private JLabel jlBuscarNomeCliente, jlNomeCliente, jlCPFCliente, jlCNPJCliente, jlNomeVeiculo, jlPlacaVeiculo, jlServicoAgendado, jlValorServico, jlNomeFuncionario,jlCrachaFuncionario;
+	private JLabel jlBuscarNomeCliente, jlNomeCliente, jlCPFCliente, jlCNPJCliente, jlNomeVeiculo, jlPlacaVeiculo, jlServicoAgendado, jlValorServico, jlNomeFuncionario,jlCrachaFuncionario, jlDataAgendamento;
 	private JButton jbBuscar,jbNovo, jbSalvar, jbEditar,jbCancelar, jbFechar;
 	private static FormOSV formOSV;
 	private FormMostraCliente formMostraCliente = new FormMostraCliente();
@@ -50,6 +51,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 	private Funcionario funcionarioOSV;
 	private TipoServico tipoServicoOSV;
 	private OSV osvOSV;
+	private JTextField jtfDataAgendamento;
 	
 	public void componentesFormOSV() {
 		formOSV = this;
@@ -245,6 +247,22 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jbFechar.addActionListener(this);
 		jpAgendaServico.add(jbFechar);
 		
+		try {
+			jtfDataAgendamento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		jtfDataAgendamento.setHorizontalAlignment(SwingConstants.RIGHT);
+		jtfDataAgendamento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jtfDataAgendamento.setEditable(false);
+		jtfDataAgendamento.setBounds(430, 118, 86, 20);
+		jpAgendaServico.add(jtfDataAgendamento);
+		
+		jlDataAgendamento = new JLabel("Data Agendamento");
+		jlDataAgendamento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		jlDataAgendamento.setBounds(430, 104, 120, 14);
+		jpAgendaServico.add(jlDataAgendamento);
+		
 		jbBuscar = new JButton("Buscar");
 		jbBuscar.setIcon(new ImageIcon(FormOSV.class.getResource("/br/edu/unoesc/imagens/buscar.png")));
 		jbBuscar.setToolTipText("Buscar informações da Ordem de Serviço");
@@ -274,6 +292,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jtfNomeCliente.setEditable(true);
 		jtfNomeVeiculo.setEditable(true);
 		jtfServicoAgendado.setEditable(true);
+		jtfDataAgendamento.setEditable(true);
 		jtfNomeFuncionario.setEditable(true);
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
@@ -281,6 +300,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jtfNomeVeiculo.setText("");
 		jtfPlacaVeiculo.setText("");
 		jtfServicoAgendado.setText("");
+		jtfDataAgendamento.setText("");
 		jtfValorServico.setText("");
 		jtfNomeFuncionario.setText("");
 		jtfCrachaFuncionario.setText("");
@@ -296,9 +316,14 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jtfNomeCliente.setEditable(false);
 		jtfNomeVeiculo.setEditable(false);
 		jtfServicoAgendado.setEditable(false);
+		jtfDataAgendamento.setEditable(false);
 		jtfNomeFuncionario.setEditable(false);
+		
+		Integer dia = Integer.valueOf(jtfDataAgendamento.getText().substring(0, 2));
+		Integer mes = Integer.valueOf(jtfDataAgendamento.getText().substring(3, 5));
+		Integer ano = Integer.valueOf(jtfDataAgendamento.getText().substring(6));
 
-		osvOSV = new OSV(clienteOSV, carroOSV, funcionarioOSV, tipoServicoOSV, LocalDate.now());
+		osvOSV = new OSV(clienteOSV, carroOSV, funcionarioOSV, tipoServicoOSV, LocalDate.of(ano, mes, dia));
 		MongoDao.getDAO().salvar(osvOSV);
 		
 		jbBuscar.setEnabled(true);
@@ -313,6 +338,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jtfNomeCliente.setEditable(true);
 		jtfNomeVeiculo.setEditable(true);
 		jtfServicoAgendado.setEditable(true);
+		jtfDataAgendamento.setEditable(true);
 		jtfNomeFuncionario.setEditable(true);
 
 		
@@ -336,6 +362,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jtfNomeCliente.setEditable(false);
 		jtfNomeVeiculo.setEditable(false);
 		jtfServicoAgendado.setEditable(false);
+		jtfDataAgendamento.setEditable(false);
 		jtfNomeFuncionario.setEditable(false);
 		jtfNomeCliente.setText("");
 		jtfCPFCliente.setText("");
@@ -344,6 +371,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		jtfPlacaVeiculo.setText("");
 		jtfServicoAgendado.setText("");
 		jtfValorServico.setText("");
+		jtfDataAgendamento.setText("");
 		jtfNomeFuncionario.setText("");
 		jtfCrachaFuncionario.setText("");
 		jbBuscar.setEnabled(true);

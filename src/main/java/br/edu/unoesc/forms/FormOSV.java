@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -273,6 +274,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 	}
 
 	public void acionarBotaoBuscar() {
+		jtfDataAgendamento.setText("");
 		if(formMostraOsv.isVisible()) {
 			formMostraOsv.requestFocus();
 			formMostraOsv.setLocationRelativeTo(null);
@@ -486,6 +488,7 @@ public class FormOSV extends JFrame implements PreencheDados, ActionListener {
 		preencheDadosServico(osvOSV.getTipoServico());
 		preencheDadosCarro(osvOSV.getCarro());
 		preencheDadosFuncionario(osvOSV.getFuncionario());
+		jtfDataAgendamento.setText(String.valueOf(osvOSV.pegaData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()));
 		jbEditar.setEnabled(true);
 		jbCancelar.setEnabled(true);
 	}

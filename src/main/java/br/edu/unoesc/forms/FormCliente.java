@@ -261,6 +261,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		jbNovoVeiculo.setToolTipText("Novo cadastro do Cliente");
 		jbNovoVeiculo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		jbNovoVeiculo.setBounds(58, 318, 100, 25);
+		jbNovoVeiculo.setEnabled(false);
 		jpVeiculoCliente.add(jbNovoVeiculo);
 		
 		jlNomeVeiculo = new JLabel("Nome do Veículo");
@@ -341,7 +342,7 @@ public class FormCliente extends JFrame implements PreencheDados {
 		
 		jbBuscar.setEnabled(false);
 		jbNovo.setEnabled(false);
-		jbNovoVeiculo.setEnabled(true);
+		jbNovoVeiculo.setEnabled(false);
 		jbEditar.setEnabled(false);
 		jbExcluir.setEnabled(false);
 		jbSalvar.setEnabled(true);

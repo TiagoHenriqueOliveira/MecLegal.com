@@ -38,6 +38,7 @@ public class MongoDao implements GenericDao {
 	public <T> ArrayList<T> listaGenerica(Class classe, String campo, String texto) {
 		MongoCursor<T> cursor = jongo.getCollection(classe.getName()).find("{" + campo + ":{$regex: #}}", texto + "*").as(classe);
 
+		
 		ArrayList<T> array = new ArrayList<T>();
 
 		cursor.forEach(retornado -> {
@@ -49,7 +50,14 @@ public class MongoDao implements GenericDao {
 	public ArrayList<OSV> listaDeOSV(String nomeCliente){
 		MongoCursor<OSV> cursor = jongo.getCollection("br.edu.unoesc.modelo.OSV").find(
 				"{cliente.nome:{$regex: #}}", nomeCliente +"*").as(OSV.class);
+		
+		cursor.forEach(cu->{
+			System.out.println(cu.get_id().toString());
+		});
+		
 		ArrayList<OSV> array = new ArrayList<>();
+		
+		
 		cursor.forEach(osv->{
 			array.add(osv);
 		});
@@ -86,15 +94,19 @@ public class MongoDao implements GenericDao {
 		jongo.getCollection(objeto.getClass().getName()).update("{" + campo + ":" + valor + "}").with(objeto);
 	}
 	
+	public void update(MinhaEntidade objeto) {
+		jongo.getCollection(objeto.getClass().getName()).update(objeto.getObjectId()).with(objeto);
+	}
+	
 	@Override
 	public void remove (MinhaEntidade objeto, String campo, String valor){
 		jongo.getCollection(objeto.getClass().getName()).remove("{"+campo+":'"+valor+"'}");
 		
 	}
 	public void remove (MinhaEntidade objeto, String campo, Integer valor){
-		jongo.getCollection(objeto.getClass().getName()).remove("{"+campo+":"+valor+"}");
-		
+		jongo.getCollection(objeto.getClass().getName()).remove("{"+campo+":"+valor+"}");	
 	}
+	
 	
 	
 	

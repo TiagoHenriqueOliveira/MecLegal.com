@@ -2,6 +2,8 @@ package br.edu.unoesc.modelo;
 
 import java.util.ArrayList;
 
+import org.bson.types.ObjectId;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Cliente implements MinhaEntidade {
 
+	private ObjectId _id;
 	private String nome;
 	private String cpf;
 	private String cnpj;
@@ -27,5 +30,10 @@ public class Cliente implements MinhaEntidade {
 			return new String[]{nome,null,cnpj};	
 		}
 		return new String[]{nome,cpf,null};
+	}
+
+	@Override
+	public ObjectId getObjectId() {
+		return _id;
 	}
 }
